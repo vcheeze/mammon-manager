@@ -1,4 +1,4 @@
-# mammon-controller
+# Mammon Manager Client
 
 ## Project setup
 ```
