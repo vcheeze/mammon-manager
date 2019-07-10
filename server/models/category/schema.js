@@ -7,10 +7,6 @@ const categorySchema = new Schema({
         type: String,
         required: [true]
     },
-    category: {
-        type: ObjectId,
-        required: [true]
-    },
     createdAt: {
         type: Date,
         required: [true]
