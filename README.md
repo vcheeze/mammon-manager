@@ -40,30 +40,28 @@ and run `npm run start`.
 MongoDB, Node-Express stack:
 * https://getstream.io/blog/building-a-node-js-powered-api-with-express-mongoose-mongodb/
 
-DB schema visualization (copy and paste contents of [this file](server/dataVis.txt):
+DB schema visualization (use contents of [this file](server/dataVis.txt)):
 * https://app.quickdatabasediagrams.com/
 
 Color pickers:
-* https://flatuicolors.com/ 
-* http://colorsupplyyy.com/app/
-* https://colorhunt.co/ - https://colorhunt.co/palette/152688 - https://colorhunt.co/palette/150168 - https://colorhunt.co/palette/151976
-* http://www.colr.org/
-* http://palettegenerator.com/
-* https://colourco.de/ 
-* https://javier.xyz/cohesive-colors/
-* https://www.canva.com/colors/color-palettes/
-* https://mycolor.space/?hex=%23845EC2&sub=1
+* https://flatuicolors.com
+* http://colorsupplyyy.com/app
+* https://colorhunt.co
+    * https://colorhunt.co/palette/152688
+    * https://colorhunt.co/palette/150168
+    * https://colorhunt.co/palette/151976
+* http://www.colr.org
+* http://palettegenerator.com
+* https://colourco.de
+* https://javier.xyz/cohesive-colors
+* https://www.canva.com/colors/color-palettes
+* https://mycolor.space
 
 Websites for reference:
 * https://yousign.com/en-uk/api  
 * http://species-in-pieces.com 
-* http://chordsurfer.redbull.com/
-* https://wearebert.com/
-* https://wearebert.com/
-* http://swissarmyman.com/
-* http://www.ashortjourney.com/
-* https://historyoficons.com/ 
-* http://locus-solus.studiogusto.com/en/armchair_gae_aulenti
-* http://www.espn.com/espn/feature/story/_/id/24504198/the-nba-best-signature-moves-michael-jordan-fadeaway-allen-iverson-crossover
-* http://lookbook-olaian.fr/
-* https://www.spaseekers.com/sunsets-around-the-world/
+* http://chordsurfer.redbull.com
+* https://wearebert.com
+* http://www.ashortjourney.com
+* http://locus-solus.studiogusto.com/en
+* https://www.spaseekers.com/sunsets-around-the-world
