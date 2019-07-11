@@ -1,0 +1,39 @@
+Budget
+-
+BudgetID PK int
+Name string INDEX
+
+BudgetItem
+-
+BudgetItemID PK int
+BudgetID int FK >- Budget.BudgetID
+Amount money
+
+Transaction
+-
+TransactionID PK int
+BudgetItemID int FK >- BudgetItem.BudgetItemID
+Amount money
+Date date
+Account int FK >- Account.AccountID
+Tag int FK >- Tag.TagID
+
+Tag
+-
+TagID PK int
+Name string
+Category FK >- Category.CategoryID
+
+Category
+-
+CategoryID PK int
+Name string
+
+Account
+-
+AccountID PK int
+Name string
+BankName string
+Type optionset
+InitialAmount money
+CurrentAmount money

@@ -40,6 +40,9 @@ and run `npm run start`.
 MongoDB, Node-Express stack:
 * https://getstream.io/blog/building-a-node-js-powered-api-with-express-mongoose-mongodb/
 
+DB schema visualization (copy and paste contents of [this file](server/dataVis.txt):
+* https://app.quickdatabasediagrams.com/
+
 Color pickers:
 * https://flatuicolors.com/ 
 * http://colorsupplyyy.com/app/
