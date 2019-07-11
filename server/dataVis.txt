@@ -7,6 +7,7 @@ BudgetItem
 -
 BudgetItemID PK int
 BudgetID int FK >- Budget.BudgetID
+Category int FK >- Category.CategoryID
 Amount money
 
 Transaction

@@ -10,11 +10,7 @@ const tagSchema = new Schema({
     category: {
         type: ObjectId,
         required: [true]
-    },
-    createdAt: {
-        type: Date,
-        required: [true]
     }
 });
 
-module.exports = { categorySchema: tagSchema };
+module.exports = mongoose.model('Tag', tagSchema);

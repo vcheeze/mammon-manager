@@ -11,17 +11,14 @@ const transactionSchema = new Schema({
         type: Date,
         required: [true]
     },
+    // TODO transform this into a list (one transaction may have multiple tags)
     tag: {
         type: ObjectId,
         ref: 'Tag'
     },
     comments: {
         type: String
-    },
-    createdAt: {
-        type: Date,
-        required: [true]
     }
 });
 
-module.exports = { transactionSchema };
+module.exports = mongoose.model('Transaction', transactionSchema);
