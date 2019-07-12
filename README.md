@@ -25,7 +25,7 @@ reimbursements, lending people money, etc.)
 ### Project Structure 
 The project is structured simply as client and server. The client uses Vue.js, while the server uses Node-Express to 
 provide a REST API. MongoDB is the database employed. In a nutshell, this project uses the MEVN stack - **M**ongoDB, 
-**E**xpress, **V**ue.js, and **N**ode.js.
+**E**xpress.js, **V**ue.js, and **N**ode.js.
 
 ### How to run
 For the server, `cd` into the server directory in your terminal and run `npm run start`.
@@ -36,6 +36,8 @@ MongoDB, Node-Express stack:
 * https://www.robinwieruch.de/mongodb-express-setup-tutorial
 * https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose
 * https://www.freecodecamp.org/news/introduction-to-mongoose-for-mongodb-d2a7aa593c57
+* https://www.coreycleary.me/project-structure-for-an-express-rest-api-when-there-is-no-standard-way
+* https://codeburst.io/writing-a-crud-app-with-node-js-and-mongodb-e0827cbbdafb
 
 DB schema visualization (use contents of [this file](server/dataVis.txt)):
 * https://app.quickdatabasediagrams.com/

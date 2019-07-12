@@ -1,2 +1,20 @@
 # Mammon Manager Server
 Node-Express server. Using MongoDB on-premise as database.
+
+### Project Structure
+The `public/` directory contains all files that can be viewed on a browser.
+
+It would help to look at the rest of the important folders in terms of how a request comes in. When an API request is
+made, it gets to the `routes/api/` first, which decides which route should trigger which controller action. There is no
+logic beyond routing.
+
+* [ ] add an example here
+
+The `controllers/` folder involves implementing the actual logic of what should be done when a request is made to a
+certain route. It utilizes the `db/` folder to access our MongoDB database.
+
+* [ ] add another example here
+
+The `db/` folder has all the database access logic, i.e. the basic CRUD calls.
+
+And there you have it, the basic structure of our Node-Express API.
