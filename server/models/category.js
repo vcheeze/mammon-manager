@@ -5,7 +5,8 @@ const ObjectId = Schema.Types.ObjectId;
 const categorySchema = new Schema({
     name: {
         type: String,
-        required: [true]
+        required: [true],
+        unique: true
     },
     tags: [{ type: ObjectId, ref: 'Tag' }]
 });

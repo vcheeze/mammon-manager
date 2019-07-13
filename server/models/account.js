@@ -5,7 +5,8 @@ const ObjectId = Schema.Types.ObjectId;
 const accountSchema = new Schema({
     name: {
         type: String,
-        required: [true, 'Account name is required!']
+        required: [true, 'Account name is required!'],
+        unique: true
     },
     bankName: String,
     accountType: {
