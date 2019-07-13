@@ -18,3 +18,10 @@ certain route. It utilizes the `db/` folder to access our MongoDB database.
 The `db/` folder has all the database access logic, i.e. the basic CRUD calls.
 
 And there you have it, the basic structure of our Node-Express API.
+
+### MongoDB
+I've downloaded MongoDB using homebrew, so I start my MongoDB server using the command `brew services start mongodb`.
+To access the MongoDB shell, type `mongo`. To shut down the service, use `brew services stop mongodb`. Restart the 
+service with `brew services restart mongodb`.
+
+For more options, type `brew info mongodb`. 
