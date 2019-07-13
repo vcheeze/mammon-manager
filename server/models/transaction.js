@@ -18,6 +18,10 @@ const transactionSchema = new Schema({
     },
     comments: {
         type: String
+    },
+    account: {
+        type: ObjectId,
+        ref: 'Account'
     }
 });
 
