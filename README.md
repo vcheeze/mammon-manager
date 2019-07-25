@@ -1,5 +1,5 @@
 # Mammon Manager
-Manage your mammon, instead of letting your mammon manage you.
+Manage your mammon, and let not your mammon manage you.
 
 ### Table of Contents
 * [Project Structure](#project-structure)
