@@ -1,0 +1,21 @@
+{
+  "name": "Mammon Manager",
+  "short_name": "Mammon",
+  "description": "Manage your mammon, instead of letting your mammon manage you.",
+  "start_url": "/?utm_source=a2hs",
+  "icons": [
+    {
+      "src": "url_to_img",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "url_to_second_img",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "background_color": "#293462",
+  "display": "standalone",
+  "theme_color": "#216583"
+}

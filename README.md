@@ -14,6 +14,8 @@ provide a REST API. MongoDB is the database employed. In a nutshell, this projec
 ### How to run
 For the server, `cd` into the server directory in your terminal and run `npm run start`.
 
+For the client, `cd` into the client directory and run `npm run serve`.
+
 ### Useful Resources
 MongoDB, Node-Express stack:
 * https://getstream.io/blog/building-a-node-js-powered-api-with-express-mongoose-mongodb
