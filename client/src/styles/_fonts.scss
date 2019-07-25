@@ -1,0 +1,118 @@
+/*=============== Spectral font family ===============*/
+@font-face {
+  font-family: Spectral;
+  src: url('@/assets/fonts/Spectral-Regular.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: Spectral;
+  src: url('@/assets/fonts/Spectral-Medium.ttf') format('ttf');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: Spectral;
+  src: url('@/assets/fonts/Spectral-SemiBold.ttf') format('ttf');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: Spectral;
+  src: url('@/assets/fonts/Spectral-Bold.ttf') format('ttf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: Spectral;
+  src: url('@/assets/fonts/Spectral-ExtraBold.ttf') format('ttf');
+  font-weight: 800;
+}
+
+/*=============== Nunito font family ===============*/
+@font-face {
+  font-family: Nunito;
+  src: url('@/assets/fonts/Nunito-Regular.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url('@/assets/fonts/Nunito-RegularItalic.ttf') fotmat('ttf');
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url('@/assets/fonts/Nunito-ExtraLight.ttf') fotmat('ttf');
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url('@/assets/fonts/Nunito-ExtraLightItalic.ttf') fotmat('ttf');
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url('@/assets/fonts/Nunito-Light.ttf') fotmat('ttf');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url('@/assets/fonts/Nunito-LightItalic.ttf') fotmat('ttf');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url('@/assets/fonts/Nunito-SemiBold.ttf') fotmat('ttf');
+  font-weight: 600;
+}
+@font-face {
+  font-family: Nunito;
+  src: url('@/assets/fonts/Nunito-SemiBoldItalic.ttf') fotmat('ttf');
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url('@/assets/fonts/Nunito-Bold.ttf') fotmat('ttf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url('@/assets/fonts/Nunito-BoldItalic.ttf') fotmat('ttf');
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url('@/assets/fonts/Nunito-ExtraBold.ttf') fotmat('ttf');
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url('@/assets/fonts/Nunito-ExtraBoldItalic.ttf') fotmat('ttf');
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url('@/assets/fonts/Nunito-Black.ttf') fotmat('ttf');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url('@/assets/fonts/Nunito-BlackItalic.ttf') fotmat('ttf');
+  font-weight: 900;
+  font-style: italic;
+}
