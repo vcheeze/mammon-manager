@@ -1,6 +1,7 @@
 {
   "name": "mammon-server",
   "version": "0.0.0",
+  "author": "Peter Chen",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"

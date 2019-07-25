@@ -27,7 +27,7 @@
     export default {
         data() {
             return {
-                accountName: 'Liv.'
+                accountName: 'My First Account!'
             }
         },
         name: 'Account'

@@ -1,8 +1,9 @@
 {
   "name": "Mammon Manager",
   "short_name": "Mammon",
-  "description": "Manage your mammon, and let not your mammon manage you.",
   "start_url": "/?utm_source=a2hs",
+  "description": "Manage your mammon, and let not your mammon manage you.",
+  "categories": ["finance", "productivity", "utilities"],
   "icons": [
     {
       "src": "url_to_img",
