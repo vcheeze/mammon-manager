@@ -1,1 +1,16 @@
-$primary: purple
+// define base colors
+$rhino: #293462;
+$elm: #216583;
+$carnation: #f76262;
+$egg-white: #fff1c1;
+// define theme colors
+$color_primary: $rhino;
+$color_secondary: $elm;
+$color_tertiary: $carnation;
+$color_quaternary: $egg-white;
+// define base font families
+$serif: Spectral; // 'Crimson Text', Vollkorn
+$sans-serif: Nunito; // Karla, Lato
+// define theme font families
+$font_title: $serif, serif;
+$font_body: $sans-serif, sans-serif;
