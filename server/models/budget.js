@@ -7,6 +7,10 @@ const budgetSchema = new Schema({
         type: String,
         required: [true, 'Budget name is required!']
     },
+    period: {
+        type: Date,
+        required: [true, 'Please select a month!']
+    },
     budgetItems: [{ type: ObjectId, ref: 'BudgetItem' }]
 });
 

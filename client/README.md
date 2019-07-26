@@ -1,5 +1,9 @@
 # Mammon Manager Client
 
+### References
+Refer to this [Medium article](https://medium.com/canariasjs/vue-api-calls-in-a-smart-way-8d521812c322) 
+for API design pattern using axios.
+
 ## Project setup
 ```
 yarn install
