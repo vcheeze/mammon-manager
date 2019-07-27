@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import { RepositoryFactory } from "../../api/RepositoryFactory"
-const BudgetRepository = RepositoryFactory.get("budgets")
+import { RepositoryFactory } from '../../api/RepositoryFactory'
+const BudgetRepository = RepositoryFactory.get('budgets')
 
 export default {
     name: 'Budget',
@@ -16,18 +16,18 @@ export default {
             budget: { name: '', period: '' }
         }
     },
-    methods: {
-        async getBudget() {
-            const { data } = await BudgetRepository.getBudget(this.$route.params.budget_name)
-            this.budget = data.budget
-        }
-    },
     mounted() {
         this.getBudget()
+    },
+    methods: {
+        async getBudget() {
+            const { data } = await BudgetRepository.getBudget(
+                this.$route.params.budget_name
+            )
+            this.budget = data.budget
+        }
     }
 }
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

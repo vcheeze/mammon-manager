@@ -1,7 +1,9 @@
 import BudgetsRepository from './budgetsRepository'
+import CategoriesRepository from './categoriesRepository'
 
 const repositories = {
-    budgets: BudgetsRepository
+    budgets: BudgetsRepository,
+    categories: CategoriesRepository
 }
 
 export const RepositoryFactory = {

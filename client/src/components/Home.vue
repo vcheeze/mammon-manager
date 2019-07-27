@@ -1,5 +1,5 @@
 <template>
-    <h1>Mammon Manager</h1>    
+    <h1>Mammon Manager</h1>
 </template>
 
 <script>
@@ -8,6 +8,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

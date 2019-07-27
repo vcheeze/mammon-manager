@@ -15,7 +15,11 @@ module.exports = {
         "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
         "prettier/prettier": [
             "error",
-            { "tabWidth": 4 }
+            {
+                "tabWidth": 4,
+                "singleQuote": true,
+                "semi": false
+            }
         ],
         "semi": [2, "never"],
         "quotes": [2, "single", "avoid-escape"]
@@ -23,4 +27,4 @@ module.exports = {
     parserOptions: {
         parser: "babel-eslint"
     }
-};
+}

@@ -7,13 +7,18 @@
 </template>
 <script>
 export default {
-    name: "BudgetListItem",
-    props: ['budget'],
+    name: 'BudgetListItem',
+    props: {
+        budget: {
+            type: Object,
+            required: true
+        }
+    },
     computed: {
         budgetPeriod() {
             return this.budget.period.substring(0, 10)
         }
     }
-};
+}
 </script>
 <style></style>
