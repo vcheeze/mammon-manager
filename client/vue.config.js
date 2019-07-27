@@ -1,4 +1,10 @@
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+
 module.exports = {
+    chainWebpack: config => {
+        config.plugin('vuetify-loader')
+            .use(new VuetifyLoaderPlugin())
+    },
     css: {
         loaderOptions: {
             sass: {

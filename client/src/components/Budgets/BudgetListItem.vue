@@ -7,7 +7,7 @@
 </template>
 <script>
 export default {
-    name: "BudgetItem",
+    name: "BudgetListItem",
     props: ['budget'],
     computed: {
         budgetPeriod() {

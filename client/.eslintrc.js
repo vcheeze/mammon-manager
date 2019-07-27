@@ -17,7 +17,7 @@ module.exports = {
             "error",
             { "tabWidth": 4 }
         ],
-        "semi": [2, never],
+        "semi": [2, "never"],
         "quotes": [2, "single", "avoid-escape"]
     },
     parserOptions: {

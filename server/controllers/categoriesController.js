@@ -1,12 +1,12 @@
-const Budget = require('../models/budget');
+const Category = require('../models/category');
 
-const getAllBudgets = (req, res) => {
-    Budget
+const getAllCategories = (req, res) => {
+    Category
         .find({})
         .then(doc => {
             res.status(200).send({
-                message: 'Successful: retrieved all budgets!',
-                budgets: doc
+                message: 'Successful: retrieved all Categories!',
+                category: doc
             });
         })
         .catch(err => {
@@ -17,16 +17,16 @@ const getAllBudgets = (req, res) => {
         })
 };
 
-const getBudgetByName = (req, res) => {
-    let budgetName = req.params.budgetName
-    Budget
+const getCategoryByName = (req, res) => {
+    let categoryName = req.params.categoryName
+    Category
         .findOne({
-            name: budgetName
+            name: categoryName
         })
         .then(doc => {
             res.status(200).send({
-                message: 'Successful: retrieved budget by name!',
-                budget: doc
+                message: 'Successful: retrieved Category by name!',
+                category: doc
             });
         })
         .catch(err => {
@@ -36,19 +36,19 @@ const getBudgetByName = (req, res) => {
         });
 }
 
-const createBudget = (req, res) => {
-    let budget = new Budget({
+const createCategory = (req, res) => {
+    console.log(req.body);
+    let category = new Category({
         name: req.body.name,
-        period: req.body.period,
-        budgetItems: []
+        tags: []
     });
 
-    budget.save()
+    category.save()
         .then(doc => {
             console.log(doc);
             res.status(200).send({
-                message: 'Successful: saved new budget!',
-                budget: doc
+                message: 'Successful: saved new Category!',
+                category: doc
             });
         })
         .catch(err => {
@@ -59,4 +59,4 @@ const createBudget = (req, res) => {
         });
 };
 
-module.exports = { getAllBudgets, getBudgetByName, createBudget };
+module.exports = { getAllCategories, getCategoryByName, createCategory };

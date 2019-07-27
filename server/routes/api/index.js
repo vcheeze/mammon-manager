@@ -1,16 +1,17 @@
 const express = require('express');
 const router = express();
+
 // import api routes
+const budgetsRouter = require('./budgets');
+const categoriesRouter = require('./categories');
 // const transactionsRouter = require('./transactions');
-// const categoriesRouter = require('./categories');
 // const tagsRouter = require('./tags');
 // const accountsRouter = require('./accounts');
-const budgetsRouter = require('./budgets');
 
+router.use('/budgets', budgetsRouter);
+router.use('/categories', categoriesRouter);
 // router.use('/transactions', transactionsRouter);
-// router.use('/categories', categoriesRouter);
 // router.use('/tags', tagsRouter);
 // router.use('/accounts', accountsRouter);
-router.use('/budgets', budgetsRouter);
 
 module.exports = router;

@@ -1,18 +1,18 @@
 <template>
     <div>
         <h1>Budgets</h1>
-        <BudgetItem v-for="budget in budgets" :budget="budget" />
+        <BudgetListItem v-for="budget in budgets" :budget="budget" />
     </div>
 </template>
 <script>
 import { RepositoryFactory } from "../../api/RepositoryFactory"
 const BudgetRepository = RepositoryFactory.get("budgets")
-import BudgetItem from './BudgetItem'
+import BudgetListItem from './BudgetListItem'
 
 export default {
     name: "BudgetsList",
     components: {
-        BudgetItem
+        BudgetListItem
     },
     data() {
         return {

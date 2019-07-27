@@ -3,17 +3,17 @@ const router = express.Router();
 const budgetsController = require('../../controllers/budgetsController');
 
 /**
- * Get all Accounts
+ * Get all Budgets
  */
 router.get('/', budgetsController.getAllBudgets);
 
 /**
- * Given Account name in the req param, get the account
+ * Given Budget name in the req param, get the Budget
  */
 router.get('/:budgetName', budgetsController.getBudgetByName);
 
 /**
- * Create a budget
+ * Create a Budget
  */
 router.post('/', budgetsController.createBudget);
 
