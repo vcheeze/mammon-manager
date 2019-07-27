@@ -1,0 +1,18 @@
+body {
+     font-family: $font-body;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $font_title;
+}
+
+/// styling the navbar links
+#app nav a {
+    color: #fff;
+    text-decoration: none;
+}
+
+#app {
+    font-family: $font_body;
+    line-height: unset;
+}

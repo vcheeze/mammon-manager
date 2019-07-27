@@ -15,10 +15,11 @@ const budgetItemSchema = new Schema({
         type: ObjectId,
         ref: 'Category'
     },
-    amount: {
+    allotted: {
         type: Number,
         required: [true, 'Budget Item amount is required!']
-    }
+    },
+    actual: Number
 });
 
 module.exports = mongoose.model('BudgetItem', budgetItemSchema);

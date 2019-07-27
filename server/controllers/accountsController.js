@@ -1,5 +1,22 @@
 const Account = require('../models/account');
 
+
+const getAllAccounts = (req, res) => {
+    Account
+        .find({})
+        .then(doc => {
+            res.status(200).send({
+                message: 'Successful: retrieved all accounts',
+                doc: doc
+            })
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err
+            })
+        });
+};
+
 const getAccountByName = (req, res) => {
     let accountName = req.params.accountName;
     Account
@@ -16,22 +33,6 @@ const getAccountByName = (req, res) => {
             res.status(500).send({
                 message: err
             });
-        });
-};
-
-const getAllAccounts = (req, res) => {
-    Account
-        .find({})
-        .then(doc => {
-            res.status(200).send({
-                message: 'Successful: retrieved all accounts',
-                doc: doc
-            })
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err
-            })
         });
 };
 
@@ -58,4 +59,4 @@ const createAccount = (req, res) => {
     //     });
 };
 
-module.exports = { getAccountByName, getAllAccounts };
+module.exports = { getAllAccounts, getAccountByName, createAccount };

@@ -1,5 +1,5 @@
 # Mammon Manager
-Manage your mammon, instead of letting your mammon manage you.
+Manage your mammon, and let not your mammon manage you.
 
 ### Table of Contents
 * [Project Structure](#project-structure)
@@ -13,6 +13,8 @@ provide a REST API. MongoDB is the database employed. In a nutshell, this projec
 
 ### How to run
 For the server, `cd` into the server directory in your terminal and run `npm run start`.
+
+For the client, `cd` into the client directory and run `npm run serve`.
 
 ### Useful Resources
 MongoDB, Node-Express stack:
