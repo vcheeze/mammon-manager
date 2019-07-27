@@ -1,15 +1,16 @@
 <template>
-    <Account />
+    <div id="app">
+        <nav>
+            <router-link to='/'>Home</router-link>
+            <router-link to='/budgets'>Budgets</router-link>
+        </nav>
+        <router-view />
+    </div>
 </template>
 
 <script>
-import Account from './components/Accounts/Account'
-
 export default {
-    name: 'App',
-    components: {
-        Account
-    }
+    name: 'App'
 }
 </script>
 
@@ -18,6 +19,12 @@ export default {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    margin-top: 60px;
+}
+
+nav {
+    margin-top: 15px;
+    a {
+        padding: 15px 5px;
+    }
 }
 </style>

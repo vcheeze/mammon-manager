@@ -16,7 +16,9 @@ module.exports = {
         "prettier/prettier": [
             "error",
             { "tabWidth": 4 }
-        ]
+        ],
+        "semi": [2, never],
+        "quotes": [2, "single", "avoid-escape"]
     },
     parserOptions: {
         parser: "babel-eslint"
