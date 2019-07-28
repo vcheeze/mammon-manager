@@ -5,16 +5,27 @@ const tagsController = require('../../controllers/tagsController');
 /**
  * Gets all Tags
  */
-router.get('/', tagsController.getAllTags);
+router.get('/', tagsController.get);
 
 /**
  * Get Tag by name
  */
-router.get('/:tagName', tagsController.getTagByName);
+router.get('/:tagName', tagsController.getByName);
 
 /**
  * Create a Tag
  */
-router.post('/', tagsController.createTag);
+router.post('/', tagsController.create);
+
+/**
+ * Delete all Tags
+ */
+router.delete('/', tagsController.deleteAll);
+
+/**
+ * Delete Tag by name
+ */
+
+ router.delete('/:tagName', tagsController.deleteByName);
 
 module.exports = router;

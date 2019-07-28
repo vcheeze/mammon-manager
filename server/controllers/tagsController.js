@@ -1,7 +1,7 @@
 const Tag = require('../models/tag');
 const Category = require('../models/category');
 
-const getAllTags = (req, res) => {
+const get = (req, res) => {
     Tag
         .find({})
         .populate('category')
@@ -12,38 +12,34 @@ const getAllTags = (req, res) => {
             });
         })
         .catch(err => {
-            console.log(err);
+            console.error(err);
             res.status(500).send({
                 message: err
             });
         });
 };
 
-const getTagByName = (req, res) => {
-    let tagName = req.params.tagName;
+const getByName = (req, res) => {
+    const tagName = req.params.tagName;
     Tag
         .findOne({
             name: tagName
         })
         .populate('category')
-        .exec((err, tag) => {
-            if (err) console.error(err);
-            console.log(`The category is ${tag.category.name}`);
+        .then(doc => {
+            res.status(200).send({
+                message: 'Successful: retrieved Tag by name!',
+                tag: doc
+            });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err
+            });
         });
-        // .then(doc => {
-        //     res.status(200).send({
-        //         message: 'Successful: retrieved Tag by name!',
-        //         tag: doc
-        //     });
-        // })
-        // .catch(err => {
-        //     res.status(500).send({
-        //         message: err
-        //     });
-        // });
 }
 
-const createTag = (req, res) => {
+const create = (req, res) => {
     let categoryId;
     Category
         .findOne({
@@ -64,18 +60,49 @@ const createTag = (req, res) => {
                     res.status(200).send({
                         message: 'Successful: created new Tag!',
                         tag: doc
-                    })
+                    });
                 })
                 .catch(err => {
+                    console.error(err)
                     res.status(500).send({
                         message: err
-                    })
+                    });
                 });
         })
         .catch(err => {
             // TODO consider creating new Category if it doesn't exist
-            console.log(err);
+            console.error(err);
         });
 }
 
-module.exports = { getAllTags, getTagByName, createTag };
+const deleteAll = (req, res) => {
+    Tag.deleteMany({})
+        .then(doc => {
+            res.status(200).send({
+                message: 'Successful: deleted all Tags!'
+            });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err
+            });
+        });
+}
+
+const deleteByName = (req, res) => {
+    const tagName = req.params.tagName
+    Tag.findOneAndDelete({name: new RegExp(tagName, 'i')})
+        .then(doc => {
+            res.status(200).send({
+                message: `Successful: deleted ${doc.name}`,
+                tag: doc
+            });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err
+            })
+        });
+}
+
+module.exports = { get, getByName, create, deleteAll, deleteByName };

@@ -7,7 +7,7 @@
                     <v-icon>add</v-icon>
                 </v-btn>
             </template>
-            <v-card class="add-cat-card">
+            <v-card class="dialog-card">
                 <v-card-title primary-title>
                     Add Category
                 </v-card-title>
@@ -76,15 +76,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-.add-cat-card .v-card__title {
-    background-color: $color_secondary;
-    color: #fff;
-    font-family: $font_title;
-}
-
-.add-cat-card .v-btn__content {
-    color: $color_secondary;
-}
-</style>
