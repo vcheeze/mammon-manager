@@ -4,6 +4,7 @@
             <router-link to="/">Home</router-link>
             <router-link to="/budgets">Budgets</router-link>
             <router-link to="/categories">Categories</router-link>
+            <router-link to="/tags">Tags</router-link>
         </nav>
         <v-content>
             <router-view />
@@ -32,6 +33,9 @@ nav {
     background-color: $color_primary;
     a {
         padding: 15px 5px;
+        &:hover {
+            color: $color_quaternary;
+        }
     }
 }
 </style>

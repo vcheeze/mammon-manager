@@ -29,6 +29,9 @@ MongoDB, Node-Express stack:
 DB schema visualization (use contents of [this file](server/dataVis.txt)):
 * https://app.quickdatabasediagrams.com/
 
+Setting up Prettier and ESLint to format code:
+* https://coffeencoding.com/nodejs-auto-lint-format-on-git-commit-with-airbnb-styleguide/
+
 #### Client
 SCSS style guides:
 * https://sass-guidelin.es
