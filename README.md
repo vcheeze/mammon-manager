@@ -2,9 +2,14 @@
 Manage your mammon, and let not your mammon manage you.
 
 ### Table of Contents
-* [Project Structure](#project-structure)
-* [How to run](#how-to-run)
-* [Useful Resources](#useful-resources)
+- [Mammon Manager](#mammon-manager)
+    - [Table of Contents](#table-of-contents)
+    - [Project Structure](#project-structure)
+    - [How to run](#how-to-run)
+    - [Useful Resources](#useful-resources)
+      - [Server](#server)
+      - [Client](#client)
+      - [General](#general)
 
 ### Project Structure 
 The project is structured simply as client and server. The client uses Vue.js, while the server uses Node-Express to 
@@ -58,6 +63,13 @@ Color pickers:
 * https://javier.xyz/cohesive-colors
 * https://www.canva.com/colors/color-palettes
 * https://mycolor.space
+
+PWA:
+* https://codelabs.developers.google.com/codelabs/your-first-pwapp
+* https://developers.google.com/web/tools/workbox
+* https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook
+* https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle
+* https://codelabs.developers.google.com/codelabs/debugging-service-workers
 
 #### General
 Websites for reference:
