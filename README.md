@@ -17,6 +17,7 @@ For the server, `cd` into the server directory in your terminal and run `npm run
 For the client, `cd` into the client directory and run `npm run serve`.
 
 ### Useful Resources
+#### Server
 MongoDB, Node-Express stack:
 * https://getstream.io/blog/building-a-node-js-powered-api-with-express-mongoose-mongodb
 * https://www.robinwieruch.de/mongodb-express-setup-tutorial
@@ -27,6 +28,19 @@ MongoDB, Node-Express stack:
 
 DB schema visualization (use contents of [this file](server/dataVis.txt)):
 * https://app.quickdatabasediagrams.com/
+
+#### Client
+SCSS style guides:
+* https://sass-guidelin.es
+* https://css-tricks.com/sass-style-guide
+* https://medium.com/@mciastek/s-css-best-practices-that-you-have-not-yet-known-ba2f6329b5dd
+* https://netmidas.com/blog/sass-best-practices-avoid-frustrated-developer-beginner-level
+
+Name that Color:
+* http://chir.ag/projects/name-that-color
+
+Explaining HSL:
+* https://stackoverflow.com/questions/26059228/css-hsl-or-rgba-colors
 
 Color pickers:
 * https://flatuicolors.com
@@ -42,6 +56,7 @@ Color pickers:
 * https://www.canva.com/colors/color-palettes
 * https://mycolor.space
 
+#### General
 Websites for reference:
 * https://yousign.com/en-uk/api  
 * http://species-in-pieces.com 
