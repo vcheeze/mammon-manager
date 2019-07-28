@@ -2,6 +2,11 @@ body {
      font-family: $font-body;
 }
 
+#app {
+    font-family: $font_body;
+    line-height: unset;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: $font_title;
 }
@@ -12,7 +17,14 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
 }
 
-#app {
-    font-family: $font_body;
-    line-height: unset;
+/*========== Styling the card inside a dialog ==========*/
+.dialog-card .v-card__title {
+    background-color: $color_secondary;
+    margin-bottom: 0.5rem;
+    color: #fff;
+    font-family: $font_title;
+}
+
+.dialog-card .v-btn__content {
+    color: $color_secondary;
 }

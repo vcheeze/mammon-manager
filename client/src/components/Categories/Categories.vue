@@ -7,7 +7,7 @@
                     <v-icon>add</v-icon>
                 </v-btn>
             </template>
-            <v-card class="add-cat-card">
+            <v-card class="dialog-card">
                 <v-card-title primary-title>
                     Add Category
                 </v-card-title>
@@ -16,12 +16,14 @@
                         <v-text-field
                             v-model="categoryName"
                             label="Name"
+                            color="#216583"
                             required
                             height="42"
                         ></v-text-field>
                         <v-combobox
                             v-model="select"
                             :items="tags"
+                            color="#216583"
                             chips
                             multiple
                             hide-selected
@@ -50,12 +52,11 @@ export default {
     name: 'Categories',
     data() {
         return {
-            id: '',
             dialog: false,
             valid: false,
             categoryName: '',
             select: [],
-            tags: ['Test1', 'Test2', 'Test3']
+            tags: []
         }
     },
     watch: {
@@ -75,15 +76,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-.add-cat-card .v-card__title {
-    background-color: $color_secondary;
-    color: #fff;
-    font-family: $font_title;
-}
-
-.add-cat-card .v-btn__content {
-    color: $color_secondary;
-}
-</style>

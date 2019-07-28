@@ -1,13 +1,31 @@
 const express = require('express');
 const router = express.Router();
+const tagsController = require('../../controllers/tagsController');
 
 /**
- * Gets all transactions
+ * Gets all Tags
  */
-router.get('/', (req, res) => {
-    res.status(200).send({
-        message: 'successful: get all tags!'
-    });
-});
+router.get('/', tagsController.get);
+
+/**
+ * Get Tag by name
+ */
+router.get('/:tagName', tagsController.getByName);
+
+/**
+ * Create a Tag
+ */
+router.post('/', tagsController.create);
+
+/**
+ * Delete all Tags
+ */
+router.delete('/', tagsController.deleteAll);
+
+/**
+ * Delete Tag by name
+ */
+
+ router.delete('/:tagName', tagsController.deleteByName);
 
 module.exports = router;
