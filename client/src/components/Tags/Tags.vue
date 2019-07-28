@@ -12,8 +12,11 @@
           Add Tag
         </v-card-title>
         <v-card-text>
-          <v-form v-model="valid">
+          <v-form ref="form" v-model="valid" @submit="addTag">
+            <!-- the v-if for the text field is a workaround for autofocus -->
+            <!-- which only autofocuses on initial render -->
             <v-text-field
+              v-if="dialog"
               v-model="tagName"
               label="Name"
               color="#216583"
@@ -25,7 +28,7 @@
               label="category"
               color="#216583"
             ></v-text-field>
-            <v-btn depressed @click="addTag">submit</v-btn>
+            <v-btn depressed type="submit">submit</v-btn>
           </v-form>
         </v-card-text>
         <v-divider />
@@ -38,7 +41,7 @@
       </v-card>
     </v-dialog>
     <v-snackbar v-model="snackbar">
-      {{ snackbarText }}
+      <span v-html="snackbarText"></span>
       <v-btn color="#f76262" text @click="snackbar = false">Close</v-btn>
     </v-snackbar>
   </div>
@@ -61,18 +64,26 @@ export default {
     }
   },
   methods: {
-    async addTag() {
+    async addTag(e) {
+      e.preventDefault()
+
       const payload = {
         name: this.tagName,
         category: this.categoryName
       }
       const { data } = await TagRepository.createTag(payload)
-      console.log(data)
+      // hide the dialog and clear form
       this.dialog = false
-      this.snackbarText = `New Tag created:<span class="created-tag>${
+      this.clearForm()
+      // show snackbar notification
+      this.snackbarText = `New Tag created: <span class="created-tag">${
         data.tag.name
       }</span>`
       this.snackbar = true
+    },
+    clearForm() {
+      this.tagName = ''
+      this.categoryName = ''
     }
   }
 }
