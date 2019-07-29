@@ -3,11 +3,11 @@ import CategoriesRepository from './categoriesRepository'
 import TagsRepository from './tagsRepository'
 
 const repositories = {
-    budgets: BudgetsRepository,
-    categories: CategoriesRepository,
-    tags: TagsRepository
+  budgets: BudgetsRepository,
+  categories: CategoriesRepository,
+  tags: TagsRepository
 }
 
 export const RepositoryFactory = {
-    get: name => repositories[name]
+  get: name => repositories[name]
 }
