@@ -40,6 +40,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- Snackbar that appears on form submission -->
     <v-snackbar v-model="snackbar">
       <span v-html="snackbarText"></span>
       <v-btn color="#f76262" text @click="snackbar = false">Close</v-btn>
@@ -48,6 +49,9 @@
 </template>
 
 <script>
+// TODO validate form
+// TODO check createTag call and display warning message if failed
+
 import { RepositoryFactory } from '../../api/RepositoryFactory'
 const TagRepository = RepositoryFactory.get('tags')
 
@@ -55,6 +59,7 @@ export default {
   name: 'Tags',
   data() {
     return {
+      tags: [],
       dialog: false,
       snackbar: false,
       snackbarText: '',

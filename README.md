@@ -17,7 +17,7 @@ provide a REST API. MongoDB is the database employed. In a nutshell, this projec
 **E**xpress.js, **V**ue.js, and **N**ode.js.
 
 ### How to run
-For the server, `cd` into the server directory in your terminal and run `npm run start`.
+For the server, `cd` into the server directory in your terminal and run `npm run start`. Make sure your MongoDB is running before this.
 
 For the client, `cd` into the client directory and run `npm run serve`.
 
