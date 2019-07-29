@@ -1,11 +1,9 @@
 <template>
-    <h1>Mammon Manager</h1>
+  <h1>Mammon Manager</h1>
 </template>
 
 <script>
 export default {
-    name: 'Home'
+  name: 'Home'
 }
 </script>
-
-<style></style>
