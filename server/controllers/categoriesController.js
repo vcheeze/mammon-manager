@@ -1,6 +1,6 @@
-import Category from '../models/category';
+const Category = require('../models/category');
 
-const getAllCategories = (req, res) => {
+const get = (req, res) => {
   Category.find({})
     .then(doc => {
       res.status(200).send({
@@ -16,7 +16,7 @@ const getAllCategories = (req, res) => {
     });
 };
 
-const getCategoryByName = (req, res) => {
+const getByName = (req, res) => {
   const { categoryName } = req.params;
   Category.findOne({
     name: categoryName
@@ -34,11 +34,10 @@ const getCategoryByName = (req, res) => {
     });
 };
 
-const createCategory = (req, res) => {
+const create = (req, res) => {
   console.log(req.body);
   const category = new Category({
-    name: req.body.name,
-    tags: []
+    name: req.body.name
   });
 
   category
@@ -58,4 +57,34 @@ const createCategory = (req, res) => {
     });
 };
 
-export default { getAllCategories, getCategoryByName, createCategory };
+const deleteAll = (req, res) => {
+  Category.deleteMany({})
+    .then(() => {
+      res.status(200).send({
+        message: 'Successful: deleted all Categories!'
+      });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err
+      });
+    });
+};
+
+const deleteByName = (req, res) => {
+  const { categoryName } = req.params;
+  Category.findOneAndDelete({ name: new RegExp(categoryName, 'i') })
+    .then(doc => {
+      res.status(200).send({
+        message: `Successful: deleted ${doc.name}`,
+        category: doc
+      });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err
+      });
+    });
+};
+
+module.exports = { get, getByName, create, deleteAll, deleteByName };

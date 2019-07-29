@@ -1,9 +1,7 @@
-import Tag from '../models/tag';
-import Category from '../models/category';
+const Tag = require('../models/tag');
 
 const get = (req, res) => {
   Tag.find({})
-    .populate('category')
     .then(doc => {
       res.status(200).send({
         message: 'Successful: retrieved all Tags!',
@@ -23,7 +21,6 @@ const getByName = (req, res) => {
   Tag.findOne({
     name: tagName
   })
-    .populate('category')
     .then(doc => {
       res.status(200).send({
         message: 'Successful: retrieved Tag by name!',
@@ -38,38 +35,24 @@ const getByName = (req, res) => {
 };
 
 const create = (req, res) => {
-  let categoryId;
-  Category.findOne({
-    name: req.body.category
-  })
-    .then(category => {
-      // console.log(doc);
-      categoryId = category._id;
+  // create the Tag
+  const tag = new Tag({
+    name: req.body.name
+  });
 
-      // create the Tag
-      const tag = new Tag({
-        name: req.body.name,
-        category: categoryId
+  tag
+    .save()
+    .then(doc => {
+      res.status(200).send({
+        message: 'Successful: created new Tag!',
+        tag: doc
       });
-
-      tag
-        .save()
-        .then(doc => {
-          res.status(200).send({
-            message: 'Successful: created new Tag!',
-            tag: doc
-          });
-        })
-        .catch(err => {
-          console.error(err);
-          res.status(500).send({
-            message: err
-          });
-        });
     })
     .catch(err => {
-      // TODO consider creating new Category if it doesn't exist
       console.error(err);
+      res.status(500).send({
+        message: err
+      });
     });
 };
 
@@ -103,4 +86,4 @@ const deleteByName = (req, res) => {
     });
 };
 
-export default { get, getByName, create, deleteAll, deleteByName };
+module.exports = { get, getByName, create, deleteAll, deleteByName };
