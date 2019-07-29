@@ -1,6 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const tagsController = require('../../controllers/tagsController');
+import { Router } from 'express';
+import tagsController from '../../controllers/tagsController';
+
+const router = Router();
 
 /**
  * Gets all Tags
@@ -26,6 +27,6 @@ router.delete('/', tagsController.deleteAll);
  * Delete Tag by name
  */
 
- router.delete('/:tagName', tagsController.deleteByName);
+router.delete('/:tagName', tagsController.deleteByName);
 
-module.exports = router;
+export default router;

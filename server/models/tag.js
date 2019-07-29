@@ -1,18 +1,19 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const ObjectId = Schema.Types.ObjectId;
+import mongoose, { model } from 'mongoose';
+
+const { Schema } = mongoose;
+const { ObjectId } = Schema.Types;
 
 const tagSchema = new Schema({
-    name: {
-        type: String,
-        required: [true, 'Tag name is required!'],
-        unique: true
-    },
-    category: {
-        type: ObjectId,
-        ref: 'Category'
-        // TODO add required field if necessary
-    }
+  name: {
+    type: String,
+    required: [true, 'Tag name is required!'],
+    unique: true
+  },
+  category: {
+    type: ObjectId,
+    ref: 'Category'
+    // TODO add required field if necessary
+  }
 });
 
-module.exports = mongoose.model('Tag', tagSchema);
+export default model('Tag', tagSchema);
