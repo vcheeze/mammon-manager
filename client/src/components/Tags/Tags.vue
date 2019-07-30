@@ -75,7 +75,16 @@ export default {
   methods: {
     async loadTags() {
       const { data } = await TagRepository.getAll()
-      this.tags = data.tags
+      this.tags = data.tags.sort((a, b) => {
+        let a_name = a.name.toLowerCase(),
+          b_name = b.name.toLowerCase()
+        if (a_name > b_name) {
+          return 1
+        } else if (a_name < b_name) {
+          return -1
+        }
+        return 0
+      })
     },
     async addTag(e) {
       e.preventDefault()
@@ -86,15 +95,51 @@ export default {
       const { data } = await TagRepository.createTag(payload)
       // hide the dialog and clear form
       this.dialog = false
-      this.clearForm()
+      this._clearForm()
       // show snackbar notification
       this.snackbarText = `Tag created: <span class="new-doc">${data.tag.name}</span>`
       this.snackbar = true
       // add the newly-created Tag to our list
-      this.tags.push(data.tag)
+      this._binaryInsert(data.tag, this.tags)
+      // this.tags.push(data.tag)
     },
-    clearForm() {
+    _clearForm() {
       this.tagName = ''
+    },
+    _binaryInsert(value, array, startVal, endVal) {
+      const length = array.length
+      const start = typeof startVal != 'undefined' ? startVal : 0
+      const end = typeof endVal != 'undefined' ? endVal : 0
+      const mid = start + Math.floor((end - start) / 2)
+
+      if (length == 0) {
+        array.push(value)
+        return
+      }
+
+      if (value.name.toLowerCase() > array[end].name.toLowerCase()) {
+        array.splice(end + 1, 0, value)
+        return
+      }
+
+      if (value.name.toLowerCase() < array[start].name.toLowerCase()) {
+        array.splice(start, 0, value)
+        return
+      }
+
+      if (start >= end) {
+        return
+      }
+
+      if (value.name.toLowerCase() < array[mid].name.toLowerCase()) {
+        this._binaryInsert(value, array, start, mid - 1)
+        return
+      }
+
+      if (value.name.toLowerCase() > array[mid].name.toLowerCase()) {
+        this._binaryInsert(value, array, mid + 1, end)
+        return
+      }
     }
   }
 }
