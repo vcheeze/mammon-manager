@@ -4,14 +4,15 @@ const get = (req, res) => {
   Category.find({})
     .then(doc => {
       res.status(200).send({
-        message: 'Successful: retrieved all Categories!',
-        category: doc
+        message: 'Success: got all Categories!',
+        categories: doc
       });
     })
     .catch(err => {
       console.error(err);
       res.status(500).send({
-        message: err
+        message: 'Error: could not get all Categories',
+        error: err
       });
     });
 };
@@ -19,17 +20,19 @@ const get = (req, res) => {
 const getByName = (req, res) => {
   const { categoryName } = req.params;
   Category.findOne({
-    name: categoryName
+    // use regex for case-insensitive search
+    name: new RegExp(categoryName, 'i')
   })
     .then(doc => {
       res.status(200).send({
-        message: 'Successful: retrieved Category by name!',
+        message: 'Success: got Category by name!',
         category: doc
       });
     })
     .catch(err => {
       res.status(500).send({
-        message: err
+        message: 'Error: could not get Category by name',
+        error: err
       });
     });
 };
@@ -45,14 +48,15 @@ const create = (req, res) => {
     .then(doc => {
       console.log(doc);
       res.status(200).send({
-        message: 'Successful: saved new Category!',
+        message: 'Success: saved new Category!',
         category: doc
       });
     })
     .catch(err => {
       console.error(err);
       res.status(500).send({
-        message: err
+        message: 'Error: could not create Category',
+        error: err
       });
     });
 };
@@ -61,28 +65,31 @@ const deleteAll = (req, res) => {
   Category.deleteMany({})
     .then(() => {
       res.status(200).send({
-        message: 'Successful: deleted all Categories!'
+        message: 'Success: deleted all Categories!'
       });
     })
     .catch(err => {
       res.status(500).send({
-        message: err
+        message: 'Error: could not delete all Categories',
+        error: err
       });
     });
 };
 
 const deleteByName = (req, res) => {
   const { categoryName } = req.params;
+  // use regex for case-insensitive search
   Category.findOneAndDelete({ name: new RegExp(categoryName, 'i') })
     .then(doc => {
       res.status(200).send({
-        message: `Successful: deleted ${doc.name}`,
+        message: `Success: deleted ${doc.name}`,
         category: doc
       });
     })
     .catch(err => {
       res.status(500).send({
-        message: err
+        message: 'Error: could not delete Category',
+        error: err
       });
     });
 };

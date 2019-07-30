@@ -1,15 +1,12 @@
 <template>
   <div>
     <h1>Tags</h1>
-    <v-list two-line>
-      <v-list-item-group v-model="tag" color="primary">
-        <v-list-item v-for="tag in tags" :key="tag.name">
-          <v-list-item-content>
-            <v-list-item-title>{{ tag.name }}</v-list-item-title>
-            <v-list-item-subtitle>{{ tag.category }}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
+    <v-list>
+      <v-list-item v-for="tag in tags" :key="tag.name">
+        <v-list-item-content>
+          <v-list-item-title>{{ tag.name }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on }">
@@ -64,21 +61,7 @@ export default {
   name: 'Tags',
   data() {
     return {
-      tag: 0,
-      tags: [
-        {
-          name: 't1',
-          category: 'c1'
-        },
-        {
-          name: 't2',
-          category: 'c1'
-        },
-        {
-          name: 't3',
-          category: 'c2'
-        }
-      ],
+      tags: [],
       dialog: false,
       valid: false,
       tagName: '',
@@ -86,7 +69,14 @@ export default {
       snackbarText: ''
     }
   },
+  mounted() {
+    this.loadTags()
+  },
   methods: {
+    async loadTags() {
+      const { data } = await TagRepository.getAll()
+      this.tags = data.tags
+    },
     async addTag(e) {
       e.preventDefault()
 
@@ -100,6 +90,8 @@ export default {
       // show snackbar notification
       this.snackbarText = `Tag created: <span class="new-doc">${data.tag.name}</span>`
       this.snackbar = true
+      // add the newly-created Tag to our list
+      this.tags.push(data.tag)
     },
     clearForm() {
       this.tagName = ''

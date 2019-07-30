@@ -26,7 +26,6 @@ router.delete('/', categoriesController.deleteAll);
 /**
  * Delete Category by name
  */
-
 router.delete('/:categoryName', categoriesController.deleteByName);
 
 module.exports = router;

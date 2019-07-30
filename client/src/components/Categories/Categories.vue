@@ -54,16 +54,7 @@ export default {
   name: 'Categories',
   data() {
     return {
-      categories: [
-        {
-          name: 'Transportation',
-          id: '1'
-        },
-        {
-          name: 'Utilities',
-          id: '2'
-        }
-      ],
+      categories: [],
       dialog: false,
       valid: false,
       categoryName: '',
@@ -71,12 +62,14 @@ export default {
       snackbarText: ''
     }
   },
-  watch: {
-    select() {
-      console.log(this.select)
-    }
+  mounted() {
+    this.loadCategories()
   },
   methods: {
+    async loadCategories() {
+      const { data } = await CategoryRepository.getAll()
+      this.categories = data.categories
+    },
     async addCategory(e) {
       e.preventDefault()
 
@@ -85,10 +78,14 @@ export default {
       }
       const { data } = await CategoryRepository.createCategory(payload)
       console.log(data)
+      // hide the dialog and clear form
       this.dialog = false
       this.clearForm()
-      this.snackbarText = `Category created: <span class="new-doc">${data.tag.name}</span>`
+      // show snackbar notification
+      this.snackbarText = `Category created: <span class="new-doc">${data.category.name}</span>`
       this.snackbar = true
+      // add the newly-created Category
+      this.categories.push(data.category)
     },
     clearForm() {
       this.categoryName = ''

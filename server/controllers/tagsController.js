@@ -4,14 +4,15 @@ const get = (req, res) => {
   Tag.find({})
     .then(doc => {
       res.status(200).send({
-        message: 'Successful: retrieved all Tags!',
+        message: 'Successful: got all Tags!',
         tags: doc
       });
     })
     .catch(err => {
       console.error(err);
       res.status(500).send({
-        message: err
+        message: 'Error: could not get all Tags',
+        error: err
       });
     });
 };
@@ -29,7 +30,8 @@ const getByName = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message: err
+        message: 'Error: could not get Tag by name',
+        error: err
       });
     });
 };
@@ -51,7 +53,8 @@ const create = (req, res) => {
     .catch(err => {
       console.error(err);
       res.status(500).send({
-        message: err
+        message: 'Error: could not create Tag',
+        error: err
       });
     });
 };
@@ -65,7 +68,8 @@ const deleteAll = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message: err
+        message: 'Error: could not delete all Tags',
+        error: err
       });
     });
 };
@@ -81,7 +85,8 @@ const deleteByName = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message: err
+        message: 'Error: could not delete Tag by name',
+        error: err
       });
     });
 };
