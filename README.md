@@ -70,6 +70,7 @@ PWA:
 * https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook
 * https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle
 * https://codelabs.developers.google.com/codelabs/debugging-service-workers
+* https://www.freecodecamp.org/news/progressive-web-apps-102-building-a-progressive-web-app-from-scratch-397b72168040/
 
 #### General
 Websites for reference:

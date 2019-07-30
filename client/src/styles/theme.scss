@@ -7,6 +7,11 @@ h1, h2, h3, h4, h5, h6 {
   font-family: $font_title;
 }
 
+/*========== Styling v-lists ==========*/
+.v-list.v-sheet {
+  margin: 1rem 5rem;
+}
+
 /*========== Styling the card inside a dialog ==========*/
 .dialog-card .v-card__title {
   margin-bottom: 0.5rem;
@@ -17,4 +22,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .dialog-card .v-btn__content {
   color: $color_secondary;
+}
+
+/*========== Styling snackbar notification for newly created docs ==========*/
+.new-doc {
+  font-weight: bold;
 }

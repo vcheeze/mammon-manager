@@ -33,12 +33,7 @@
               autofocus
               required
             ></v-text-field>
-            <v-text-field
-              v-model="categoryName"
-              label="category"
-              color="#216583"
-            ></v-text-field>
-            <v-btn depressed type="submit">submit</v-btn>
+            <v-btn depressed type="submit">add</v-btn>
           </v-form>
         </v-card-text>
         <v-divider />
@@ -87,7 +82,6 @@ export default {
       dialog: false,
       valid: false,
       tagName: '',
-      categoryName: '',
       snackbar: false,
       snackbarText: ''
     }
@@ -97,31 +91,19 @@ export default {
       e.preventDefault()
 
       const payload = {
-        name: this.tagName,
-        category: this.categoryName
+        name: this.tagName
       }
       const { data } = await TagRepository.createTag(payload)
       // hide the dialog and clear form
       this.dialog = false
       this.clearForm()
       // show snackbar notification
-      this.snackbarText = `Tag created: <span class="created-tag">${data.tag.name}</span>`
+      this.snackbarText = `Tag created: <span class="new-doc">${data.tag.name}</span>`
       this.snackbar = true
     },
     clearForm() {
       this.tagName = ''
-      this.categoryName = ''
     }
   }
 }
 </script>
-
-<style lang="scss">
-.v-list.v-sheet {
-  margin-bottom: 1rem;
-}
-
-.created-tag {
-  font-weight: bold;
-}
-</style>
