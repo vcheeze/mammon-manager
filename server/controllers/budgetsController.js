@@ -45,7 +45,7 @@ const create = (req, res) => {
     .save()
     .then(doc => {
       console.log(doc);
-      res.status(200).send({
+      res.status(201).send({
         message: 'Success: saved new Budget!',
         budget: doc
       });

@@ -4,6 +4,11 @@ const categoriesController = require('../../controllers/categoriesController');
 const router = express.Router();
 
 /**
+ * Create a Category
+ */
+router.post('/', categoriesController.create);
+
+/**
  * Get all Categories
  */
 router.get('/', categoriesController.get);
@@ -14,9 +19,9 @@ router.get('/', categoriesController.get);
 router.get('/:categoryName', categoriesController.getByName);
 
 /**
- * Create a Category
+ * Given old and new Category names, update old to new
  */
-router.post('/', categoriesController.create);
+router.patch('/', categoriesController.update);
 
 /**
  * Delete all Categories

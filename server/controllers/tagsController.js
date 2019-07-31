@@ -43,7 +43,7 @@ const create = (req, res) => {
   tag
     .save()
     .then(doc => {
-      res.status(200).send({
+      res.status(201).send({
         message: 'Success: created new Tag!',
         tag: doc
       });

@@ -1,4 +1,29 @@
+/* eslint-disable no-param-reassign */
 const Category = require('../models/category');
+
+const create = (req, res) => {
+  console.log(req.body);
+  const category = new Category({
+    name: req.body.name
+  });
+
+  category
+    .save()
+    .then(doc => {
+      console.log(doc);
+      res.status(201).send({
+        message: 'Success: saved new Category!',
+        category: doc
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send({
+        message: 'Error: could not create Category',
+        error: err
+      });
+    });
+};
 
 const get = (req, res) => {
   Category.find({})
@@ -34,25 +59,29 @@ const getByName = (req, res) => {
     });
 };
 
-const create = (req, res) => {
-  console.log(req.body);
-  const category = new Category({
-    name: req.body.name
-  });
-
-  category
-    .save()
+const update = (req, res) => {
+  const { oldName, newName } = req.body;
+  Category.findByName(oldName)
     .then(doc => {
-      console.log(doc);
-      res.status(200).send({
-        message: 'Success: saved new Category!',
-        category: doc
-      });
+      doc.name = newName;
+      doc
+        .save()
+        .then(newDoc => {
+          res.status(200).send({
+            message: `Success: updated ${oldName} to ${newName}`,
+            category: newDoc
+          });
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: `Error: unable to update ${oldName}`,
+            error: err
+          });
+        });
     })
     .catch(err => {
-      console.error(err);
       res.status(500).send({
-        message: 'Error: could not create Category',
+        message: `Error: unable to find ${oldName}`,
         error: err
       });
     });
@@ -90,4 +119,4 @@ const deleteByName = (req, res) => {
     });
 };
 
-module.exports = { get, getByName, create, deleteAll, deleteByName };
+module.exports = { create, get, getByName, update, deleteAll, deleteByName };
