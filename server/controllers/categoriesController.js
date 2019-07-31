@@ -19,10 +19,7 @@ const get = (req, res) => {
 
 const getByName = (req, res) => {
   const { categoryName } = req.params;
-  Category.findOne({
-    // use regex for case-insensitive search
-    name: new RegExp(categoryName, 'i')
-  })
+  Category.findByName(categoryName)
     .then(doc => {
       res.status(200).send({
         message: 'Success: got Category by name!',
@@ -78,8 +75,7 @@ const deleteAll = (req, res) => {
 
 const deleteByName = (req, res) => {
   const { categoryName } = req.params;
-  // use regex for case-insensitive search
-  Category.findOneAndDelete({ name: new RegExp(categoryName, 'i') })
+  Category.deleteByName(categoryName)
     .then(doc => {
       res.status(200).send({
         message: `Success: deleted ${doc.name}`,

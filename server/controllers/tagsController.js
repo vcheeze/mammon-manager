@@ -4,7 +4,7 @@ const get = (req, res) => {
   Tag.find({})
     .then(doc => {
       res.status(200).send({
-        message: 'Successful: got all Tags!',
+        message: 'Success: got all Tags!',
         tags: doc
       });
     })
@@ -19,12 +19,10 @@ const get = (req, res) => {
 
 const getByName = (req, res) => {
   const { tagName } = req.params;
-  Tag.findOne({
-    name: tagName
-  })
+  Tag.findByName(tagName)
     .then(doc => {
       res.status(200).send({
-        message: 'Successful: retrieved Tag by name!',
+        message: 'Success: retrieved Tag by name!',
         tag: doc
       });
     })
@@ -46,7 +44,7 @@ const create = (req, res) => {
     .save()
     .then(doc => {
       res.status(200).send({
-        message: 'Successful: created new Tag!',
+        message: 'Success: created new Tag!',
         tag: doc
       });
     })
@@ -63,7 +61,7 @@ const deleteAll = (req, res) => {
   Tag.deleteMany({})
     .then(() => {
       res.status(200).send({
-        message: 'Successful: deleted all Tags!'
+        message: 'Success: deleted all Tags!'
       });
     })
     .catch(err => {
@@ -76,10 +74,10 @@ const deleteAll = (req, res) => {
 
 const deleteByName = (req, res) => {
   const { tagName } = req.params;
-  Tag.findOneAndDelete({ name: new RegExp(tagName, 'i') })
+  Tag.deleteByName(tagName)
     .then(doc => {
       res.status(200).send({
-        message: `Successful: deleted ${doc.name}`,
+        message: `Success: deleted ${doc.name}`,
         tag: doc
       });
     })

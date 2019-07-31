@@ -30,15 +30,14 @@
               required
               height="42"
             ></v-text-field>
-            <v-btn type="submit" depressed>add</v-btn>
           </v-form>
         </v-card-text>
-        <v-divider />
         <v-card-actions>
           <v-spacer />
-          <v-btn color="primary" text @click="dialog = false">
-            Close
+          <v-btn text @click="dialog = false">
+            cancel
           </v-btn>
+          <v-btn type="submit" text>add</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

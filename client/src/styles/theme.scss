@@ -13,16 +13,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /*========== Styling the card inside a dialog ==========*/
-.dialog-card .v-card__title {
-  margin-bottom: 0.5rem;
-  background-color: $color_secondary;
-  color: $color_text-light;
-  font-family: $font_title;
-  justify-content: space-between;
-}
-
-.dialog-card .v-btn__content {
-  color: $color_secondary;
+.dialog-card {
+  .v-card__title {
+    margin-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    background-color: $color_secondary;
+    color: $color_text-light;
+    font-family: $font_title;
+    justify-content: space-between;
+  }
+  .v-btn__content {
+    color: $color_secondary;
+  }
+  .v-card__actions .v-btn__content {
+    font-weight: 600;
+  }
 }
 
 /*========== Styling snackbar notification for newly created docs ==========*/

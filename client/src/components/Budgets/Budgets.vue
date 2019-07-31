@@ -2,12 +2,14 @@
   <div>
     <h1>Budgets</h1>
     <v-list two-line>
-      <v-list-item v-for="budget in budgets" :key="budget.id" :href="'/budgets/' + budget.name">
+      <v-list-item
+        v-for="budget in budgets"
+        :key="budget.id"
+        :href="'/budgets/' + budget.name"
+      >
         <v-list-item-content>
           <v-list-item-title>{{ budget.name }}</v-list-item-title>
-          <v-list-item-subtitle>{{
-            monthNames[budget.period.getMonth()] + ' ' + budget.period.getFullYear()
-          }}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{ budget.periodName }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -24,8 +26,8 @@
             <v-icon color="#ffffff">close</v-icon>
           </v-btn>
         </v-card-title>
-        <v-card-text>
-          <v-form v-model="valid" @submit="addBudget">
+        <v-form v-model="valid" @submit="addBudget">
+          <v-card-text>
             <v-text-field
               v-model="budgetName"
               label="Name"
@@ -33,17 +35,22 @@
               required
               height="42"
             ></v-text-field>
-            <v-date-picker v-model="date" landscape full-width color="#fff1c1" type="month"></v-date-picker>
-            <v-btn type="submit" depressed>add</v-btn>
-          </v-form>
-        </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" text @click="dialog = false">
-            Close
-          </v-btn>
-        </v-card-actions>
+            <v-date-picker
+              v-model="date"
+              landscape
+              full-width
+              color="#fff1c1"
+              type="month"
+            ></v-date-picker>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn text @click="dialog = false">
+              cancel
+            </v-btn>
+            <v-btn type="submit" text>add</v-btn>
+          </v-card-actions>
+        </v-form>
       </v-card>
     </v-dialog>
     <v-snackbar v-model="snackbar">
@@ -61,17 +68,7 @@ export default {
   name: 'Budgets',
   data() {
     return {
-      budgets: [
-        {
-          name: 'Test1',
-          period: new Date('2019/08/01')
-        },
-        {
-          name: 'Test2',
-          period: new Date('2019/07/01')
-        }
-      ],
-      monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      budgets: [],
       dialog: false,
       valid: false,
       budgetName: '',
@@ -81,7 +78,7 @@ export default {
     }
   },
   mounted() {
-    // this.loadBudgets()
+    this.loadBudgets()
   },
   methods: {
     async loadBudgets() {
@@ -92,23 +89,42 @@ export default {
       })
       // TODO add sorting by date to data.budgets
       this.budgets = data.budgets
+      console.log(this.budgets)
     },
     // make this async
-    addBudget() {
-      console.log('adding budget!')
+    async addBudget(e) {
+      e.preventDefault()
+
+      const payload = {
+        name: this.budgetName,
+        period: this.date
+      }
+      const { data } = await BudgetRepository.createBudget(payload)
+      // hide the dialog and clear form
+      this.dialog = false
+      this._clearForm()
+      // show snackbar notification
+      this.snackbarText = `Budget created: <span class="new-doc">${data.budget.name}</span>`
+      this.snackbar = true
+      // add the newly-created Tag to our list
+      this.budgets.push(data.budget)
+    },
+    _clearForm() {
+      this.budgetName = ''
+      this.date = new Date().toISOString().substring(0, 7)
     }
   }
 }
 </script>
 
 <style lang="scss">
-  .v-picker.v-picker--date {
-    margin-bottom: 1rem;
-    .v-date-picker-title {
-      color: #333333;
-      .v-date-picker-title__date {
-        font-size: 30px;
-      }
+.v-picker.v-picker--date {
+  margin-bottom: 1rem;
+  .v-date-picker-title {
+    color: #333333;
+    .v-date-picker-title__date {
+      font-size: 30px;
     }
   }
+}
 </style>
