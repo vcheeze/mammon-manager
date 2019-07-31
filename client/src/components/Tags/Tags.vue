@@ -17,6 +17,9 @@
       <v-card class="dialog-card">
         <v-card-title primary-title>
           Add Tag
+          <v-btn icon color="#ffffff" @click="dialog = false">
+            <v-icon color="#ffffff">close</v-icon>
+          </v-btn>
         </v-card-title>
         <v-card-text>
           <v-form ref="form" v-model="valid" @submit="addTag">

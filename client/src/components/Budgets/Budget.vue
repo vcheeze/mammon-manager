@@ -13,7 +13,7 @@ export default {
   name: 'Budget',
   data() {
     return {
-      budget: { name: '', period: '' }
+      budget: { name: 'hey hey', period: 'hihi' }
     }
   },
   mounted() {
