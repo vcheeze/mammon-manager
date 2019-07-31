@@ -10,6 +10,11 @@ h1, h2, h3, h4, h5, h6 {
 /*========== Styling v-lists ==========*/
 .v-list.v-sheet {
   margin: 1rem 5rem;
+  background-color: none;
+
+  .v-list-item__title, .v-list-item__subtitle {
+    text-align: left;
+  }
 }
 
 /*========== Styling the card inside a dialog ==========*/

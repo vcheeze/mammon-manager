@@ -1,14 +1,14 @@
 <template>
   <div>
     <h1>Categories</h1>
-    <v-list>
+    <v-list dense>
       <v-list-item v-for="category in categories" :key="category.id">
         <v-list-item-content>
           <v-list-item-title>{{ category.name }}</v-list-item-title>
         </v-list-item-content>
         <v-list-item-action>
-          <v-btn icon @click="removeCategory(category)">
-            <v-icon color="#333333">mdi-delete-circle</v-icon>
+          <v-btn icon small @click="removeCategory(category)">
+            <v-icon size="20" color="#333333">mdi-delete-circle</v-icon>
           </v-btn>
         </v-list-item-action>
       </v-list-item>
