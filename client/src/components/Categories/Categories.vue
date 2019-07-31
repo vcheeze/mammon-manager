@@ -6,6 +6,11 @@
         <v-list-item-content>
           <v-list-item-title>{{ category.name }}</v-list-item-title>
         </v-list-item-content>
+        <v-list-item-action>
+          <v-btn icon @click="removeCategory(category)">
+            <v-icon color="#333333">mdi-delete-circle</v-icon>
+          </v-btn>
+        </v-list-item-action>
       </v-list-item>
     </v-list>
     <v-dialog v-model="dialog" width="500">
@@ -21,8 +26,8 @@
             <v-icon color="#ffffff">close</v-icon>
           </v-btn>
         </v-card-title>
-        <v-card-text>
-          <v-form v-model="valid" @submit="addCategory">
+        <v-form v-model="valid" @submit="addCategory">
+          <v-card-text>
             <v-text-field
               v-model="categoryName"
               label="Name"
@@ -30,15 +35,15 @@
               required
               height="42"
             ></v-text-field>
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn text @click="dialog = false">
-            cancel
-          </v-btn>
-          <v-btn type="submit" text>add</v-btn>
-        </v-card-actions>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn text @click="dialog = false">
+              cancel
+            </v-btn>
+            <v-btn type="submit" text>add</v-btn>
+          </v-card-actions>
+        </v-form>
       </v-card>
     </v-dialog>
     <v-snackbar v-model="snackbar">
@@ -80,7 +85,7 @@ export default {
         }
         return 0
       })
-      console.log(this.categories)
+      // console.log(this.categories)
     },
     async addCategory(e) {
       e.preventDefault()
@@ -98,6 +103,14 @@ export default {
       this.snackbar = true
       // add the newly-created Category
       this._binaryInsert(data.category, this.categories)
+    },
+    async removeCategory(category) {
+      console.log('category', category)
+      const { data } = await CategoryRepository.deleteCategory(category.name)
+      console.log('Category deleted!', data)
+      this.categories = this.categories.filter(cat => {
+        return cat.name !== category.name
+      })
     },
     _clearForm() {
       this.categoryName = ''
