@@ -1,30 +1,41 @@
-body {
-     font-family: $font-body;
-}
-
 #app {
-    font-family: $font_body;
-    line-height: unset;
+  font-family: $font_body;
+  line-height: unset;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: $font_title;
+  font-family: $font_title;
 }
 
-/// styling the navbar links
-#app nav a {
-    color: #fff;
-    text-decoration: none;
+/*========== Styling v-lists ==========*/
+.v-list.v-sheet {
+  margin: 1rem 5rem;
+  background-color: none;
+
+  .v-list-item__title, .v-list-item__subtitle {
+    text-align: left;
+  }
 }
 
 /*========== Styling the card inside a dialog ==========*/
-.dialog-card .v-card__title {
-    background-color: $color_secondary;
+.dialog-card {
+  .v-card__title {
     margin-bottom: 0.5rem;
-    color: #fff;
+    padding-top: 0.5rem;
+    background-color: $color_secondary;
+    color: $color_text-light;
     font-family: $font_title;
+    justify-content: space-between;
+  }
+  .v-btn__content {
+    color: $color_secondary;
+  }
+  .v-card__actions .v-btn__content {
+    font-weight: 600;
+  }
 }
 
-.dialog-card .v-btn__content {
-    color: $color_secondary;
+/*========== Styling snackbar notification for newly created docs ==========*/
+.new-doc {
+  font-weight: bold;
 }

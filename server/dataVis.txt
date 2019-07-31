@@ -23,7 +23,6 @@ Tag
 -
 TagID PK int
 Name string
-Category FK >- Category.CategoryID
 
 Category
 -

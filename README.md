@@ -17,7 +17,7 @@ provide a REST API. MongoDB is the database employed. In a nutshell, this projec
 **E**xpress.js, **V**ue.js, and **N**ode.js.
 
 ### How to run
-For the server, `cd` into the server directory in your terminal and run `npm run start`.
+For the server, `cd` into the server directory in your terminal and run `npm run start`. Make sure your MongoDB is running before this.
 
 For the client, `cd` into the client directory and run `npm run serve`.
 
@@ -70,6 +70,7 @@ PWA:
 * https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook
 * https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle
 * https://codelabs.developers.google.com/codelabs/debugging-service-workers
+* https://www.freecodecamp.org/news/progressive-web-apps-102-building-a-progressive-web-app-from-scratch-397b72168040/
 
 #### General
 Websites for reference:

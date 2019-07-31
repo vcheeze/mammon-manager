@@ -19,12 +19,12 @@ Vue.use(Vuetify)
 // Vue Router config
 Vue.use(VueRouter)
 const router = new VueRouter({
-    mode: 'history',
-    routes
+  mode: 'history',
+  routes
 })
 
 new Vue({
-    vuetify: new Vuetify(vuetifyOptions),
-    router,
-    render: h => h(App)
+  vuetify: new Vuetify(vuetifyOptions),
+  router,
+  render: h => h(App)
 }).$mount('#app')
