@@ -57,6 +57,34 @@ const getByName = (req, res) => {
     });
 };
 
+const update = (req, res) => {
+  const { oldName, newName } = req.body;
+  Tag.findByName(oldName)
+    .then(doc => {
+      doc.name = newName;
+      doc
+        .save()
+        .then(newDoc => {
+          res.status(200).send({
+            message: `Success: updated ${oldName} to ${newName}`,
+            tag: newDoc
+          });
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: `Error: unable to update ${oldName}`,
+            error: err
+          });
+        });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: `Error: unable to find ${oldName}`,
+        error: err
+      });
+    });
+};
+
 const deleteAll = (req, res) => {
   Tag.deleteMany({})
     .then(() => {
@@ -89,4 +117,4 @@ const deleteByName = (req, res) => {
     });
 };
 
-module.exports = { create, get, getByName, deleteAll, deleteByName };
+module.exports = { create, get, getByName, update, deleteAll, deleteByName };

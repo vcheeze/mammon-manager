@@ -7,10 +7,10 @@ const { Schema } = mongoose;
 const { ObjectId } = Schema.Types;
 
 const budgetItemSchema = new Schema({
-  //   name: {
-  //     type: String,
-  //     required: [true, 'Budget Item name is required!']
-  //   },
+  name: {
+    type: String,
+    required: [true, 'Budget Item name is required!']
+  },
   budget: {
     type: ObjectId,
     ref: 'Budget',
@@ -47,10 +47,7 @@ budgetItemSchema.statics.findByBudgetAndCategory = function(budget, category) {
   });
 };
 
-budgetItemSchema.statics.deleteByBudgetAndCategory = function(
-  budget,
-  category
-) {
+budgetItemSchema.statics.deleteByBudgetAndCategory = function(budget, category) {
   let budgetId;
   let categoryId;
   Budget.findByName(budget).then(doc => {
@@ -63,5 +60,13 @@ budgetItemSchema.statics.deleteByBudgetAndCategory = function(
     $and: [{ budget: budgetId }, { category: categoryId }]
   });
 };
+
+budgetItemSchema.methods.updateActual = function(amount) {
+  this.actual += amount;
+  this.save(function(err, budgetItem) {
+    if (err) throw err;
+    console.log('Updated actual: ', budgetItem.actual);
+  });
+}
 
 module.exports = mongoose.model('BudgetItem', budgetItemSchema);
