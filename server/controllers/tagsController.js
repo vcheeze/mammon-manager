@@ -1,5 +1,28 @@
 const Tag = require('../models/tag');
 
+const create = (req, res) => {
+  // create the Tag
+  const tag = new Tag({
+    name: req.body.name
+  });
+
+  tag
+    .save()
+    .then(doc => {
+      res.status(201).send({
+        message: 'Success: created new Tag!',
+        tag: doc
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send({
+        message: 'Error: could not create Tag',
+        error: err
+      });
+    });
+};
+
 const get = (req, res) => {
   Tag.find({})
     .then(doc => {
@@ -29,29 +52,6 @@ const getByName = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: 'Error: could not get Tag by name',
-        error: err
-      });
-    });
-};
-
-const create = (req, res) => {
-  // create the Tag
-  const tag = new Tag({
-    name: req.body.name
-  });
-
-  tag
-    .save()
-    .then(doc => {
-      res.status(201).send({
-        message: 'Success: created new Tag!',
-        tag: doc
-      });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send({
-        message: 'Error: could not create Tag',
         error: err
       });
     });
@@ -89,4 +89,4 @@ const deleteByName = (req, res) => {
     });
 };
 
-module.exports = { get, getByName, create, deleteAll, deleteByName };
+module.exports = { create, get, getByName, deleteAll, deleteByName };

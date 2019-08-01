@@ -1,5 +1,30 @@
 const Budget = require('../models/budget');
 
+const create = (req, res) => {
+  const budget = new Budget({
+    name: req.body.name,
+    period: req.body.period,
+    budgetItems: []
+  });
+
+  budget
+    .save()
+    .then(doc => {
+      console.log(doc);
+      res.status(201).send({
+        message: 'Success: saved new Budget!',
+        budget: doc
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send({
+        message: 'Error: could not create Budget',
+        error: err
+      });
+    });
+};
+
 const get = (req, res) => {
   Budget.find({})
     .then(doc => {
@@ -34,31 +59,6 @@ const getByName = (req, res) => {
     });
 };
 
-const create = (req, res) => {
-  const budget = new Budget({
-    name: req.body.name,
-    period: req.body.period,
-    budgetItems: []
-  });
-
-  budget
-    .save()
-    .then(doc => {
-      console.log(doc);
-      res.status(201).send({
-        message: 'Success: saved new Budget!',
-        budget: doc
-      });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send({
-        message: 'Error: could not create Budget',
-        error: err
-      });
-    });
-};
-
 const deleteAll = (req, res) => {
   Budget.deleteMany({})
     .then(() => {
@@ -80,7 +80,7 @@ const deleteByName = (req, res) => {
     .then(doc => {
       res.status(200).send({
         message: `Success: deleted ${doc.name}`,
-        tag: doc
+        budget: doc
       });
     })
     .catch(err => {
@@ -91,4 +91,4 @@ const deleteByName = (req, res) => {
     });
 };
 
-module.exports = { get, getByName, create, deleteAll, deleteByName };
+module.exports = { create, get, getByName, deleteAll, deleteByName };
