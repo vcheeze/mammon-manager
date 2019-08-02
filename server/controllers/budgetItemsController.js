@@ -60,6 +60,10 @@ const getByBudgetAndCategory = (req, res) => {
     });
 };
 
+// const update = (req, res) => {
+
+// }
+
 const deleteAll = (req, res) => {
   BudgetItem.deleteMany({})
     .then(() => {

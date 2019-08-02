@@ -44,7 +44,7 @@ const get = (req, res) => {
 
 const getByName = (req, res) => {
   const { budgetName } = req.params;
-  Budget.fineByName(budgetName)
+  Budget.findByName(budgetName)
     .then(doc => {
       res.status(200).send({
         message: 'Success: retrieved Budget by name!',

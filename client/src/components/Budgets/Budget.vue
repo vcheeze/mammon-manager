@@ -39,11 +39,11 @@
               item-value="_id"
               color="#216583"
               required
-              height="42"
             ></v-autocomplete>
             <v-text-field
               v-model="allotted"
               label="I can spend:"
+              prefix="AED"
               color="#216583"
               required
             ></v-text-field>
@@ -76,9 +76,13 @@ export default {
   data() {
     return {
       budget: {},
+      dialog: false,
+      valid: false,
       categories: [],
       categoryId: '',
-      alloted: '',
+      allotted: '',
+      snackbarText: '',
+      snackbar: false
     }
   },
   mounted() {
@@ -95,7 +99,6 @@ export default {
     async loadCategories() {
       const { data } = await CategoryRepository.getAll()
       this.categories = data.categories
-      
     },
     async addBudgetItem(e) {
       e.preventDefault()
@@ -103,21 +106,22 @@ export default {
       const payload = {
         budget: this.budget._id,
         category: this.categoryId,
-        alloted: this.alloted
+        allotted: this.allotted
       }
-      const { data } = await BudgetItemRepository.createBudgetItem(payload)
+      console.log(payload)
+      // const { data } = await BudgetItemRepository.createBudgetItem(payload)
       // hide the dialog and clear form
       this.dialog = false
       this._clearForm()
       // show snackbar notification
-      this.snackbarText = `BudgetItem created: <span class="new-doc">${data.budgetItem.name}</span>`
+      // this.snackbarText = `BudgetItem created: <span class="new-doc">${data.budgetItem.name}</span>`
       this.snackbar = true
       // add the newly-created BudgetItem to the current Budget
-      this.budget.budgetItems.push(data.budgetItem)
+      // this.budget.budgetItems.push(data.budgetItem)
     },
     _clearForm() {
       this.categoryId = ''
-      this.alloted = ''
+      this.allotted = ''
     }
   }
 }

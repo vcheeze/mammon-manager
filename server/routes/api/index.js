@@ -6,12 +6,14 @@ const router = express();
 const budgetsRouter = require('./budgets');
 const categoriesRouter = require('./categories');
 const tagsRouter = require('./tags');
+const budgetItemsRouter = require('./budgetItems');
 // const transactionsRouter = require('./transactions');
 // const accountsRouter = require('./accounts');
 
 router.use('/budgets', budgetsRouter);
 router.use('/categories', categoriesRouter);
 router.use('/tags', tagsRouter);
+router.use('/budgetItems', budgetItemsRouter);
 // router.use('/transactions', transactionsRouter);
 // router.use('/accounts', accountsRouter);
 
