@@ -1,33 +1,63 @@
-const BudgetItem = require('../models/budgetItem');
+const { budgetItem: BudgetItem } = require('../models/budgetItem');
+const Budget = require('../models/budget');
 
 const create = (req, res) => {
   const budgetItem = new BudgetItem({
     budget: req.body.budgetId,
     category: req.body.categoryId,
-    allotted: req.body.allotted,
-    actual: req.body.actuals
+    allotted: req.body.allotted
   });
 
-  budgetItem
-    .save()
-    .then(doc => {
-      console.log(doc);
-      res.status(201).send({
-        message: 'Success: saved new BudgetItem!',
-        budgetItem: doc
-      });
+  Budget.findById(budgetItem.budget)
+    .then(budget => {
+      budget.budgetItems.push(budgetItem);
+      budget
+        .save()
+        .populate('budgetItems.category')
+        .then(doc => {
+          res.status(201).send({
+            message: 'Success: saved new BudgetItem to Budget!',
+            budgetItem: doc.budgetItems[doc.budgetItems.length - 1]
+          });
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: 'Error: could not save BudgetItem to parent Budget',
+            error: err
+          });
+        });
     })
     .catch(err => {
-      console.error(err);
       res.status(500).send({
-        message: 'Error: could not create BudgetItem',
+        message: 'Error: could not retrieve parent Budget',
         error: err
       });
     });
+
+  // budgetItem
+  //   .save()
+  //   .then(doc => {
+  //     console.log(doc);
+  //     doc.populate('budget');
+  //     doc.populate('category');
+  //     res.status(201).send({
+  //       message: 'Success: saved new BudgetItem!',
+  //       budgetItem: doc
+  //     });
+  //   })
+  //   .catch(err => {
+  //     console.error(err);
+  //     res.status(500).send({
+  //       message: 'Error: could not create BudgetItem',
+  //       error: err
+  //     });
+  //   });
 };
 
 const get = (req, res) => {
   BudgetItem.find({})
+    .populate('budget')
+    .populate('category')
     .then(doc => {
       res.status(200).send({
         message: 'Success: retrieved all BudgetItems!',
@@ -80,20 +110,45 @@ const deleteAll = (req, res) => {
 };
 
 const deleteByBudgetAndCategory = (req, res) => {
-  const { budgetName, categoryName } = req.params;
-  BudgetItem.deleteByBudgetAndCategory(budgetName, categoryName)
-    .then(doc => {
-      res.status(200).send({
-        message: `Success: deleted ${doc.name}`,
-        budgetItem: doc
+  const { budgetId, budgetItemId } = req.params;
+  Budget.findById(budgetId)
+    .populate('budgetItems.category')
+    .then(budget => {
+      budget.budgetItems.id(budgetItemId).remove();
+      budget.save((err, doc) => {
+        if (err) {
+          res.status(500).send({
+            message: 'Error: could not delete BudgetItem from parent Budget',
+            error: err
+          });
+          return;
+        }
+        res.status(200).send({
+          message: 'Success: deleted BudgetItem from parent Budget',
+          budget: doc
+        });
       });
     })
     .catch(err => {
       res.status(500).send({
-        message: 'Error: could not delete BudgetItem by name',
+        message: 'Error: could not get parent Budget by Id',
         error: err
       });
     });
+
+  // BudgetItem.deleteByBudgetAndCategory(budgetName, categoryName)
+  //   .then(doc => {
+  //     res.status(200).send({
+  //       message: `Success: deleted ${doc.name}`,
+  //       budgetItem: doc
+  //     });
+  //   })
+  //   .catch(err => {
+  //     res.status(500).send({
+  //       message: 'Error: could not delete BudgetItem by name',
+  //       error: err
+  //     });
+  //   });
 };
 
 module.exports = {

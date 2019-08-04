@@ -1,8 +1,8 @@
 /* eslint-disable func-names */
 const mongoose = require('mongoose');
+const { budgetItemSchema: BudgetItemSchema } = require('./budgetItem');
 
 const { Schema } = mongoose;
-const { ObjectId } = Schema.Types;
 const monthNames = [
   'January',
   'February',
@@ -27,7 +27,7 @@ const budgetSchema = new Schema({
     type: Date,
     required: [true, 'Please select a month!']
   },
-  budgetItems: [{ type: ObjectId, ref: 'BudgetItem' }]
+  budgetItems: [BudgetItemSchema]
 });
 
 budgetSchema.virtual('periodName').get(function() {

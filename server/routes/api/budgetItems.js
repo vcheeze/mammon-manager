@@ -35,7 +35,7 @@ router.delete('/', budgetItemsController.deleteAll);
  * Delete BudgetItem by name
  */
 router.delete(
-  '/:budgetName/:categoryName',
+  '/:budgetId/:budgetItemId',
   budgetItemsController.deleteByBudgetAndCategory
 );
 

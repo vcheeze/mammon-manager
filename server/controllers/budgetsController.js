@@ -45,7 +45,9 @@ const get = (req, res) => {
 const getByName = (req, res) => {
   const { budgetName } = req.params;
   Budget.findByName(budgetName)
+    .populate('budgetItems.category')
     .then(doc => {
+      // doc.populate('budgetItems.category');
       res.status(200).send({
         message: 'Success: retrieved Budget by name!',
         budget: doc
