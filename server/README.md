@@ -25,3 +25,9 @@ To access the MongoDB shell, type `mongo`. To shut down the service, use `brew s
 service with `brew services restart mongodb`.
 
 For more options, type `brew info mongodb`. 
+
+#### Switching to Mongo Atlas
+MongoDB provides a cloud storage option. The free tier (M0) allows 512MB free storage, which should be sufficient for Mammon Manager's purposes. Refer to the below articles to connect to Mongo Atlas:
+
+- https://docs.atlas.mongodb.com/driver-connection
+- https://docs.mongodb.com/ecosystem/drivers/node
