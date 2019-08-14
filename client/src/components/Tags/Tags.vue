@@ -111,7 +111,7 @@ export default {
     _binaryInsert(value, array, startVal, endVal) {
       const length = array.length
       const start = typeof startVal != 'undefined' ? startVal : 0
-      const end = typeof endVal != 'undefined' ? endVal : 0
+      const end = typeof endVal != 'undefined' ? endVal : length - 1
       const mid = start + Math.floor((end - start) / 2)
 
       if (length == 0) {

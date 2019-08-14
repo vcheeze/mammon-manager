@@ -12,7 +12,7 @@ export default {
   getBudgetItem(budgetItemName) {
     return Repository.get(`${resource}/${budgetItemName}`)
   },
-  deleteBudgetItem(budgetItemName) {
-    return Repository.delete(`${resource}/${budgetItemName}`)
+  deleteBudgetItem(budgetName, budgetItemId) {
+    return Repository.delete(`${resource}/${budgetName}/${budgetItemId}`)
   }
 }

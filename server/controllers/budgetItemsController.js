@@ -13,14 +13,17 @@ const create = (req, res) => {
       budget.budgetItems.push(budgetItem);
       budget
         .save()
-        .populate('budgetItems.category')
         .then(doc => {
-          res.status(201).send({
-            message: 'Success: saved new BudgetItem to Budget!',
-            budgetItem: doc.budgetItems[doc.budgetItems.length - 1]
+          Budget.populate(doc, 'budgetItems.category', err => {
+            if (err) return;
+            res.status(201).send({
+              message: 'Success: saved new BudgetItem to Budget!',
+              budgetItem: doc.budgetItems[doc.budgetItems.length - 1]
+            });
           });
         })
         .catch(err => {
+          console.error('error creating budgetItem: ', err);
           res.status(500).send({
             message: 'Error: could not save BudgetItem to parent Budget',
             error: err
@@ -28,6 +31,7 @@ const create = (req, res) => {
         });
     })
     .catch(err => {
+      console.error('error retrieving budget: ', err);
       res.status(500).send({
         message: 'Error: could not retrieve parent Budget',
         error: err
@@ -94,24 +98,48 @@ const getByBudgetAndCategory = (req, res) => {
 
 // }
 
-const deleteAll = (req, res) => {
-  BudgetItem.deleteMany({})
-    .then(() => {
-      res.status(200).send({
-        message: 'Success: deleted all BudgetItems!'
+const deleteAllInBudget = (req, res) => {
+  const { budgetName } = req.params;
+  Budget.findByName(budgetName)
+    .then(budget => {
+      budget.budgetItems.remove();
+      budget.save((err, doc) => {
+        if (err) {
+          res.status(500).send({
+            message: 'Error: could not delete BudgetItem from parent Budget',
+            error: err
+          });
+          return;
+        }
+        res.status(200).send({
+          message: 'Success: deleted BudgetItem from parent Budget',
+          budget: doc
+        });
       });
     })
     .catch(err => {
       res.status(500).send({
-        message: 'Error: could not delete all BudgetItems',
+        message: 'Error: could not delete all BudgetItems in Budget',
         error: err
       });
     });
+  // BudgetItem.deleteMany({})
+  //   .then(() => {
+  //     res.status(200).send({
+  //       message: 'Success: deleted all BudgetItems!'
+  //     });
+  //   })
+  //   .catch(err => {
+  //     res.status(500).send({
+  //       message: 'Error: could not delete all BudgetItems',
+  //       error: err
+  //     });
+  //   });
 };
 
 const deleteByBudgetAndCategory = (req, res) => {
-  const { budgetId, budgetItemId } = req.params;
-  Budget.findById(budgetId)
+  const { budgetName, budgetItemId } = req.params;
+  Budget.findByName(budgetName)
     .populate('budgetItems.category')
     .then(budget => {
       budget.budgetItems.id(budgetItemId).remove();
@@ -155,6 +183,6 @@ module.exports = {
   create,
   get,
   getByBudgetAndCategory,
-  deleteAll,
+  deleteAllInBudget,
   deleteByBudgetAndCategory
 };

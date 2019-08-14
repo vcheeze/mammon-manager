@@ -27,15 +27,15 @@ router.get(
 // router.patch('/', budgetItemsController.update);
 
 /**
- * Delete all BudgetItems
+ * Delete all BudgetItems in a Budget
  */
-router.delete('/', budgetItemsController.deleteAll);
+router.delete('/:budgetName', budgetItemsController.deleteAllInBudget);
 
 /**
  * Delete BudgetItem by name
  */
 router.delete(
-  '/:budgetId/:budgetItemId',
+  '/:budgetName/:budgetItemId',
   budgetItemsController.deleteByBudgetAndCategory
 );
 

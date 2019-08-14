@@ -8,12 +8,21 @@
         :key="budgetItem.id"
       >
         <v-list-item-content>
-          <v-list-item-title>{{ budgetItem.name }}</v-list-item-title>
-          <v-list-item-subtitle>{{ budgetItem.category }}</v-list-item-subtitle>
+          <v-list-item-title>{{ budgetItem.category.name }}</v-list-item-title>
           <v-list-item-subtitle>{{
             budgetItem.actual + '/' + budgetItem.allotted
           }}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{
+            (parseFloat(budgetItem.actual) / parseFloat(budgetItem.allotted)) *
+              100 +
+              '%'
+          }}</v-list-item-subtitle>
         </v-list-item-content>
+        <v-list-item-action>
+          <v-btn icon small @click="removeBudgetItem(budgetItem)">
+            <v-icon size="20" color="#333333">mdi-delete-circle</v-icon>
+          </v-btn>
+        </v-list-item-action>
       </v-list-item>
     </v-list>
     <v-dialog v-model="dialog" width="550">
@@ -43,7 +52,7 @@
             <v-text-field
               v-model="allotted"
               label="I can spend:"
-              prefix="AED"
+              suffix="AED"
               color="#216583"
               required
             ></v-text-field>
@@ -75,7 +84,7 @@ export default {
   name: 'Budget',
   data() {
     return {
-      budget: {},
+      budget: null,
       dialog: false,
       valid: false,
       categories: [],
@@ -85,7 +94,7 @@ export default {
       snackbar: false
     }
   },
-  mounted() {
+  beforeMount() {
     this.getBudget()
     this.loadCategories()
   },
@@ -98,26 +107,46 @@ export default {
     },
     async loadCategories() {
       const { data } = await CategoryRepository.getAll()
-      this.categories = data.categories
+      this.categories = data.categories.sort((a, b) => {
+        let a_name = a.name.toLowerCase(),
+          b_name = b.name.toLowerCase()
+        if (a_name > b_name) {
+          return 1
+        } else if (a_name < b_name) {
+          return -1
+        }
+        return 0
+      })
     },
     async addBudgetItem(e) {
       e.preventDefault()
 
       const payload = {
-        budget: this.budget._id,
-        category: this.categoryId,
+        budgetId: this.budget._id,
+        categoryId: this.categoryId,
         allotted: this.allotted
       }
-      console.log(payload)
-      // const { data } = await BudgetItemRepository.createBudgetItem(payload)
+      const { data } = await BudgetItemRepository.createBudgetItem(payload)
       // hide the dialog and clear form
       this.dialog = false
       this._clearForm()
       // show snackbar notification
-      // this.snackbarText = `BudgetItem created: <span class="new-doc">${data.budgetItem.name}</span>`
+      this.snackbarText = `BudgetItem created in category: <span class="new-doc">${data.budgetItem.category.name}</span>`
       this.snackbar = true
       // add the newly-created BudgetItem to the current Budget
-      // this.budget.budgetItems.push(data.budgetItem)
+      this.budget.budgetItems.push(data.budgetItem)
+    },
+    async removeBudgetItem(budgetItem) {
+      const { data } = await BudgetItemRepository.deleteBudgetItem(
+        this.budget.name,
+        budgetItem._id
+      )
+      // show snackbar notification
+      this.snackbarText = `BudgetItem in category ${budgetItem.category.name} removed`
+      this.snackbar = true
+      this.budget.budgetItems = this.budget.budgetItems.filter(bi => {
+        return bi._id !== budgetItem._id
+      })
     },
     _clearForm() {
       this.categoryId = ''
@@ -126,3 +155,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.v-menu__content > .v-select-list > .v-list {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+</style>

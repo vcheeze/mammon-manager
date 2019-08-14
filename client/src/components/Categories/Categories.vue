@@ -115,19 +115,23 @@ export default {
     _clearForm() {
       this.categoryName = ''
     },
+    // referencing eloone's algo: https://gist.github.com/eloone/11342252
     _binaryInsert(value, array, startVal, endVal) {
       const length = array.length
       const start = typeof startVal != 'undefined' ? startVal : 0
-      const end = typeof endVal != 'undefined' ? endVal : 0
+      const end = typeof endVal != 'undefined' ? endVal : length - 1
       const mid = start + Math.floor((end - start) / 2)
+      console.log('start: ', start, ' | ', 'end: ', end, ' | ', 'mid: ', mid)
 
       if (length == 0) {
         array.push(value)
+        console.log('array empty...pushing value')
         return
       }
 
       if (value.name.toLowerCase() > array[end].name.toLowerCase()) {
         array.splice(end + 1, 0, value)
+        console.log('new value is greater than last value')
         return
       }
 
