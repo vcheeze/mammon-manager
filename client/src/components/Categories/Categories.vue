@@ -8,7 +8,7 @@
         </v-list-item-content>
         <v-list-item-action>
           <v-btn icon small @click="removeCategory(category)">
-            <v-icon size="20" color="#333333">mdi-delete-circle</v-icon>
+            <v-icon size="18" color="#333333">mdi-delete</v-icon>
           </v-btn>
         </v-list-item-action>
       </v-list-item>
