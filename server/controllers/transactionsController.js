@@ -4,7 +4,13 @@ const Transaction = require('../models/transaction');
 const create = (req, res) => {
   console.log(req.body);
   const transaction = new Transaction({
-    name: req.body.name
+    name: req.body.name,
+    description: req.body.description,
+    budgetItem: req.body.budgetItemId,
+    amount: req.body.amount,
+    date: req.body.date,
+    tags: req.body.tags,
+    account: req.body.account
   });
 
   transaction
@@ -59,7 +65,7 @@ const getByName = (req, res) => {
     });
 };
 
-const update = (req, res) => {};
+// const update = (req, res) => {};
 
 const deleteAll = (req, res) => {
   Transaction.deleteMany({})
@@ -93,4 +99,4 @@ const deleteByName = (req, res) => {
     });
 };
 
-module.exports = { create, get, getByName, update, deleteAll, deleteByName };
+module.exports = { create, get, getByName, deleteAll, deleteByName };

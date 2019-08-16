@@ -1,29 +1,37 @@
 <template>
   <div>
-    <h1>{{ budget.name }}</h1>
+    <h1>{{ budget ? budget.name : '' }}</h1>
     <div>{{ budget.periodName }}</div>
-    <v-list three-line>
-      <v-list-item
-        v-for="budgetItem in budget.budgetItems"
-        :key="budgetItem.id"
-      >
-        <v-list-item-content>
-          <v-list-item-title>{{ budgetItem.category.name }}</v-list-item-title>
-          <v-list-item-subtitle>{{
-            budgetItem.actual + '/' + budgetItem.allotted
-          }}</v-list-item-subtitle>
-          <v-list-item-subtitle>{{
-            (parseFloat(budgetItem.actual) / parseFloat(budgetItem.allotted)) *
-              100 +
-              '%'
-          }}</v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-action>
-          <v-btn icon small @click="removeBudgetItem(budgetItem)">
-            <v-icon size="20" color="#333333">mdi-delete-circle</v-icon>
-          </v-btn>
-        </v-list-item-action>
-      </v-list-item>
+    <v-list three-line class="budget-items">
+      <div v-for="budgetItem in budget.budgetItems" :key="budgetItem.id">
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>{{
+              budgetItem.category.name
+            }}</v-list-item-title>
+            <v-list-item-subtitle>{{
+              budgetItem.actual + '/' + budgetItem.allotted
+            }}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{
+              (parseFloat(budgetItem.actual) /
+                parseFloat(budgetItem.allotted)) *
+                100 +
+                '%'
+            }}</v-list-item-subtitle>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-btn icon small>
+              <v-icon size="20" color="#333333">mdi-pencil</v-icon>
+            </v-btn>
+            <v-btn icon small @click="removeBudgetItem(budgetItem)">
+              <v-icon size="20" color="#333333">mdi-delete</v-icon>
+            </v-btn>
+          </v-list-item-action>
+        </v-list-item>
+        <v-progress-linear
+          :value="budgetItem.actual / budgetItem.allotted"
+        ></v-progress-linear>
+      </div>
     </v-list>
     <v-dialog v-model="dialog" width="550">
       <template v-slot:activator="{ on }">
@@ -84,7 +92,7 @@ export default {
   name: 'Budget',
   data() {
     return {
-      budget: null,
+      budget: {},
       dialog: false,
       valid: false,
       categories: [],
@@ -157,6 +165,14 @@ export default {
 </script>
 
 <style lang="scss">
+.budget-items > div > .v-list-item {
+  border-bottom: thin solid rgba(0, 0, 0, 0.12);
+  > .v-list-item__action--stack {
+    padding-top: 7.5px;
+    flex-direction: row;
+  }
+}
+
 .v-menu__content > .v-select-list > .v-list {
   margin-top: 0;
   margin-bottom: 0;

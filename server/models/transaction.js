@@ -9,6 +9,7 @@ const transactionSchema = new Schema({
     type: String,
     required: [true, 'Name is required for Transactions!']
   },
+  description: String,
   budgetItem: {
     type: ObjectId,
     ref: 'BudgetItem',
@@ -22,7 +23,7 @@ const transactionSchema = new Schema({
     type: Date,
     required: [true, 'Date is required for Transactions!']
   },
-  tag: [{ type: ObjectId, ref: 'Tag' }],
+  tags: [{ type: ObjectId, ref: 'Tag' }],
   account: {
     type: ObjectId,
     ref: 'Account'
