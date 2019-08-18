@@ -1,8 +1,8 @@
 /* eslint-disable func-names */
 const mongoose = require('mongoose');
+const { budgetItemSchema: BudgetItemSchema } = require('./budgetItem');
 
 const { Schema } = mongoose;
-const { ObjectId } = Schema.Types;
 const monthNames = [
   'January',
   'February',
@@ -27,7 +27,7 @@ const budgetSchema = new Schema({
     type: Date,
     required: [true, 'Please select a month!']
   },
-  budgetItems: [{ type: ObjectId, ref: 'BudgetItem' }]
+  budgetItems: [BudgetItemSchema]
 });
 
 budgetSchema.virtual('periodName').get(function() {
@@ -43,6 +43,13 @@ budgetSchema.statics.findByName = function(name) {
 
 budgetSchema.statics.deleteByName = function(name) {
   return this.findOneAndDelete({ name: new RegExp(name, 'i') });
+};
+
+budgetSchema.statics.findActive = function() {
+  const now = new Date();
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  return this.findOne({ period: { $gte: firstDay, $lte: lastDay } });
 };
 
 module.exports = mongoose.model('Budget', budgetSchema);

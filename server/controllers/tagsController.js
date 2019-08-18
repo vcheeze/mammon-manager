@@ -1,5 +1,28 @@
 const Tag = require('../models/tag');
 
+const create = (req, res) => {
+  // create the Tag
+  const tag = new Tag({
+    name: req.body.name
+  });
+
+  tag
+    .save()
+    .then(doc => {
+      res.status(201).send({
+        message: 'Success: created new Tag!',
+        tag: doc
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send({
+        message: 'Error: could not create Tag',
+        error: err
+      });
+    });
+};
+
 const get = (req, res) => {
   Tag.find({})
     .then(doc => {
@@ -34,24 +57,29 @@ const getByName = (req, res) => {
     });
 };
 
-const create = (req, res) => {
-  // create the Tag
-  const tag = new Tag({
-    name: req.body.name
-  });
-
-  tag
-    .save()
+const update = (req, res) => {
+  const { oldName, newName } = req.body;
+  Tag.findByName(oldName)
     .then(doc => {
-      res.status(201).send({
-        message: 'Success: created new Tag!',
-        tag: doc
-      });
+      doc.name = newName;
+      doc
+        .save()
+        .then(newDoc => {
+          res.status(200).send({
+            message: `Success: updated ${oldName} to ${newName}`,
+            tag: newDoc
+          });
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: `Error: unable to update ${oldName}`,
+            error: err
+          });
+        });
     })
     .catch(err => {
-      console.error(err);
       res.status(500).send({
-        message: 'Error: could not create Tag',
+        message: `Error: unable to find ${oldName}`,
         error: err
       });
     });
@@ -89,4 +117,4 @@ const deleteByName = (req, res) => {
     });
 };
 
-module.exports = { get, getByName, create, deleteAll, deleteByName };
+module.exports = { create, get, getByName, update, deleteAll, deleteByName };

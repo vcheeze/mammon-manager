@@ -8,7 +8,7 @@
         </v-list-item-content>
         <v-list-item-action>
           <v-btn icon small @click="removeCategory(category)">
-            <v-icon size="20" color="#333333">mdi-delete-circle</v-icon>
+            <v-icon size="18" color="#333333">mdi-delete</v-icon>
           </v-btn>
         </v-list-item-action>
       </v-list-item>
@@ -69,7 +69,7 @@ export default {
       snackbarText: ''
     }
   },
-  mounted() {
+  created() {
     this.loadCategories()
   },
   methods: {
@@ -115,19 +115,23 @@ export default {
     _clearForm() {
       this.categoryName = ''
     },
+    // referencing eloone's algo: https://gist.github.com/eloone/11342252
     _binaryInsert(value, array, startVal, endVal) {
       const length = array.length
       const start = typeof startVal != 'undefined' ? startVal : 0
-      const end = typeof endVal != 'undefined' ? endVal : 0
+      const end = typeof endVal != 'undefined' ? endVal : length - 1
       const mid = start + Math.floor((end - start) / 2)
+      console.log('start: ', start, ' | ', 'end: ', end, ' | ', 'mid: ', mid)
 
       if (length == 0) {
         array.push(value)
+        console.log('array empty...pushing value')
         return
       }
 
       if (value.name.toLowerCase() > array[end].name.toLowerCase()) {
         array.splice(end + 1, 0, value)
+        console.log('new value is greater than last value')
         return
       }
 

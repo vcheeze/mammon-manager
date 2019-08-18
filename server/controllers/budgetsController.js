@@ -1,39 +1,5 @@
 const Budget = require('../models/budget');
 
-const get = (req, res) => {
-  Budget.find({})
-    .then(doc => {
-      res.status(200).send({
-        message: 'Success: retrieved all Budgets!',
-        budgets: doc
-      });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send({
-        message: 'Error: could not get all Budgets',
-        error: err
-      });
-    });
-};
-
-const getByName = (req, res) => {
-  const { budgetName } = req.params;
-  Budget.fineByName(budgetName)
-    .then(doc => {
-      res.status(200).send({
-        message: 'Success: retrieved Budget by name!',
-        budget: doc
-      });
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: 'Error: could not get Budget by name',
-        error: err
-      });
-    });
-};
-
 const create = (req, res) => {
   const budget = new Budget({
     name: req.body.name,
@@ -59,6 +25,61 @@ const create = (req, res) => {
     });
 };
 
+const get = (req, res) => {
+  Budget.find({})
+    .then(doc => {
+      res.status(200).send({
+        message: 'Success: retrieved all Budgets!',
+        budgets: doc
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send({
+        message: 'Error: could not get all Budgets',
+        error: err
+      });
+    });
+};
+
+const getByName = (req, res) => {
+  const { budgetName } = req.params;
+  Budget.findByName(budgetName)
+    .populate('budgetItems.category')
+    .then(doc => {
+      // doc.populate('budgetItems.category');
+      res.status(200).send({
+        message: 'Success: retrieved Budget by name!',
+        budget: doc
+      });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: 'Error: could not get Budget by name',
+        error: err
+      });
+    });
+};
+
+const getActive = (req, res) => {
+  console.log('finding active Budget!');
+  Budget.findActive()
+    .populate('budgetItems.category')
+    .then(doc => {
+      res.status(200).send({
+        message: 'Success: retrieved active Budget!',
+        budget: doc
+      });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: 'Error: could not find active Budget',
+        error: err
+      });
+    });
+  console.log('Done finding active Budget!');
+};
+
 const deleteAll = (req, res) => {
   Budget.deleteMany({})
     .then(() => {
@@ -80,7 +101,7 @@ const deleteByName = (req, res) => {
     .then(doc => {
       res.status(200).send({
         message: `Success: deleted ${doc.name}`,
-        tag: doc
+        budget: doc
       });
     })
     .catch(err => {
@@ -91,4 +112,4 @@ const deleteByName = (req, res) => {
     });
 };
 
-module.exports = { get, getByName, create, deleteAll, deleteByName };
+module.exports = { create, get, getByName, getActive, deleteAll, deleteByName };
