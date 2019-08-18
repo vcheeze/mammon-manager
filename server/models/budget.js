@@ -45,4 +45,11 @@ budgetSchema.statics.deleteByName = function(name) {
   return this.findOneAndDelete({ name: new RegExp(name, 'i') });
 };
 
+budgetSchema.statics.findActive = function() {
+  const now = new Date();
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  return this.findOne({ period: { $gte: firstDay, $lte: lastDay } });
+};
+
 module.exports = mongoose.model('Budget', budgetSchema);

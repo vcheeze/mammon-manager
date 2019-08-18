@@ -9,6 +9,11 @@ const budgetsController = require('../../controllers/budgetsController');
 router.get('/', budgetsController.get);
 
 /**
+ * Get active Budget - meaning the Budget whose period is the current month
+ */
+router.get('/active', budgetsController.getActive);
+
+/**
  * Given Budget name in the req param, get the Budget
  */
 router.get('/:budgetName', budgetsController.getByName);

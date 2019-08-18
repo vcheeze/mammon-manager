@@ -59,7 +59,7 @@
             ></v-autocomplete>
             <v-text-field
               v-model="allotted"
-              label="I can spend:"
+              label="I can spend"
               suffix="AED"
               color="#216583"
               required
@@ -102,7 +102,7 @@ export default {
       snackbar: false
     }
   },
-  beforeMount() {
+  created() {
     this.getBudget()
     this.loadCategories()
   },

@@ -61,6 +61,25 @@ const getByName = (req, res) => {
     });
 };
 
+const getActive = (req, res) => {
+  console.log('finding active Budget!');
+  Budget.findActive()
+    .populate('budgetItems.category')
+    .then(doc => {
+      res.status(200).send({
+        message: 'Success: retrieved active Budget!',
+        budget: doc
+      });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: 'Error: could not find active Budget',
+        error: err
+      });
+    });
+  console.log('Done finding active Budget!');
+};
+
 const deleteAll = (req, res) => {
   Budget.deleteMany({})
     .then(() => {
@@ -93,4 +112,4 @@ const deleteByName = (req, res) => {
     });
 };
 
-module.exports = { create, get, getByName, deleteAll, deleteByName };
+module.exports = { create, get, getByName, getActive, deleteAll, deleteByName };

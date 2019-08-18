@@ -5,6 +5,7 @@
       <router-link to="/budgets">Budgets</router-link>
       <router-link to="/categories">Categories</router-link>
       <router-link to="/tags">Tags</router-link>
+      <router-link to="/transactions">Transactions</router-link>
     </nav>
     <v-content>
       <router-view />

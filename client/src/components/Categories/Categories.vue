@@ -69,7 +69,7 @@ export default {
       snackbarText: ''
     }
   },
-  mounted() {
+  created() {
     this.loadCategories()
   },
   methods: {
