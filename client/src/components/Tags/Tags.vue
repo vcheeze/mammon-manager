@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Tags</h1>
-    <v-list>
+    <v-list dense>
       <v-list-item v-for="tag in tags" :key="tag.name">
         <v-list-item-content>
           <v-text-field

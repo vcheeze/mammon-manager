@@ -180,12 +180,6 @@ export default {
   border-bottom: thin solid rgba(0, 0, 0, 0.12);
   > .v-list-item__action--stack {
     padding-top: 7.5px;
-    flex-direction: row;
   }
-}
-
-.v-menu__content > .v-select-list > .v-list {
-  margin-top: 0;
-  margin-bottom: 0;
 }
 </style>

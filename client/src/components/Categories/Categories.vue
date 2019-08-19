@@ -193,9 +193,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.v-list-item__action--stack {
-  flex-direction: row;
-}
-</style>

@@ -15,6 +15,11 @@ h1, h2, h3, h4, h5, h6 {
   .v-list-item__title, .v-list-item__subtitle {
     text-align: left;
   }
+
+  .v-list-item__action--stack {
+    flex-direction: row;
+    align-items: center;
+  }
 }
 
 /*========== Styling the card inside a dialog ==========*/
@@ -33,6 +38,12 @@ h1, h2, h3, h4, h5, h6 {
   .v-card__actions .v-btn__content {
     font-weight: 600;
   }
+}
+
+// v-autocomplete styles
+.v-menu__content > .v-select-list > .v-list {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /*========== Styling snackbar notification for newly created docs ==========*/
