@@ -1,13 +1,16 @@
 <template>
   <div>
     <h1>Transactions</h1>
-    <v-list>
-      <v-list-item v-for="transaction in transactions" :key="transaction.name">
-        <v-list-item-content>
-          <v-list-item-title>{{ transaction.name }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+    <v-data-table :headers="headers" :items="transactions" :items-per-page="20">
+      <template v-slot:item.action="{ item }">
+        <v-icon small class="mr-2" @click="editTransaction(item)">
+          edit
+        </v-icon>
+        <v-icon small @click="deleteTransaction(item)">
+          delete
+        </v-icon>
+      </template>
+    </v-data-table>
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on }">
         <v-btn dark depressed fab color="#f76262" v-on="on">
@@ -30,11 +33,11 @@
               required
             ></v-text-field>
             <v-autocomplete
-              v-model="budgetItemId"
+              v-model="categoryId"
               label="Category"
               :items="budget.budgetItems"
               item-text="category.name"
-              item-value="_id"
+              item-value="category._id"
               color="#216583"
               required
             ></v-autocomplete>
@@ -86,17 +89,25 @@
 <script>
 import { RepositoryFactory } from '../../api/RepositoryFactory'
 const BudgetRepository = RepositoryFactory.get('budgets')
+const TransactionRepository = RepositoryFactory.get('transactions')
 
 export default {
   name: 'Transactions',
   data() {
     return {
       budget: {},
-      transactions: [{ name: '1' }, { name: '2' }],
+      headers: [
+        { text: 'Name', value: 'name' },
+        { text: 'Category', value: 'categoryName' },
+        { text: 'Amount', value: 'amount' },
+        { text: 'Date', value: 'formattedDate' },
+        { text: 'Actions', value: 'action', sortable: false }
+      ],
+      transactions: [],
       dialog: false,
       valid: false,
       transactionName: '',
-      budgetItemId: '',
+      categoryId: '',
       amount: '',
       dateMenu: false,
       date: new Date().toISOString().substr(0, 10)
@@ -109,11 +120,56 @@ export default {
     async loadActiveBudget() {
       const { data } = await BudgetRepository.getActiveBudget()
       this.budget = data.budget
+      // load all Transactions linked to this Budget
+      this.loadTransactions()
+    },
+    async loadTransactions() {
+      const { data } = await TransactionRepository.getAllInBudget(
+        this.budget._id
+      )
+      this.transactions = data.transactions
+      this.transactions.forEach(transaction => {
+        transaction.categoryName = transaction.category.name
+        transaction.formattedDate = transaction.date.substr(0, 10)
+      })
+      console.log(this.transactions)
     },
     async addTransaction(e) {
       e.preventDefault()
 
-      await console.log('adding transaction!')
+      const transaction = {
+        name: this.transactionName,
+        budgetId: this.budget._id,
+        categoryId: this.categoryId,
+        amount: this.amount,
+        date: this.date
+      }
+
+      const { data } = await TransactionRepository.createTransaction(
+        transaction
+      )
+      console.log(data)
+      this.dialog = false
+      this._clearForm()
+      // show snackbar notification
+      data.transaction.categoryName = data.transaction.category.name
+      data.transaction.formattedDate = data.transaction.date.substr(0, 10)
+      this.transactions.push(data.transaction)
+    },
+    async deleteTransaction(transaction) {
+      await TransactionRepository.deleteTransaction(transaction.name)
+      this.transactions = this.transactions.filter(txn => {
+        return txn._id !== transaction._id
+      })
+    },
+    editTransaction(transaction) {
+      console.log('editing')
+    },
+    _clearForm() {
+      this.transactionName = ''
+      this.categoryId = ''
+      this.amount = ''
+      this.date = new Date().toISOString().substr(0, 10)
     }
   }
 }

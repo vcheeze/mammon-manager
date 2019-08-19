@@ -10,10 +10,15 @@ const transactionSchema = new Schema({
     required: [true, 'Name is required for Transactions!']
   },
   description: String,
-  budgetItem: {
+  budget: {
     type: ObjectId,
-    ref: 'BudgetItem',
-    required: [true, 'BudgetItem is required for Transactions!']
+    ref: 'Budget',
+    required: [true, 'Budget is required for Transactions!']
+  },
+  category: {
+    type: ObjectId,
+    ref: 'Category',
+    required: [true, 'Category is required for Transactions!']
   },
   amount: {
     type: Number,
@@ -29,6 +34,11 @@ const transactionSchema = new Schema({
     ref: 'Account'
   }
 });
+
+// find all Transactions in a given Budget
+transactionSchema.statics.findAllInBudget = function(budgetId) {
+  return this.findMany({ budget: budgetId });
+};
 
 transactionSchema.statics.findByName = function(name) {
   return this.findOne({ name: new RegExp(name, 'i') });

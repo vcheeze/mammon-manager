@@ -13,24 +13,22 @@
               budgetItem.actual + '/' + budgetItem.allotted
             }}</v-list-item-subtitle>
             <v-list-item-subtitle>{{
-              (parseFloat(budgetItem.actual) /
-                parseFloat(budgetItem.allotted)) *
-                100 +
-                '%'
+              Number(
+                Math.round(parseFloat(budgetItem.percentage + 'e+2')) + 'e-2'
+              ).toFixed(2) + '%'
             }}</v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
             <v-btn icon small>
-              <v-icon size="20" color="#333333">mdi-pencil</v-icon>
+              <v-icon size="20" color="#333333">edit</v-icon>
             </v-btn>
+            <!-- TODO confirm delete -->
             <v-btn icon small @click="removeBudgetItem(budgetItem)">
-              <v-icon size="20" color="#333333">mdi-delete</v-icon>
+              <v-icon size="20" color="#333333">delete</v-icon>
             </v-btn>
           </v-list-item-action>
         </v-list-item>
-        <v-progress-linear
-          :value="budgetItem.actual / budgetItem.allotted"
-        ></v-progress-linear>
+        <v-progress-linear :value="budgetItem.percentage"></v-progress-linear>
       </div>
     </v-list>
     <v-dialog v-model="dialog" width="550">
@@ -76,6 +74,7 @@
       </v-card>
     </v-dialog>
     <v-snackbar v-model="snackbar">
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <span v-html="snackbarText"></span>
       <v-btn color="#f76262" text @click="snackbar = false">Close</v-btn>
     </v-snackbar>
@@ -102,6 +101,13 @@ export default {
       snackbar: false
     }
   },
+  computed: {
+    percentage(budgetItem) {
+      return Math.round(
+        (budgetItem.actual / budgetItem.allotted) * 100
+      ).toFixed(2)
+    }
+  },
   created() {
     this.getBudget()
     this.loadCategories()
@@ -112,6 +118,9 @@ export default {
         this.$route.params.budgetName
       )
       this.budget = data.budget
+      this.budget.budgetItems.forEach(budgetItem => {
+        budgetItem.percentage = (budgetItem.actual / budgetItem.allotted) * 100
+      })
     },
     async loadCategories() {
       const { data } = await CategoryRepository.getAll()
@@ -142,10 +151,12 @@ export default {
       this.snackbarText = `BudgetItem created in category: <span class="new-doc">${data.budgetItem.category.name}</span>`
       this.snackbar = true
       // add the newly-created BudgetItem to the current Budget
+      data.budgetItem.percentage =
+        (data.budgetItem.actual / data.budgetItem.allotted) * 100
       this.budget.budgetItems.push(data.budgetItem)
     },
     async removeBudgetItem(budgetItem) {
-      const { data } = await BudgetItemRepository.deleteBudgetItem(
+      await BudgetItemRepository.deleteBudgetItem(
         this.budget.name,
         budgetItem._id
       )

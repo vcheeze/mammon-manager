@@ -47,6 +47,7 @@
       </v-card>
     </v-dialog>
     <v-snackbar v-model="snackbar">
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <span v-html="snackbarText"></span>
       <v-btn color="#f76262" text @click="snackbar = false">Close</v-btn>
     </v-snackbar>

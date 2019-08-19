@@ -1,5 +1,5 @@
 const express = require('express');
-const transactionsController = require('../../controllers/categoriesController');
+const transactionsController = require('../../controllers/transactionsController');
 
 const router = express.Router();
 
@@ -14,6 +14,11 @@ router.post('/', transactionsController.create);
 router.get('/', transactionsController.get);
 
 /**
+ * Get all Transactions in a Budget
+ */
+router.get('/budget/:budgetId', transactionsController.getAllInBudget);
+
+/**
  * Given Transaction name in the req param, get the Transaction
  */
 router.get('/:transactionName', transactionsController.getByName);
@@ -22,6 +27,11 @@ router.get('/:transactionName', transactionsController.getByName);
  * Delete all Transactions
  */
 router.delete('/', transactionsController.deleteAll);
+
+/**
+ * Delete all Transactions in Budget
+ */
+router.delete('/budget/:budgetId', transactionsController.deleteAllInBudget);
 
 /**
  * Delete Transaction by name
