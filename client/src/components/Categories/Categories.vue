@@ -4,11 +4,34 @@
     <v-list dense>
       <v-list-item v-for="category in categories" :key="category.id">
         <v-list-item-content>
-          <v-list-item-title>{{ category.name }}</v-list-item-title>
+          <v-list-item-title>
+            <v-text-field
+              v-model="category.name"
+              :readonly="category.readonly"
+              :solo="category.readonly"
+              :flat="category.readonly"
+            ></v-text-field>
+          </v-list-item-title>
         </v-list-item-content>
         <v-list-item-action>
+          <v-btn
+            v-if="category.readonly"
+            icon
+            small
+            @click="category.readonly = false"
+          >
+            <v-icon size="20" color="#333333">edit</v-icon>
+          </v-btn>
+          <v-btn
+            v-if="!category.readonly"
+            icon
+            small
+            @click="updateCategory(category)"
+          >
+            <v-icon size="20" color="#333333">done</v-icon>
+          </v-btn>
           <v-btn icon small @click="removeCategory(category)">
-            <v-icon size="18" color="#333333">mdi-delete</v-icon>
+            <v-icon size="20" color="#333333">delete</v-icon>
           </v-btn>
         </v-list-item-action>
       </v-list-item>
@@ -74,8 +97,13 @@ export default {
     this.loadCategories()
   },
   methods: {
+    // initial call to load categories
     async loadCategories() {
       const { data } = await CategoryRepository.getAll()
+      // add Boolean to toggele readonly state
+      data.categories.forEach(category => {
+        category.readonly = true
+      })
       this.categories = data.categories.sort((a, b) => {
         let a_name = a.name.toLowerCase(),
           b_name = b.name.toLowerCase()
@@ -88,6 +116,7 @@ export default {
       })
       // console.log(this.categories)
     },
+    // add category
     async addCategory(e) {
       e.preventDefault()
 
@@ -105,6 +134,7 @@ export default {
       // add the newly-created Category
       this._binaryInsert(data.category, this.categories)
     },
+    // remove category
     async removeCategory(category) {
       console.log('category', category)
       const { data } = await CategoryRepository.deleteCategory(category.name)
@@ -112,6 +142,15 @@ export default {
       this.categories = this.categories.filter(cat => {
         return cat.name !== category.name
       })
+    },
+    async updateCategory(category) {
+      category.readonly = true
+      const payload = {
+        id: category._id,
+        newName: category.name
+      }
+      const { data } = await CategoryRepository.updateCategory(payload)
+      console.log(data)
     },
     _clearForm() {
       this.categoryName = ''
@@ -158,3 +197,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.v-list-item__action--stack {
+  flex-direction: row;
+}
+</style>
