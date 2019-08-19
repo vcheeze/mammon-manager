@@ -19,7 +19,7 @@ router.get('/', categoriesController.get);
 router.get('/:categoryName', categoriesController.getByName);
 
 /**
- * Given old and new Category names, update old to new
+ * Update Category
  */
 router.patch('/', categoriesController.update);
 

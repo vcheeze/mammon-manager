@@ -4,14 +4,12 @@
     <v-list dense>
       <v-list-item v-for="category in categories" :key="category.id">
         <v-list-item-content>
-          <v-list-item-title>
-            <v-text-field
-              v-model="category.name"
-              :readonly="category.readonly"
-              :solo="category.readonly"
-              :flat="category.readonly"
-            ></v-text-field>
-          </v-list-item-title>
+          <v-text-field
+            v-model="category.name"
+            :readonly="category.readonly"
+            :solo="category.readonly"
+            :flat="category.readonly"
+          ></v-text-field>
         </v-list-item-content>
         <v-list-item-action>
           <v-btn
@@ -114,7 +112,6 @@ export default {
         }
         return 0
       })
-      // console.log(this.categories)
     },
     // add category
     async addCategory(e) {
@@ -132,13 +129,12 @@ export default {
       this.snackbarText = `Category created: <span class="new-doc">${data.category.name}</span>`
       this.snackbar = true
       // add the newly-created Category
+      data.category.readonly = true
       this._binaryInsert(data.category, this.categories)
     },
     // remove category
     async removeCategory(category) {
-      console.log('category', category)
-      const { data } = await CategoryRepository.deleteCategory(category.name)
-      console.log('Category deleted!', data)
+      await CategoryRepository.deleteCategory(encodeURI(category.name))
       this.categories = this.categories.filter(cat => {
         return cat.name !== category.name
       })
@@ -150,7 +146,7 @@ export default {
         newName: category.name
       }
       const { data } = await CategoryRepository.updateCategory(payload)
-      console.log(data)
+      console.log('data :', data)
     },
     _clearForm() {
       this.categoryName = ''
