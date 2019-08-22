@@ -1,7 +1,12 @@
 <template>
   <div>
     <h1>Transactions</h1>
-    <v-data-table :headers="headers" :items="transactions" :items-per-page="20">
+    <v-data-table
+      :headers="headers"
+      :items="transactions"
+      :items-per-page="20"
+      sort-by="formattedDate"
+    >
       <template v-slot:item.action="{ item }">
         <v-icon small class="mr-2" @click="editTransaction(item)">
           edit
