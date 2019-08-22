@@ -3,6 +3,9 @@ import Repository from './Repository'
 const resource = '/transactions'
 
 export default {
+  createTransaction(payload) {
+    return Repository.post(`${resource}`, payload)
+  },
   getAll() {
     return Repository.get(`${resource}`)
   },
@@ -12,8 +15,8 @@ export default {
   getTransaction(transactionName) {
     return Repository.get(`${resource}/${transactionName}`)
   },
-  createTransaction(payload) {
-    return Repository.post(`${resource}`, payload)
+  updateTransaction(id, payload) {
+    return Repository.patch(`${resource}/${id}`, payload)
   },
   deleteTransaction(transactionName) {
     return Repository.delete(`${resource}/${transactionName}`)

@@ -139,13 +139,14 @@ export default {
         return cat.name !== category.name
       })
     },
+    // TODO only update if name has been changed
     async updateCategory(category) {
       category.readonly = true
+      const id = category._id
       const payload = {
-        id: category._id,
         newName: category.name
       }
-      const { data } = await CategoryRepository.updateCategory(payload)
+      const { data } = await CategoryRepository.updateCategory(id, payload)
       console.log('data :', data)
     },
     _clearForm() {

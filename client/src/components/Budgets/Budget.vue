@@ -19,7 +19,7 @@
             }}</v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-btn icon small>
+            <v-btn icon small @click="editBudgetItem(budgetItem)">
               <v-icon size="20" color="#333333">edit</v-icon>
             </v-btn>
             <!-- TODO confirm delete -->
@@ -44,7 +44,7 @@
             <v-icon color="#ffffff">close</v-icon>
           </v-btn>
         </v-card-title>
-        <v-form v-model="valid" @submit="addBudgetItem">
+        <v-form v-model="valid" @submit="saveBudgetItem">
           <v-card-text>
             <v-autocomplete
               v-model="categoryId"
@@ -95,6 +95,7 @@ export default {
       dialog: false,
       valid: false,
       categories: [],
+      editedIndex: -1,
       categoryId: '',
       allotted: '',
       snackbarText: '',
@@ -121,6 +122,7 @@ export default {
       this.budget.budgetItems.forEach(budgetItem => {
         budgetItem.percentage = (budgetItem.actual / budgetItem.allotted) * 100
       })
+      console.log(this.budget)
     },
     async loadCategories() {
       const { data } = await CategoryRepository.getAll()
@@ -135,25 +137,47 @@ export default {
         return 0
       })
     },
-    async addBudgetItem(e) {
+    async saveBudgetItem(e) {
       e.preventDefault()
 
       const payload = {
         budgetId: this.budget._id,
         categoryId: this.categoryId,
-        allotted: this.allotted
+        allotted: parseFloat(this.allotted)
       }
-      const { data } = await BudgetItemRepository.createBudgetItem(payload)
-      // hide the dialog and clear form
-      this.dialog = false
-      this._clearForm()
-      // show snackbar notification
-      this.snackbarText = `BudgetItem created in category: <span class="new-doc">${data.budgetItem.category.name}</span>`
-      this.snackbar = true
-      // add the newly-created BudgetItem to the current Budget
-      data.budgetItem.percentage =
-        (data.budgetItem.actual / data.budgetItem.allotted) * 100
-      this.budget.budgetItems.push(data.budgetItem)
+      try {
+        let data
+        if (this.editedIndex === -1) {
+          ;({ data } = await BudgetItemRepository.createBudgetItem(payload))
+        } else {
+          const id = this.budget.budgetItems[this.editedIndex]._id
+          ;({ data } = await BudgetItemRepository.updateBudgetItem(id, payload))
+        }
+        console.log('data :', data)
+        // hide the dialog and clear form
+        this.dialog = false
+        this._clearForm()
+        // show snackbar notification
+        this.snackbarText = `BudgetItem created in category: <span class="new-doc">${data.budgetItem.category.name}</span>`
+        this.snackbar = true
+        // add the newly-created BudgetItem to the current Budget
+        data.budgetItem.percentage =
+          (data.budgetItem.actual / data.budgetItem.allotted) * 100
+        if (this.editedIndex === -1) {
+          this.budget.budgetItems.push(data.budgetItem)
+        } else {
+          this.budget.budgetItems[this.editedIndex] = data.budgetItem
+        }
+      } catch (e) {
+        this.snackbarText = '!Error saving BudgetItem!'
+        console.error(e)
+      }
+    },
+    editBudgetItem(budgetItem) {
+      this.editedIndex = this.budget.budgetItems.indexOf(budgetItem)
+      this.categoryId = budgetItem.category._id
+      this.allotted = budgetItem.allotted
+      this.dialog = true
     },
     async removeBudgetItem(budgetItem) {
       await BudgetItemRepository.deleteBudgetItem(
@@ -177,7 +201,6 @@ export default {
 
 <style lang="scss">
 .budget-items > div > .v-list-item {
-  border-bottom: thin solid rgba(0, 0, 0, 0.12);
   > .v-list-item__action--stack {
     padding-top: 7.5px;
   }

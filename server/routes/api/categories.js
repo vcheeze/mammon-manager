@@ -13,6 +13,7 @@ router.post('/', categoriesController.create);
  */
 router.get('/', categoriesController.get);
 
+// TODO consider changing this to /:id instead of /:categoryName
 /**
  * Given Category name in the req param, get the Category
  */
@@ -21,7 +22,7 @@ router.get('/:categoryName', categoriesController.getByName);
 /**
  * Update Category
  */
-router.patch('/', categoriesController.update);
+router.patch('/:id', categoriesController.update);
 
 /**
  * Delete all Categories

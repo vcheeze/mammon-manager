@@ -132,6 +132,7 @@ export default {
         return t.name !== tag.name
       })
     },
+    // TODO only update if name has been changed
     async updateTag(tag) {
       tag.readonly = true
       const payload = {

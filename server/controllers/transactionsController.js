@@ -47,6 +47,7 @@ const create = (req, res) => {
 
 const get = (req, res) => {
   Transaction.find({})
+    .populate('tags')
     .then(doc => {
       res.status(200).send({
         message: 'Success: got all Transactions!',
@@ -62,21 +63,18 @@ const get = (req, res) => {
 };
 
 const getAllInBudget = (req, res) => {
-  console.log('getting all in budget...');
   const { budgetId } = req.params;
-  console.log(budgetId);
   Transaction.find({ budget: budgetId })
     .populate('budget')
     .populate('category')
+    .populate('tags')
     .then(doc => {
-      console.log(doc);
       res.status(200).send({
         message: 'Success: got all Transactions in Budget!',
         transactions: doc
       });
     })
     .catch(err => {
-      console.error(err);
       res.status(500).send({
         message: 'Error: could not get Transactions in Budget',
         error: err
@@ -84,9 +82,9 @@ const getAllInBudget = (req, res) => {
     });
 };
 
-const getByName = (req, res) => {
-  const { transactionName } = req.params;
-  Transaction.findByName(transactionName)
+const getById = (req, res) => {
+  const { id } = req.params;
+  Transaction.findById(id)
     .then(doc => {
       res.status(200).send({
         message: 'Success: got Transaction by name!',
@@ -101,7 +99,27 @@ const getByName = (req, res) => {
     });
 };
 
-// const update = (req, res) => {};
+const update = (req, res) => {
+  console.log('updating...');
+  const updateObject = req.body;
+  console.log('updateObject :', updateObject);
+  const { id } = req.params;
+  console.log('id :', id);
+  Transaction.update({ _id: ObjectId(id) }, { $set: updateObject })
+    .then(doc => {
+      res.status(200).send({
+        message: `Success: updated ${updateObject.name}`,
+        transaction: doc
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send({
+        message: `Error: could not update ${updateObject.name}`,
+        error: err
+      });
+    });
+};
 
 const deleteAll = (req, res) => {
   Transaction.deleteMany({})
@@ -170,7 +188,8 @@ module.exports = {
   create,
   get,
   getAllInBudget,
-  getByName,
+  getById,
+  update,
   deleteAll,
   deleteAllInBudget,
   deleteByName

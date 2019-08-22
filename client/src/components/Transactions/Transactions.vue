@@ -19,21 +19,21 @@
       </template>
       <v-card class="dialog-card">
         <v-card-title primary-title>
-          Add Transaction
+          {{ dialogTitle }}
           <v-btn icon color="#ffffff" @click="dialog = false">
             <v-icon color="#ffffff">close</v-icon>
           </v-btn>
         </v-card-title>
-        <v-form v-model="valid" @submit="addTransaction">
+        <v-form v-model="valid" @submit="saveTransaction">
           <v-card-text>
             <v-text-field
-              v-model="transactionName"
+              v-model="tagToEdit.name"
               label="Name"
               color="#216583"
               required
             ></v-text-field>
             <v-autocomplete
-              v-model="categoryId"
+              v-model="tagToEdit.category"
               label="Category"
               :items="budget.budgetItems"
               item-text="category.name"
@@ -42,14 +42,14 @@
               required
             ></v-autocomplete>
             <v-text-field
-              v-model="amount"
+              v-model="tagToEdit.amount"
               label="I spent"
               suffix="AED"
               color="#216583"
               required
             ></v-text-field>
             <v-menu
-              v-model="dateMenu"
+              v-model="tagToEdit.dateMenu"
               :close-on-content-click="false"
               :nudge-right="40"
               transition="scale-transition"
@@ -59,7 +59,7 @@
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
-                  v-model="date"
+                  v-model="tagToEdit.date"
                   label="Date"
                   prepend-icon="event"
                   readonly
@@ -67,11 +67,23 @@
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="date"
-                @input="dateMenu = false"
+                v-model="tagToEdit.date"
+                @input="tagToEdit.dateMenu = false"
               ></v-date-picker>
             </v-menu>
-            <!-- TODO add Tags and Account fields -->
+            <!-- TODO add Account fields -->
+            <v-combobox
+              v-model="tagToEdit.tags"
+              label="Tags"
+              :items="tags"
+              item-text="name"
+              item-value="_id"
+              color="#216583"
+              chips
+              deletable-chips
+              dense
+              multiple
+            ></v-combobox>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
@@ -90,6 +102,7 @@
 import { RepositoryFactory } from '../../api/RepositoryFactory'
 const BudgetRepository = RepositoryFactory.get('budgets')
 const TransactionRepository = RepositoryFactory.get('transactions')
+const TagRepository = RepositoryFactory.get('tags')
 
 export default {
   name: 'Transactions',
@@ -104,17 +117,28 @@ export default {
         { text: 'Actions', value: 'action', sortable: false }
       ],
       transactions: [],
+      tags: [],
       dialog: false,
       valid: false,
-      transactionName: '',
-      categoryId: '',
-      amount: '',
-      dateMenu: false,
-      date: new Date().toISOString().substr(0, 10)
+      editedIndex: -1,
+      tagToEdit: {
+        name: '',
+        category: '',
+        amount: '',
+        dateMenu: false,
+        date: new Date().toISOString().substr(0, 10),
+        tags: []
+      }
+    }
+  },
+  computed: {
+    dialogTitle() {
+      return this.editedIndex === -1 ? 'Add Transaction' : 'Edit Transaction'
     }
   },
   created() {
     this.loadActiveBudget()
+    this.loadTags()
   },
   methods: {
     async loadActiveBudget() {
@@ -132,28 +156,40 @@ export default {
         transaction.categoryName = transaction.category.name
         transaction.formattedDate = transaction.date.substr(0, 10)
       })
-      console.log(this.transactions)
     },
-    async addTransaction(e) {
+    async loadTags() {
+      const { data } = await TagRepository.getAll()
+      this.tags = data.tags
+    },
+    // TODO distinguish between save and update calls
+    async saveTransaction(e) {
       e.preventDefault()
 
-      const transaction = {
-        name: this.transactionName,
+      const txn = {
+        name: this.tagToEdit.name,
         budgetId: this.budget._id,
-        categoryId: this.categoryId,
-        amount: this.amount,
-        date: this.date
+        categoryId: this.tagToEdit.category,
+        amount: this.tagToEdit.amount,
+        date: this.tagToEdit.date,
+        tags: this.tagToEdit.tags
       }
 
-      const { data } = await TransactionRepository.createTransaction(
-        transaction
-      )
-      console.log(data)
+      let data
+      if (this.editedIndex === -1) {
+        ;({ data } = await TransactionRepository.createTransaction(txn))
+      } else {
+        const id = this.transactions[this.editedIndex]._id
+        ;({ data } = await TransactionRepository.updateTransaction(id, txn))
+      }
+
       this.dialog = false
       this._clearForm()
       // show snackbar notification
+      // eslint-disable-next-line no-undef
       data.transaction.categoryName = data.transaction.category.name
+      // eslint-disable-next-line no-undef
       data.transaction.formattedDate = data.transaction.date.substr(0, 10)
+      // eslint-disable-next-line no-undef
       this.transactions.push(data.transaction)
     },
     async deleteTransaction(transaction) {
@@ -163,14 +199,30 @@ export default {
       })
     },
     editTransaction(transaction) {
-      console.log('editing')
+      this.editedIndex = this.transactions.indexOf(transaction)
+      const txn = {
+        name: transaction.name,
+        category: transaction.category._id,
+        amount: transaction.amount,
+        dateMenu: false,
+        date: new Date(transaction.date).toISOString().substr(0, 10),
+        tags: transaction.tags
+      }
+      this.tagToEdit = Object.assign({}, txn)
+      this.dialog = true
     },
     _clearForm() {
-      this.transactionName = ''
-      this.categoryId = ''
-      this.amount = ''
-      this.date = new Date().toISOString().substr(0, 10)
+      this.tagToEdit.name = ''
+      this.tagToEdit.category = ''
+      this.tagToEdit.amount = ''
+      this.tagToEdit.date = new Date().toISOString().substr(0, 10)
     }
   }
 }
 </script>
+
+<style lang="scss">
+.v-data-table {
+  margin: 1rem;
+}
+</style>

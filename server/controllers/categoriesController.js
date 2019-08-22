@@ -60,7 +60,8 @@ const getByName = (req, res) => {
 };
 
 const update = (req, res) => {
-  const { id, newName } = req.body;
+  const { id } = req.params;
+  const { newName } = req.body;
   Category.findById(id)
     .then(doc => {
       doc.name = newName;

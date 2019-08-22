@@ -21,7 +21,12 @@ router.get('/budget/:budgetId', transactionsController.getAllInBudget);
 /**
  * Given Transaction name in the req param, get the Transaction
  */
-router.get('/:transactionName', transactionsController.getByName);
+router.get('/:id', transactionsController.getById);
+
+/**
+ * Given Transaction ID in req param, update the Transaction with matching ID
+ */
+router.patch('/:id', transactionsController.update);
 
 /**
  * Delete all Transactions
