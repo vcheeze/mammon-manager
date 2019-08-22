@@ -100,25 +100,42 @@ const getById = (req, res) => {
 };
 
 const update = (req, res) => {
-  console.log('updating...');
-  const updateObject = req.body;
-  console.log('updateObject :', updateObject);
   const { id } = req.params;
-  console.log('id :', id);
-  Transaction.update({ _id: ObjectId(id) }, { $set: updateObject })
-    .then(doc => {
-      res.status(200).send({
-        message: `Success: updated ${updateObject.name}`,
-        transaction: doc
+  const txn = req.body;
+  console.log('txn :', txn);
+
+  Transaction.findByIdAndUpdate(
+    id,
+    {
+      $set: {
+        name: txn.name,
+        budget: txn.budgetId,
+        category: txn.categoryId,
+        amount: txn.amount,
+        date: txn.date,
+        tags: txn.tags
+      }
+    },
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send({
+          message: `Error: could not update ${txn.name}`,
+          error: err
+        });
+        return;
+      }
+      console.log('doc:', doc);
+      Transaction.populate(doc, 'category', e => {
+        if (e) return;
+        res.status(200).send({
+          message: `Success: updated ${txn.name}`,
+          transaction: doc
+        });
       });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send({
-        message: `Error: could not update ${updateObject.name}`,
-        error: err
-      });
-    });
+    }
+  );
 };
 
 const deleteAll = (req, res) => {

@@ -169,28 +169,40 @@ export default {
         name: this.tagToEdit.name,
         budgetId: this.budget._id,
         categoryId: this.tagToEdit.category,
-        amount: this.tagToEdit.amount,
+        amount: parseFloat(this.tagToEdit.amount),
         date: this.tagToEdit.date,
         tags: this.tagToEdit.tags
       }
 
-      let data
-      if (this.editedIndex === -1) {
-        ;({ data } = await TransactionRepository.createTransaction(txn))
-      } else {
-        const id = this.transactions[this.editedIndex]._id
-        ;({ data } = await TransactionRepository.updateTransaction(id, txn))
+      try {
+        let data
+        if (this.editedIndex === -1) {
+          ;({ data } = await TransactionRepository.createTransaction(txn))
+        } else {
+          const id = this.transactions[this.editedIndex]._id
+          ;({ data } = await TransactionRepository.updateTransaction(id, txn))
+        }
+        // add some properties
+        data.transaction.categoryName = data.transaction.category.name
+        data.transaction.formattedDate = data.transaction.date.substr(0, 10)
+        // save transaction to data
+        if (this.editedIndex === -1) {
+          this.transactions.push(data.transaction)
+        } else {
+          console.log('Saving udpated Transaction!')
+          console.log('data.transaction :', data.transaction)
+          // using splice here because directly editing this.transactions
+          // doesn't trigger a refresh on the data table
+          this.transactions.splice(this.editedIndex, 1, data.transaction)
+          console.log('this.transactions :', this.transactions)
+        }
+        // reset
+        this.dialog = false
+        this._clearForm()
+        this.editedIndex = -1
+      } catch (e) {
+        alert('!Error saving Transaction!')
       }
-
-      this.dialog = false
-      this._clearForm()
-      // show snackbar notification
-      // eslint-disable-next-line no-undef
-      data.transaction.categoryName = data.transaction.category.name
-      // eslint-disable-next-line no-undef
-      data.transaction.formattedDate = data.transaction.date.substr(0, 10)
-      // eslint-disable-next-line no-undef
-      this.transactions.push(data.transaction)
     },
     async deleteTransaction(transaction) {
       await TransactionRepository.deleteTransaction(transaction.name)

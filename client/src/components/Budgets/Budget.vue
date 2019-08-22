@@ -154,12 +154,6 @@ export default {
           ;({ data } = await BudgetItemRepository.updateBudgetItem(id, payload))
         }
         console.log('data :', data)
-        // hide the dialog and clear form
-        this.dialog = false
-        this._clearForm()
-        // show snackbar notification
-        this.snackbarText = `BudgetItem created in category: <span class="new-doc">${data.budgetItem.category.name}</span>`
-        this.snackbar = true
         // add the newly-created BudgetItem to the current Budget
         data.budgetItem.percentage =
           (data.budgetItem.actual / data.budgetItem.allotted) * 100
@@ -168,6 +162,13 @@ export default {
         } else {
           this.budget.budgetItems[this.editedIndex] = data.budgetItem
         }
+        // hide the dialog and clear form
+        this.dialog = false
+        this._clearForm()
+        // this.editedIndex = -1
+        // show snackbar notification
+        this.snackbarText = `BudgetItem created in category: <span class="new-doc">${data.budgetItem.category.name}</span>`
+        this.snackbar = true
       } catch (e) {
         this.snackbarText = '!Error saving BudgetItem!'
         console.error(e)

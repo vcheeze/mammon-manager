@@ -78,8 +78,6 @@ const getByBudgetAndCategory = (req, res) => {
 const update = (req, res) => {
   const { id } = req.params;
   const bi = req.body;
-  console.log(id);
-  console.log(bi);
   Budget.findOneAndUpdate(
     {
       _id: bi.budgetId,
@@ -93,10 +91,15 @@ const update = (req, res) => {
     },
     { new: true },
     (err, doc) => {
-      if (err) console.error(err);
+      if (err) {
+        res.status(500).send({
+          message: 'Error: could not update BudgetItem',
+          error: err
+        });
+        return;
+      }
       Budget.populate(doc, 'budgetItems.category', e => {
         if (e) return;
-        console.log(doc.budgetItems[doc.budgetItems.length - 1]);
         res.status(200).send({
           message: 'Success: updated BudgetItem!',
           budgetItem: doc.budgetItems[doc.budgetItems.length - 1]
