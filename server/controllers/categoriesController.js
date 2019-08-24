@@ -60,28 +60,29 @@ const getByName = (req, res) => {
 };
 
 const update = (req, res) => {
-  const { oldName, newName } = req.body;
-  Category.findByName(oldName)
+  const { id } = req.params;
+  const { newName } = req.body;
+  Category.findById(id)
     .then(doc => {
       doc.name = newName;
       doc
         .save()
         .then(newDoc => {
           res.status(200).send({
-            message: `Success: updated ${oldName} to ${newName}`,
+            message: `Success: updated name to ${newName}`,
             category: newDoc
           });
         })
         .catch(err => {
           res.status(500).send({
-            message: `Error: unable to update ${oldName}`,
+            message: 'Error: unable to update name',
             error: err
           });
         });
     })
     .catch(err => {
       res.status(500).send({
-        message: `Error: unable to find ${oldName}`,
+        message: 'Error: unable to find name',
         error: err
       });
     });

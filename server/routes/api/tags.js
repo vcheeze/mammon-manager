@@ -19,6 +19,11 @@ router.get('/:tagName', tagsController.getByName);
 router.post('/', tagsController.create);
 
 /**
+ * Update Tag
+ */
+router.patch('/', tagsController.update);
+
+/**
  * Delete all Tags
  */
 router.delete('/', tagsController.deleteAll);

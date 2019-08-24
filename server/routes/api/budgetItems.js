@@ -22,9 +22,9 @@ router.get(
 );
 
 /**
- * Given old and new BudgetItem names, update old to new
+ * Given BudgetItem id, update it with req payload
  */
-// router.patch('/', budgetItemsController.update);
+router.patch('/:id', budgetItemsController.update);
 
 /**
  * Delete all BudgetItems in a Budget

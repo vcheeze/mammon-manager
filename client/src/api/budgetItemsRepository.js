@@ -12,6 +12,9 @@ export default {
   getBudgetItem(budgetItemName) {
     return Repository.get(`${resource}/${budgetItemName}`)
   },
+  updateBudgetItem(id, payload) {
+    return Repository.patch(`${resource}/${id}`, payload)
+  },
   deleteBudgetItem(budgetName, budgetItemId) {
     return Repository.delete(`${resource}/${budgetName}/${budgetItemId}`)
   }

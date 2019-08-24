@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -37,7 +38,7 @@ app.use((req, res, next) => {
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept'
   );
-  res.header('Access-Control-Allow-Methods', 'DELETE');
+  res.header('Access-Control-Allow-Methods', 'DELETE, PATCH');
   next();
 });
 

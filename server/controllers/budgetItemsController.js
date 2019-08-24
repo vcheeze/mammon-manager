@@ -37,25 +37,6 @@ const create = (req, res) => {
         error: err
       });
     });
-
-  // budgetItem
-  //   .save()
-  //   .then(doc => {
-  //     console.log(doc);
-  //     doc.populate('budget');
-  //     doc.populate('category');
-  //     res.status(201).send({
-  //       message: 'Success: saved new BudgetItem!',
-  //       budgetItem: doc
-  //     });
-  //   })
-  //   .catch(err => {
-  //     console.error(err);
-  //     res.status(500).send({
-  //       message: 'Error: could not create BudgetItem',
-  //       error: err
-  //     });
-  //   });
 };
 
 const get = (req, res) => {
@@ -94,9 +75,39 @@ const getByBudgetAndCategory = (req, res) => {
     });
 };
 
-// const update = (req, res) => {
-
-// }
+const update = (req, res) => {
+  const { id } = req.params;
+  const bi = req.body;
+  Budget.findOneAndUpdate(
+    {
+      _id: bi.budgetId,
+      'budgetItems._id': id
+    },
+    {
+      $set: {
+        'budgetItems.$.category': bi.categoryId,
+        'budgetItems.$.allotted': bi.allotted
+      }
+    },
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        res.status(500).send({
+          message: 'Error: could not update BudgetItem',
+          error: err
+        });
+        return;
+      }
+      Budget.populate(doc, 'budgetItems.category', e => {
+        if (e) return;
+        res.status(200).send({
+          message: 'Success: updated BudgetItem!',
+          budgetItem: doc.budgetItems[doc.budgetItems.length - 1]
+        });
+      });
+    }
+  );
+};
 
 const deleteAllInBudget = (req, res) => {
   const { budgetName } = req.params;
@@ -123,18 +134,6 @@ const deleteAllInBudget = (req, res) => {
         error: err
       });
     });
-  // BudgetItem.deleteMany({})
-  //   .then(() => {
-  //     res.status(200).send({
-  //       message: 'Success: deleted all BudgetItems!'
-  //     });
-  //   })
-  //   .catch(err => {
-  //     res.status(500).send({
-  //       message: 'Error: could not delete all BudgetItems',
-  //       error: err
-  //     });
-  //   });
 };
 
 const deleteByBudgetAndCategory = (req, res) => {
@@ -163,26 +162,13 @@ const deleteByBudgetAndCategory = (req, res) => {
         error: err
       });
     });
-
-  // BudgetItem.deleteByBudgetAndCategory(budgetName, categoryName)
-  //   .then(doc => {
-  //     res.status(200).send({
-  //       message: `Success: deleted ${doc.name}`,
-  //       budgetItem: doc
-  //     });
-  //   })
-  //   .catch(err => {
-  //     res.status(500).send({
-  //       message: 'Error: could not delete BudgetItem by name',
-  //       error: err
-  //     });
-  //   });
 };
 
 module.exports = {
   create,
   get,
   getByBudgetAndCategory,
+  update,
   deleteAllInBudget,
   deleteByBudgetAndCategory
 };

@@ -4,11 +4,32 @@
     <v-list dense>
       <v-list-item v-for="category in categories" :key="category.id">
         <v-list-item-content>
-          <v-list-item-title>{{ category.name }}</v-list-item-title>
+          <v-text-field
+            v-model="category.name"
+            :readonly="category.readonly"
+            :solo="category.readonly"
+            :flat="category.readonly"
+          ></v-text-field>
         </v-list-item-content>
         <v-list-item-action>
+          <v-btn
+            v-if="category.readonly"
+            icon
+            small
+            @click="category.readonly = false"
+          >
+            <v-icon size="20" color="#333333">edit</v-icon>
+          </v-btn>
+          <v-btn
+            v-if="!category.readonly"
+            icon
+            small
+            @click="updateCategory(category)"
+          >
+            <v-icon size="20" color="#333333">done</v-icon>
+          </v-btn>
           <v-btn icon small @click="removeCategory(category)">
-            <v-icon size="18" color="#333333">mdi-delete</v-icon>
+            <v-icon size="20" color="#333333">delete</v-icon>
           </v-btn>
         </v-list-item-action>
       </v-list-item>
@@ -47,6 +68,7 @@
       </v-card>
     </v-dialog>
     <v-snackbar v-model="snackbar">
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <span v-html="snackbarText"></span>
       <v-btn color="#f76262" text @click="snackbar = false">Close</v-btn>
     </v-snackbar>
@@ -73,8 +95,13 @@ export default {
     this.loadCategories()
   },
   methods: {
+    // initial call to load categories
     async loadCategories() {
       const { data } = await CategoryRepository.getAll()
+      // add Boolean to toggele readonly state
+      data.categories.forEach(category => {
+        category.readonly = true
+      })
       this.categories = data.categories.sort((a, b) => {
         let a_name = a.name.toLowerCase(),
           b_name = b.name.toLowerCase()
@@ -85,8 +112,8 @@ export default {
         }
         return 0
       })
-      // console.log(this.categories)
     },
+    // add category
     async addCategory(e) {
       e.preventDefault()
 
@@ -102,15 +129,25 @@ export default {
       this.snackbarText = `Category created: <span class="new-doc">${data.category.name}</span>`
       this.snackbar = true
       // add the newly-created Category
+      data.category.readonly = true
       this._binaryInsert(data.category, this.categories)
     },
+    // remove category
     async removeCategory(category) {
-      console.log('category', category)
-      const { data } = await CategoryRepository.deleteCategory(category.name)
-      console.log('Category deleted!', data)
+      await CategoryRepository.deleteCategory(encodeURI(category.name))
       this.categories = this.categories.filter(cat => {
         return cat.name !== category.name
       })
+    },
+    // TODO only update if name has been changed
+    async updateCategory(category) {
+      category.readonly = true
+      const id = category._id
+      const payload = {
+        newName: category.name
+      }
+      const { data } = await CategoryRepository.updateCategory(id, payload)
+      console.log('data :', data)
     },
     _clearForm() {
       this.categoryName = ''

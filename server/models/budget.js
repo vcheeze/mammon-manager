@@ -52,4 +52,18 @@ budgetSchema.statics.findActive = function() {
   return this.findOne({ period: { $gte: firstDay, $lte: lastDay } });
 };
 
+budgetSchema.methods.resetAllotted = function(callback) {
+  this.budgetItems.forEach(bi => {
+    bi.allotted = 0;
+  });
+  this.save(callback);
+};
+
+budgetSchema.methods.resetActual = function(callback) {
+  this.budgetItems.forEach(bi => {
+    bi.actual = 0;
+  });
+  this.save(callback);
+};
+
 module.exports = mongoose.model('Budget', budgetSchema);

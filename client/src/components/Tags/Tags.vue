@@ -1,11 +1,27 @@
 <template>
   <div>
     <h1>Tags</h1>
-    <v-list>
+    <v-list dense>
       <v-list-item v-for="tag in tags" :key="tag.name">
         <v-list-item-content>
-          <v-list-item-title>{{ tag.name }}</v-list-item-title>
+          <v-text-field
+            v-model="tag.name"
+            :readonly="tag.readonly"
+            :solo="tag.readonly"
+            :flat="tag.readonly"
+          ></v-text-field>
         </v-list-item-content>
+        <v-list-item-action>
+          <v-btn v-if="tag.readonly" icon small @click="tag.readonly = false">
+            <v-icon size="20" color="#333333">edit</v-icon>
+          </v-btn>
+          <v-btn v-if="!tag.readonly" icon small @click="updateTag(tag)">
+            <v-icon size="20" color="#333333">done</v-icon>
+          </v-btn>
+          <v-btn icon small @click="removeTag(tag)">
+            <v-icon size="20" color="#333333">delete</v-icon>
+          </v-btn>
+        </v-list-item-action>
       </v-list-item>
     </v-list>
     <v-dialog v-model="dialog" width="500">
@@ -46,6 +62,7 @@
     </v-dialog>
     <!-- Snackbar that appears on form submission -->
     <v-snackbar v-model="snackbar">
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <span v-html="snackbarText"></span>
       <v-btn color="#f76262" text @click="snackbar = false">Close</v-btn>
     </v-snackbar>
@@ -71,12 +88,16 @@ export default {
       snackbarText: ''
     }
   },
-  mounted() {
+  created() {
     this.loadTags()
   },
   methods: {
     async loadTags() {
       const { data } = await TagRepository.getAll()
+      // add Boolean to toggele readonly state
+      data.tags.forEach(tag => {
+        tag.readonly = true
+      })
       this.tags = data.tags.sort((a, b) => {
         let a_name = a.name.toLowerCase(),
           b_name = b.name.toLowerCase()
@@ -102,8 +123,23 @@ export default {
       this.snackbarText = `Tag created: <span class="new-doc">${data.tag.name}</span>`
       this.snackbar = true
       // add the newly-created Tag to our list
+      data.tag.readonly = true
       this._binaryInsert(data.tag, this.tags)
-      // this.tags.push(data.tag)
+    },
+    async removeTag(tag) {
+      await TagRepository.deleteTag(encodeURIComponent(tag.name))
+      this.tags = this.tags.filter(t => {
+        return t.name !== tag.name
+      })
+    },
+    // TODO only update if name has been changed
+    async updateTag(tag) {
+      tag.readonly = true
+      const payload = {
+        id: tag._id,
+        newName: tag.name
+      }
+      const { data } = await TagRepository.updateTag(payload)
     },
     _clearForm() {
       this.tagName = ''

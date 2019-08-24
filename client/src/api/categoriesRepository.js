@@ -12,6 +12,9 @@ export default {
   getCategory(categoryName) {
     return Repository.get(`${resource}/${categoryName}`)
   },
+  updateCategory(id, payload) {
+    return Repository.patch(`${resource}/${id}`, payload)
+  },
   deleteCategory(categoryName) {
     return Repository.delete(`${resource}/${categoryName}`)
   }

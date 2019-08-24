@@ -1,12 +1,13 @@
 /* eslint-disable no-param-reassign */
 const Transaction = require('../models/transaction');
+const Budget = require('../models/budget');
 
 const create = (req, res) => {
-  console.log(req.body);
   const transaction = new Transaction({
     name: req.body.name,
     description: req.body.description,
-    budgetItem: req.body.budgetItemId,
+    budget: req.body.budgetId,
+    category: req.body.categoryId,
     amount: req.body.amount,
     date: req.body.date,
     tags: req.body.tags,
@@ -16,14 +17,27 @@ const create = (req, res) => {
   transaction
     .save()
     .then(doc => {
-      console.log(doc);
-      res.status(201).send({
-        message: 'Success: saved new Transaction!',
-        transaction: doc
+      // update corresponding BudgetItem
+      Budget.findOneAndUpdate(
+        {
+          _id: doc.budget,
+          'budgetItems.category': doc.category
+        },
+        { $inc: { 'budgetItems.$.actual': doc.amount } }
+      )
+        // TODO modify the 'then' and 'catch' functions
+        .then(budget => console.log(budget))
+        .catch(err => console.error(err));
+
+      Transaction.populate(doc, 'category', err => {
+        if (err) return;
+        res.status(201).send({
+          message: 'Success: saved new Transaction!',
+          transaction: doc
+        });
       });
     })
     .catch(err => {
-      console.error(err);
       res.status(500).send({
         message: 'Error: could not create Transaction',
         error: err
@@ -33,6 +47,7 @@ const create = (req, res) => {
 
 const get = (req, res) => {
   Transaction.find({})
+    .populate('tags')
     .then(doc => {
       res.status(200).send({
         message: 'Success: got all Transactions!',
@@ -40,7 +55,6 @@ const get = (req, res) => {
       });
     })
     .catch(err => {
-      console.error(err);
       res.status(500).send({
         message: 'Error: could not get all Transactions',
         error: err
@@ -48,9 +62,29 @@ const get = (req, res) => {
     });
 };
 
-const getByName = (req, res) => {
-  const { transactionName } = req.params;
-  Transaction.findByName(transactionName)
+const getAllInBudget = (req, res) => {
+  const { budgetId } = req.params;
+  Transaction.find({ budget: budgetId })
+    .populate('budget')
+    .populate('category')
+    .populate('tags')
+    .then(doc => {
+      res.status(200).send({
+        message: 'Success: got all Transactions in Budget!',
+        transactions: doc
+      });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: 'Error: could not get Transactions in Budget',
+        error: err
+      });
+    });
+};
+
+const getById = (req, res) => {
+  const { id } = req.params;
+  Transaction.findById(id)
     .then(doc => {
       res.status(200).send({
         message: 'Success: got Transaction by name!',
@@ -65,7 +99,44 @@ const getByName = (req, res) => {
     });
 };
 
-// const update = (req, res) => {};
+const update = (req, res) => {
+  const { id } = req.params;
+  const txn = req.body;
+  console.log('txn :', txn);
+
+  Transaction.findByIdAndUpdate(
+    id,
+    {
+      $set: {
+        name: txn.name,
+        budget: txn.budgetId,
+        category: txn.categoryId,
+        amount: txn.amount,
+        date: txn.date,
+        tags: txn.tags
+      }
+    },
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send({
+          message: `Error: could not update ${txn.name}`,
+          error: err
+        });
+        return;
+      }
+      console.log('doc:', doc);
+      Transaction.populate(doc, 'category', e => {
+        if (e) return;
+        res.status(200).send({
+          message: `Success: updated ${txn.name}`,
+          transaction: doc
+        });
+      });
+    }
+  );
+};
 
 const deleteAll = (req, res) => {
   Transaction.deleteMany({})
@@ -82,10 +153,41 @@ const deleteAll = (req, res) => {
     });
 };
 
+const deleteAllInBudget = (req, res) => {
+  const { budgetId } = req.params;
+  Transaction.deleteMany({ budget: budgetId })
+    .then(doc => {
+      Budget.findById(budgetId).then(budget => {
+        budget.resetActual();
+      });
+      res.status(200).send({
+        message: 'Success: deleted all Transactions in Budget!',
+        doc
+      });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: 'Error: could not delete all Transactions in Budget',
+        error: err
+      });
+    });
+};
+
 const deleteByName = (req, res) => {
   const { transactionName } = req.params;
   Transaction.deleteByName(transactionName)
     .then(doc => {
+      Budget.findOneAndUpdate(
+        {
+          _id: doc.budget,
+          'budgetItems.category': doc.category
+        },
+        { $inc: { 'budgetItems.$.actual': -doc.amount } }
+      )
+        // TODO modify the 'then' and 'catch' functions
+        .then(budget => console.log(budget))
+        .catch(err => console.error(err));
+
       res.status(200).send({
         message: `Success: deleted ${doc.name}`,
         transaction: doc
@@ -99,4 +201,13 @@ const deleteByName = (req, res) => {
     });
 };
 
-module.exports = { create, get, getByName, deleteAll, deleteByName };
+module.exports = {
+  create,
+  get,
+  getAllInBudget,
+  getById,
+  update,
+  deleteAll,
+  deleteAllInBudget,
+  deleteByName
+};
