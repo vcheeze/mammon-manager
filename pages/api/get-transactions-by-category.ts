@@ -4,10 +4,9 @@ import { query } from '../../lib/db'
 const handler: NextApiHandler = async (_, res) => {
   try {
     const results = await query(`
-      SELECT * FROM entries
-      ORDER BY id DESC
-      LIMIT 10
-  `)
+      SELECT category, SUM(amount) AS total FROM transaction
+      GROUP BY category
+    `)
 
     return res.json(results)
   } catch (e) {

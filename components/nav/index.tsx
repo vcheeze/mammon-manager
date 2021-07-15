@@ -10,7 +10,10 @@ export default function Nav({ title = 'Entries' }) {
           <Link href="/">
             <a className="font-bold text-3xl">{title}</a>
           </Link>
-          <ButtonLink href="/new">New Entry</ButtonLink>
+          <Link href="/viz">
+            <a>Visualizations</a>
+          </Link>
+          <ButtonLink href="/add-transaction">Add Transaction</ButtonLink>
         </div>
       </nav>
     </Container>

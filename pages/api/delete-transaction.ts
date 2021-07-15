@@ -12,14 +12,12 @@ const handler: NextApiHandler = async (req, res) => {
     }
     const results = await query(
       `
-      SELECT id, title, content
-      FROM entries
+      DELETE FROM entries
       WHERE id = ?
-    `,
+      `,
       id
     )
-
-    return res.json(results[0])
+    res.json(results)
   } catch (e) {
     res.status(500).json({ message: e.message })
   }

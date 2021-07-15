@@ -1,21 +1,23 @@
 import { useRouter } from 'next/router'
 
-import { useEntry } from '@/lib/swr-hooks'
+import { useTransaction } from '@/lib/swr-hooks'
 import Container from '@/components/container'
 import Nav from '@/components/nav'
 
 export default function EditEntryPage() {
   const router = useRouter()
   const id = router.query.id?.toString()
-  const { data } = useEntry(id)
+  const { data } = useTransaction(id)
 
   if (data) {
     return (
       <>
         <Nav title="View" />
         <Container>
-          <h1 className="font-bold text-3xl my-2">{data.title}</h1>
-          <p>{data.content}</p>
+          <h1 className="font-bold text-3xl my-2">{data.name}</h1>
+          <p>{data.amount}</p>
+          <p>{data.date}</p>
+          <p>{data.category}</p>
         </Container>
       </>
     )

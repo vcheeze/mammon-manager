@@ -4,10 +4,10 @@ import Nav from '@/components/nav'
 import Container from '@/components/container'
 import Entries from '@/components/entries'
 
-import { useEntries } from '@/lib/swr-hooks'
+import { useTransactions } from '@/lib/swr-hooks'
 
 export default function IndexPage() {
-  const { entries, isLoading } = useEntries()
+  const { transactions, isLoading } = useTransactions()
 
   if (isLoading) {
     return (
@@ -31,7 +31,7 @@ export default function IndexPage() {
     <div>
       <Nav />
       <Container>
-        <Entries entries={entries} />
+        <Entries entries={transactions} />
       </Container>
     </div>
   )

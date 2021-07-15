@@ -1,25 +1,30 @@
 import { useState } from 'react'
 import Router from 'next/router'
+import { format } from 'date-fns'
 
 import Button from '@/components/button'
 
 export default function EntryForm() {
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
+  const [name, setName] = useState('')
+  const [amount, setAmount] = useState(0)
+  const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'))
+  const [category, setCategory] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
   async function submitHandler(e) {
     setSubmitting(true)
     e.preventDefault()
     try {
-      const res = await fetch('/api/create-entry', {
+      const res = await fetch('/api/create-transaction', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          title,
-          content,
+          name,
+          amount,
+          date,
+          category,
         }),
       })
       setSubmitting(false)
@@ -34,28 +39,55 @@ export default function EntryForm() {
   return (
     <form onSubmit={submitHandler}>
       <div className="my-4">
-        <label htmlFor="title">
-          <h3 className="font-bold">Title</h3>
+        <label htmlFor="name" className="font-bold">
+          Name
         </label>
         <input
-          id="title"
-          className="shadow border rounded w-full"
+          id="name"
+          className="shadow border rounded w-full p-2"
           type="text"
-          name="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          name="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
       </div>
       <div className="my-4">
-        <label htmlFor="content">
-          <h3 className="font-bold">Content</h3>
+        <label htmlFor="amount" className="font-bold">
+          Amount
         </label>
-        <textarea
-          className="shadow border resize-none focus:shadow-outline w-full h-48"
-          id="content"
-          name="content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
+        <input
+          id="amount"
+          className="shadow border rounded w-full p-2"
+          type="number"
+          name="amount"
+          value={amount}
+          onChange={(e) => setAmount(+e.target.value)}
+        />
+      </div>
+      <div className="my-4">
+        <label htmlFor="date" className="font-bold">
+          Date
+        </label>
+        <input
+          id="date"
+          className="shadow border rounded w-full p-2"
+          type="date"
+          name="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
+      </div>
+      <div className="my-4">
+        <label htmlFor="category" className="font-bold">
+          Category
+        </label>
+        <input
+          id="category"
+          className="shadow border rounded w-full p-2"
+          type="text"
+          name="category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
         />
       </div>
       <Button disabled={submitting} type="submit">
