@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "migrate": "node scripts/migrate-db.js",
-    "type-check": "tsc --project tsconfig.json --pretty --noEmit",
+    "type-check": "tsc --jsx preserve --pretty --noEmit",
     "lint": "next lint",
     "prepare": "husky install"
   },
@@ -47,6 +47,6 @@
   },
   "license": "MIT",
   "lint-staged": {
-    "*.{ts,tsx}": ["eslint --fix"]
+    "*.{ts,tsx}": ["npm run type-check", "eslint --fix"]
   }
 }
