@@ -1,3 +1,3 @@
 export default function AllTxns() {
-  return <p>Hello World</p>;
+  return <p>Hello World!</p>;
 }
