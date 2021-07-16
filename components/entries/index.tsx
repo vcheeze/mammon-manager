@@ -11,9 +11,9 @@ function Entries({ entries }) {
         ))}
       </div>
     )
-  } else {
-    return null
   }
+
+  return null
 }
 
 export default Entries
