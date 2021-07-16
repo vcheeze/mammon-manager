@@ -1,6 +1,6 @@
-# MySQL Example
+# Mammon Manager
 
-This is an example of using [MySQL](https://www.mysql.com/) in a Next.js project.
+Manage your mammon, and let not your mammon manage you.
 
 ## Demo
 
