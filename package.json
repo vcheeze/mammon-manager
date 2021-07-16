@@ -47,6 +47,6 @@
   },
   "license": "MIT",
   "lint-staged": {
-    "*.{ts,tsx}": ["eslint '*/**/*.{ts,tsx}' --fix"]
+    "*.{ts,tsx}": ["npm run lint ."]
   }
 }
