@@ -1,15 +1,20 @@
-import cn from 'clsx'
+import cn from 'clsx';
 
 function Button({
-  onClick = console.log,
+  onClick = () => {},
   className = '',
   children = null,
-  type = null,
+  type = 'button',
   disabled = false,
 }) {
+  // enforce button type
+  let buttonType: 'button' | 'submit' | 'reset' = 'button';
+  if (type !== 'button' && type !== 'submit') buttonType = 'button';
+
   return (
+    /* eslint-disable react/button-has-type */
     <button
-      type={type}
+      type={buttonType}
       onClick={onClick}
       disabled={disabled}
       className={cn(
@@ -21,13 +26,14 @@ function Button({
         'text-sm',
         'font-bold',
         {
-          [className]: Boolean(className),
+          [className]: !!className,
         }
       )}
     >
       {children}
     </button>
-  )
+    /* eslint-enable react/button-has-type */
+  );
 }
 
-export default Button
+export default Button;

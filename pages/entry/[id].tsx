@@ -1,13 +1,13 @@
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
-import { useTransaction } from '@/lib/swr-hooks'
-import Container from '@/components/container'
-import Nav from '@/components/nav'
+import { useTransaction } from '@/lib/swr-hooks';
+import Container from '@/components/container';
+import Nav from '@/components/nav';
 
 export default function EditEntryPage() {
-  const router = useRouter()
-  const id = router.query.id?.toString()
-  const { data } = useTransaction(id)
+  const router = useRouter();
+  const id = router.query.id?.toString();
+  const { data } = useTransaction(id);
 
   if (data) {
     return (
@@ -20,16 +20,16 @@ export default function EditEntryPage() {
           <p>{data.category}</p>
         </Container>
       </>
-    )
-  } else {
-    return (
-      <>
-        <Nav title="View" />
-        <Container>
-          <h1 className="font-bold text-3xl my-2">...</h1>
-          <p>...</p>
-        </Container>
-      </>
-    )
+    );
   }
+
+  return (
+    <>
+      <Nav title="View" />
+      <Container>
+        <h1 className="font-bold text-3xl my-2">...</h1>
+        <p>...</p>
+      </Container>
+    </>
+  );
 }

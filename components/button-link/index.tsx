@@ -4,6 +4,7 @@ import cn from 'clsx'
 function ButtonLink({ href = '/', className = '', children }) {
   return (
     <Link href={href}>
+      {/* eslint-disable jsx-a11y/anchor-is-valid */}
       <a
         className={cn(
           'bg-black',

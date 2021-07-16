@@ -1,13 +1,13 @@
-import Skeleton from 'react-loading-skeleton'
+import Skeleton from 'react-loading-skeleton';
 
-import Nav from '@/components/nav'
-import Container from '@/components/container'
-import Entries from '@/components/entries'
+import Nav from '@/components/nav';
+import Container from '@/components/container';
+import Entries from '@/components/entries';
 
-import { useTransactions } from '@/lib/swr-hooks'
+import { useTransactions } from '@/lib/swr-hooks';
 
 export default function IndexPage() {
-  const { transactions, isLoading } = useTransactions()
+  const { transactions, isLoading } = useTransactions();
 
   if (isLoading) {
     return (
@@ -24,7 +24,7 @@ export default function IndexPage() {
           <Skeleton height={48} />
         </Container>
       </div>
-    )
+    );
   }
 
   return (
@@ -34,5 +34,5 @@ export default function IndexPage() {
         <Entries entries={transactions} />
       </Container>
     </div>
-  )
+  );
 }
