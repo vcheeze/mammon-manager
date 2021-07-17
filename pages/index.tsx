@@ -1,6 +1,5 @@
 import Skeleton from 'react-loading-skeleton';
 
-import Nav from '@/components/nav';
 import Container from '@/components/container';
 import Entries from '@/components/entries';
 
@@ -12,7 +11,6 @@ export default function IndexPage() {
   if (isLoading) {
     return (
       <div>
-        <Nav />
         <Container>
           <Skeleton width={180} height={24} />
           <Skeleton height={48} />
@@ -29,7 +27,6 @@ export default function IndexPage() {
 
   return (
     <div>
-      <Nav />
       <Container>
         <Entries entries={transactions} />
       </Container>
