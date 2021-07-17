@@ -1,11 +1,12 @@
 import { NextApiHandler } from 'next';
 import { query } from '../../lib/db';
 
-const handler: NextApiHandler = async (_, res) => {
+const handler: NextApiHandler = async (req, res) => {
+  const { date } = req.query;
   try {
     const results = await query(`
-      SELECT category, SUM(amount) AS total FROM transaction
-      GROUP BY category
+      SELECT * FROM transaction
+      WHERE date = '${date}'
     `);
 
     return res.json(results);

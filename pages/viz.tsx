@@ -3,7 +3,7 @@ import { format, getYear, getWeek } from 'date-fns';
 
 import Nav from '@/components/nav';
 import Container from '@/components/container';
-// import AllTxnsByDay from '@/components/charts/day/all-txns';
+import { DayDashboard } from '@/components/dashboard';
 
 function formatWeekNumber(weekNumber: number) {
   return weekNumber.toLocaleString('en-US', {
@@ -58,7 +58,7 @@ export default function VizPage() {
   return (
     <>
       <Nav title="New" />
-      <Container className="w-full lg:w-2/4">
+      <Container className="w-full lg:w-3/4">
         <div className="grid grid-cols-2 my-2">
           <div className="m-2">
             <label htmlFor="dashboardType" className="font-bold">
@@ -142,7 +142,7 @@ export default function VizPage() {
             </div>
           )}
         </div>
-        {/* {dashboardType === 'day' && <AllTxnsByDay date={day} />} */}
+        {dashboardType === 'day' && <DayDashboard date={day} />}
       </Container>
     </>
   );
