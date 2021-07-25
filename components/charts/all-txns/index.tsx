@@ -1,7 +1,7 @@
 import Chart from 'react-apexcharts';
 
 export default function AllTxns({ data }) {
-  return data.length > 0 ? (
+  return (
     <Chart
       type="line"
       options={{
@@ -28,7 +28,5 @@ export default function AllTxns({ data }) {
         },
       ]}
     />
-  ) : (
-    <h1>No Transactions!</h1>
   );
 }

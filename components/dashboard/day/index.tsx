@@ -8,7 +8,7 @@ export default function DayDashboard({ date }) {
   const { transactions, isLoading: isTxnLoading } = useTransactionsByDay(date);
 
   if (isCatLoading || isTxnLoading) return <PuffLoader loading size={150} />;
-  return (
+  return transactions.length > 0 ? (
     <div className="grid grid-cols-2">
       <PieByCategory data={categories} />
       <table className="table-auto border-2">
@@ -30,5 +30,7 @@ export default function DayDashboard({ date }) {
         </tbody>
       </table>
     </div>
+  ) : (
+    <h1>No Transactions!</h1>
   );
 }

@@ -1,7 +1,7 @@
 import Chart from 'react-apexcharts';
 
 export default function PieByCategory({ data }) {
-  return data.length > 0 ? (
+  return (
     <Chart
       type="pie"
       options={{
@@ -9,7 +9,5 @@ export default function PieByCategory({ data }) {
       }}
       series={data.map((t) => +(Math.round(t.total * 100) / 100).toFixed(2))}
     />
-  ) : (
-    <h1>No Transactions!</h1>
   );
 }
