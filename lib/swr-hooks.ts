@@ -44,6 +44,20 @@ export function useTransactionsByDay(date: string) {
   };
 }
 
+export function useTransactionsByMonth(month: string) {
+  const firstDayOfMonth = `${month}-01`;
+  const { data, error } = useSWR(
+    `/api/get-transactions-by-month?firstDayOfMonth=${firstDayOfMonth}`,
+    fetcher
+  );
+
+  return {
+    transactions: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
+
 export function useCategories() {
   const { data, error } = useSWR(`/api/get-categories`, fetcher);
 
