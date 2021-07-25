@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { format, getYear, getWeek } from 'date-fns';
 
 import Container from '@/components/container';
-import { DayDashboard } from '@/components/dashboard';
+import { DayDashboard, MonthDashboard } from '@/components/dashboard';
 
 function formatWeekNumber(weekNumber: number) {
   return weekNumber.toLocaleString('en-US', {
@@ -140,6 +140,7 @@ export default function VizPage() {
         )}
       </div>
       {dashboardType === 'day' && <DayDashboard date={day} />}
+      {dashboardType === 'month' && <MonthDashboard month={month} />}
     </Container>
   );
 }
