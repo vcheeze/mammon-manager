@@ -28,7 +28,7 @@ export default function Nav() {
   const router = useRouter();
 
   return (
-    <Pane borderBottom padding={majorScale(1)}>
+    <Pane borderBottom padding={majorScale(1)} marginBottom={majorScale(4)}>
       <Container className="py-2">
         <nav>
           {routes.map((r) => (

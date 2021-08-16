@@ -7,9 +7,7 @@ export default function IndexPage() {
     <div>
       <Pane>
         <Container>
-          <Heading size={600} marginTop={majorScale(3)}>
-            Welcome to Mammon Manager
-          </Heading>
+          <Heading size={600}>Welcome to Mammon Manager</Heading>
           <Paragraph marginTop={majorScale(6)} marginBottom={majorScale(6)}>
             Mammon Manager is designed to help you manage your finance.
           </Paragraph>
@@ -17,7 +15,7 @@ export default function IndexPage() {
         <Pane className="grid grid-cols-2">
           <Pane
             background="blue600"
-            height={majorScale(32)}
+            height={majorScale(48)}
             padding={majorScale(2)}
             display="flex"
             justifyContent="center"
@@ -27,7 +25,7 @@ export default function IndexPage() {
           </Pane>
           <Pane
             background="blue200"
-            height={majorScale(32)}
+            height={majorScale(48)}
             padding={majorScale(2)}
             display="flex"
             justifyContent="center"
