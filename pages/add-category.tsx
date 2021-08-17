@@ -1,3 +1,13 @@
+import { Pane, Heading } from 'evergreen-ui';
+
+import Container from '@/components/container';
+
 export default function NewCategoryPage() {
-  return <p>New Category</p>;
+  return (
+    <Pane>
+      <Container>
+        <Heading>Add a category</Heading>
+      </Container>
+    </Pane>
+  );
 }

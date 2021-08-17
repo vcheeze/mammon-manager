@@ -1,35 +1,45 @@
-import Skeleton from 'react-loading-skeleton';
+import { Pane, Heading, Paragraph, Text, majorScale } from 'evergreen-ui';
 
 import Container from '@/components/container';
-import Entries from '@/components/entries';
-
-import { useTransactions } from '@/lib/swr-hooks';
 
 export default function IndexPage() {
-  const { transactions, isLoading } = useTransactions();
-
-  if (isLoading) {
-    return (
-      <div>
-        <Container>
-          <Skeleton width={180} height={24} />
-          <Skeleton height={48} />
-          <div className="my-4" />
-          <Skeleton width={180} height={24} />
-          <Skeleton height={48} />
-          <div className="my-4" />
-          <Skeleton width={180} height={24} />
-          <Skeleton height={48} />
-        </Container>
-      </div>
-    );
-  }
-
   return (
     <div>
-      <Container>
-        <Entries entries={transactions} />
-      </Container>
+      <Pane>
+        <Container>
+          <Heading size={600}>Welcome to Mammon Manager</Heading>
+          <Paragraph marginTop={majorScale(6)} marginBottom={majorScale(6)}>
+            Mammon Manager is designed to help you manage your finance.
+          </Paragraph>
+        </Container>
+        <Pane className="grid grid-cols-2">
+          <Pane
+            background="blue600"
+            height={majorScale(48)}
+            padding={majorScale(2)}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Text color="gray50">Build your own budget.</Text>
+          </Pane>
+          <Pane
+            background="blue200"
+            height={majorScale(48)}
+            padding={majorScale(2)}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Text>View charts and graphs!</Text>
+          </Pane>
+        </Pane>
+        <Container>
+          <Paragraph marginTop={majorScale(6)}>
+            And that&apos;s that. Try it out!
+          </Paragraph>
+        </Container>
+      </Pane>
     </div>
   );
 }
