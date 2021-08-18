@@ -4,7 +4,8 @@ import Router from 'next/router';
 import { format } from 'date-fns';
 import {
   TextInputField,
-  Autocomplete,
+  FormField,
+  Combobox,
   Button,
   ConfirmIcon,
 } from 'evergreen-ui';
@@ -79,30 +80,13 @@ export default function EntryForm() {
         />
       </div>
       <div className="my-4">
-        <Autocomplete
-          title="Categories"
-          items={categories.map((c) => c.name)}
-          onChange={(value) => setCategory(value)}
-        >
-          {(props) => {
-            const { getInputProps, getRef, inputValue, openMenu } = props;
-            /* eslint-disable react/jsx-props-no-spreading */
-            return (
-              <TextInputField
-                label="Category"
-                value={inputValue}
-                ref={getRef}
-                required
-                {...getInputProps({
-                  onFocus: () => {
-                    openMenu();
-                  },
-                })}
-              />
-            );
-            /* eslint-enable react/jsx-props-no-spreading */
-          }}
-        </Autocomplete>
+        <FormField label="Category" isRequired>
+          <Combobox
+            width="100%"
+            items={categories.map((c) => c.name)}
+            onChange={(value) => setCategory(value)}
+          />
+        </FormField>
       </div>
       <Button
         type="submit"
