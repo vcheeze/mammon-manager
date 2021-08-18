@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { format, getYear, getWeek } from 'date-fns';
+import { Pane, SelectField, TextInputField, majorScale } from 'evergreen-ui';
 
 import Container from '@/components/container';
 import { DayDashboard, MonthDashboard } from '@/components/dashboard';
@@ -56,89 +57,65 @@ export default function VizPage() {
 
   return (
     <Container className="w-full lg:w-3/4">
-      <div className="grid grid-cols-2 my-2">
-        <div className="m-2">
-          <label htmlFor="dashboardType" className="font-bold">
-            Dashboard Type
-          </label>
-          <select
-            id="dashboardType"
-            value={dashboardType}
-            className="block shadow border rounded w-full p-2"
-            onChange={(e) => setDashboardType(e.target.value)}
-          >
-            {options.map((o) => (
-              <option key={o.value} value={o.value}>
-                {o.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        {dashboardType === 'day' && (
+      <Pane background="tint1" marginBottom={majorScale(2)}>
+        <div className="grid grid-cols-2 my-2">
           <div className="m-2">
-            <label htmlFor="day" className="font-bold">
-              Select Day
-            </label>
-            <input
-              id="day"
-              className="block shadow border rounded w-full p-2"
-              type="date"
-              name="day"
-              value={day}
-              onChange={(e) => setDay(e.target.value)}
-            />
-          </div>
-        )}
-        {dashboardType === 'week' && (
-          <div className="m-2">
-            <label htmlFor="week" className="font-bold">
-              Select Week
-            </label>
-            <input
-              id="week"
-              className="shadow border rounded w-full p-2"
-              type="week"
-              name="week"
-              value={week}
-              onChange={(e) => setWeek(e.target.value)}
-            />
-          </div>
-        )}
-        {dashboardType === 'month' && (
-          <div className="m-2">
-            <label htmlFor="month" className="font-bold">
-              Select Month
-            </label>
-            <input
-              id="month"
-              className="shadow border rounded w-full p-2"
-              type="month"
-              name="month"
-              value={month}
-              onChange={(e) => setMonth(e.target.value)}
-            />
-          </div>
-        )}
-        {dashboardType === 'year' && (
-          <div className="m-2">
-            <label htmlFor="year" className="font-bold">
-              Select Year
-            </label>
-            <select
-              id="year"
-              value={year}
-              className="shadow border rounded w-full p-2"
-              onChange={(e) => setYear(e.target.value)}
+            <SelectField
+              label="Dashboard Type"
+              value={dashboardType}
+              onChange={(e) => setDashboardType(e.target.value)}
             >
-              {generateYears(11).map((y) => (
-                <option key={y} value={y}>
-                  {y}
+              {options.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
                 </option>
               ))}
-            </select>
+            </SelectField>
           </div>
-        )}
-      </div>
+          <div className="m-2">
+            {dashboardType === 'day' && (
+              <TextInputField
+                name="day"
+                label="Select Day"
+                type="date"
+                value={day}
+                onChange={(e) => setDay(e.target.value)}
+              />
+            )}
+            {dashboardType === 'week' && (
+              <TextInputField
+                name="week"
+                label="Select Week"
+                type="week"
+                value={week}
+                onChange={(e) => setWeek(e.target.value)}
+              />
+            )}
+            {dashboardType === 'month' && (
+              <TextInputField
+                name="month"
+                label="Select Month"
+                type="month"
+                value={month}
+                onChange={(e) => setMonth(e.target.value)}
+              />
+            )}
+            {dashboardType === 'year' && (
+              <SelectField
+                label="Select Year"
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+              >
+                {generateYears(11).map((y) => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ))}
+              </SelectField>
+            )}
+          </div>
+        </div>
+      </Pane>
       {dashboardType === 'day' && <DayDashboard date={day} />}
       {dashboardType === 'month' && <MonthDashboard month={month} />}
     </Container>
