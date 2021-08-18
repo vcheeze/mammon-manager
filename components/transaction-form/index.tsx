@@ -92,6 +92,7 @@ export default function EntryForm() {
                 label="Category"
                 value={inputValue}
                 ref={getRef}
+                required
                 {...getInputProps({
                   onFocus: () => {
                     openMenu();
