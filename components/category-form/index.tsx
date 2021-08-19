@@ -12,7 +12,7 @@ import {
 } from 'evergreen-ui';
 import { HexColorPicker } from 'react-colorful';
 
-import colors from '@/lib/colors';
+import colors from '@/constants/colors';
 
 export default function EntryForm() {
   const randomColor = colors[Math.floor(Math.random() * (colors.length - 1))];
