@@ -27,7 +27,7 @@ export default function EntryForm() {
     setSubmitting(true);
     e.preventDefault();
     try {
-      const res = await fetch('/api/create-category', {
+      const res = await fetch('/api/categories', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
