@@ -1,4 +1,4 @@
-export default [
+const colors: string[] = [
   '#101840',
   '#474d66',
   '#696f8c',
@@ -49,3 +49,5 @@ export default [
   '#66460D',
   '#FFEFD2',
 ];
+
+export default colors;

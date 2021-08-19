@@ -1,41 +1,41 @@
 import { NextApiHandler } from 'next';
 import { PSDB } from 'planetscale-node';
 
-const conn = new PSDB('main');
+import db from '@/constants/db';
+
+const conn = new PSDB(db);
 
 const handler: NextApiHandler = async (req, res) => {
   const {
     method,
-    body: { name, amount, date, category },
+    body: { name, color },
   } = req;
 
   switch (method) {
     case 'POST': {
+      if (!name || !color) {
+        return res.status(400).json({ message: 'Missing required field(s)' });
+      }
       await conn.query(
-        `INSERT INTO transactions (name, amount, date, category) VALUES ('${name}', ${amount}, '${date}', '${category}')`,
+        `INSERT INTO categories (name, color) VALUES ('${name}', '${color}')`,
         null
       );
       res.statusCode = 201;
-      res.json({ name, amount, date, category });
-      break;
+      return res.json({ name, color });
     }
     case 'GET': {
       try {
         // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-unused-vars
-        const [getRows, _] = await conn.query(
-          'SELECT * FROM transactions',
-          null
-        );
+        const [getRows, _] = await conn.query('SELECT * FROM categories', null);
         res.statusCode = 200;
-        res.json(getRows);
+        return res.json(getRows);
       } catch (e) {
-        res.status(500).json({ message: e.message });
+        return res.status(500).json({ message: e.message });
       }
-      break;
     }
     default:
       res.setHeader('Allow', ['GET', 'POST']);
-      res.status(405).end(`Method ${method} Not Allowed`);
+      return res.status(405).end(`Method ${method} Not Allowed`);
   }
 };
 
