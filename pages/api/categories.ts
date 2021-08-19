@@ -12,7 +12,8 @@ const handler: NextApiHandler = async (req, res) => {
   switch (method) {
     case 'POST': {
       const [rows, fields] = await conn.query(
-        `INSERT INTO categories (name, color) VALUES ('${name}', '${color}')`
+        `INSERT INTO categories (name, color) VALUES ('${name}', '${color}')`,
+        null
       );
       console.log('rows :>> ', rows);
       console.log('fields :>> ', fields);
@@ -23,7 +24,7 @@ const handler: NextApiHandler = async (req, res) => {
     case 'GET': {
       try {
         // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-unused-vars
-        const [getRows, _] = await conn.query('SELECT * FROM categories');
+        const [getRows, _] = await conn.query('SELECT * FROM categories', null);
         res.statusCode = 200;
         res.json(getRows);
       } catch (e) {
