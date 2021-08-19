@@ -65,6 +65,7 @@ export default function EntryForm() {
           {errorMessage}
         </Alert>
       )}
+
       <Heading>Add a category</Heading>
       <form onSubmit={submitHandler}>
         <Pane className="my-4">

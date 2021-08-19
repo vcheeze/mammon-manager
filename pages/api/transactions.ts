@@ -6,23 +6,26 @@ const conn = new PSDB('main');
 const handler: NextApiHandler = async (req, res) => {
   const {
     method,
-    body: { name, color },
+    body: { name, amount, date, category },
   } = req;
 
   switch (method) {
     case 'POST': {
       await conn.query(
-        `INSERT INTO categories (name, color) VALUES ('${name}', '${color}')`,
+        `INSERT INTO transactions (name, amount, date, category) VALUES ('${name}', ${amount}, '${date}', '${category}')`,
         null
       );
       res.statusCode = 201;
-      res.json({ name, color });
+      res.json({ name, amount, date, category });
       break;
     }
     case 'GET': {
       try {
         // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-unused-vars
-        const [getRows, _] = await conn.query('SELECT * FROM categories', null);
+        const [getRows, _] = await conn.query(
+          'SELECT * FROM transactions',
+          null
+        );
         res.statusCode = 200;
         res.json(getRows);
       } catch (e) {
