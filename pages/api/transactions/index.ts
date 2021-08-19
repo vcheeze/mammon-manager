@@ -11,13 +11,15 @@ const handler: NextApiHandler = async (req, res) => {
 
   switch (method) {
     case 'POST': {
+      if (!name || !amount || !date || !category) {
+        return res.status(400).json({ message: 'Missing required field(s)' });
+      }
       await conn.query(
         `INSERT INTO transactions (name, amount, date, category) VALUES ('${name}', ${amount}, '${date}', '${category}')`,
         null
       );
       res.statusCode = 201;
-      res.json({ name, amount, date, category });
-      break;
+      return res.json({ name, amount, date, category });
     }
     case 'GET': {
       try {
@@ -27,15 +29,14 @@ const handler: NextApiHandler = async (req, res) => {
           null
         );
         res.statusCode = 200;
-        res.json(getRows);
+        return res.json(getRows);
       } catch (e) {
-        res.status(500).json({ message: e.message });
+        return res.status(500).json({ message: e.message });
       }
-      break;
     }
     default:
       res.setHeader('Allow', ['GET', 'POST']);
-      res.status(405).end(`Method ${method} Not Allowed`);
+      return res.status(405).end(`Method ${method} Not Allowed`);
   }
 };
 
