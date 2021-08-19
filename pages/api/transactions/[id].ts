@@ -1,7 +1,9 @@
 import { NextApiHandler } from 'next';
 import { PSDB } from 'planetscale-node';
 
-const conn = new PSDB('main');
+import db from '@/constants/db';
+
+const conn = new PSDB(db);
 
 const handler: NextApiHandler = async (req, res) => {
   const {
