@@ -5,7 +5,7 @@ function fetcher(url: string) {
 }
 
 export function useTransactions() {
-  const { data, error } = useSWR(`/api/get-transactions`, fetcher);
+  const { data, error } = useSWR(`/api/transactions`, fetcher);
 
   return {
     transactions: data,
