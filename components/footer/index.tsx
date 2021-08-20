@@ -1,13 +1,17 @@
-import PoweredByVercel from '../powered-by-vercel'
+import { majorScale, Pane, Paragraph } from 'evergreen-ui';
+
+import Container from '@/components/container';
 
 function Footer() {
   return (
-    <footer className="container mx-auto fixed bottom-0 right-0 left-0 flex justify-center items-center h-24">
-      <a href="https://vercel.com?utm_source=next-mysql">
-        <PoweredByVercel />
-      </a>
-    </footer>
-  )
+    <Pane background="blueTint" marginTop={majorScale(8)}>
+      <Container>
+        <footer className="flex justify-center items-center h-24">
+          <Paragraph>Footer placeholder</Paragraph>
+        </footer>
+      </Container>
+    </Pane>
+  );
 }
 
-export default Footer
+export default Footer;

@@ -1,21 +1,49 @@
-import Link from 'next/link'
-import Container from '@/components/container'
-import ButtonLink from '@/components/button-link'
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { majorScale, Pane, Link as Anchor } from 'evergreen-ui';
 
-export default function Nav({ title = 'Entries' }) {
+import Container from '@/components/container';
+
+export default function Nav() {
+  const routes = [
+    {
+      name: 'Home',
+      path: '/',
+    },
+    {
+      name: 'Visualizations',
+      path: '/viz',
+    },
+    {
+      name: 'Add Transaction',
+      path: '/add-transaction',
+    },
+    {
+      name: 'Add Category',
+      path: '/add-category',
+    },
+  ];
+
+  const router = useRouter();
+
   return (
-    <Container className="py-4">
-      <nav>
-        <div className="flex justify-between items-center">
-          <Link href="/">
-            <a className="font-bold text-3xl">{title}</a>
-          </Link>
-          <Link href="/viz">
-            <a>Visualizations</a>
-          </Link>
-          <ButtonLink href="/add-transaction">Add Transaction</ButtonLink>
-        </div>
-      </nav>
-    </Container>
-  )
+    <Pane borderBottom padding={majorScale(1)} marginBottom={majorScale(4)}>
+      <Container className="py-2">
+        <nav>
+          {routes.map((r) => (
+            <Link href={r.path} passHref key={r.name}>
+              <Anchor
+                marginRight={majorScale(2)}
+                textDecoration="none"
+                color={router.pathname === r.path ? '' : 'neutral'}
+              >
+                {r.name}
+              </Anchor>
+            </Link>
+          ))}
+        </nav>
+      </Container>
+    </Pane>
+  );
 }
