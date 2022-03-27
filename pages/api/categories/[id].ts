@@ -21,7 +21,7 @@ const handler: NextApiHandler = async (req, res) => {
         `UPDATE categories SET name = '${name}', color = '${color}' WHERE id = ${id}`,
         null
       );
-      return res.status(201).json({ name, color });
+      return res.status(200).json({ name, color });
     }
     case 'GET': {
       try {
@@ -30,8 +30,7 @@ const handler: NextApiHandler = async (req, res) => {
           `SELECT * FROM categories WHERE id = ${id}`,
           null
         );
-        res.statusCode = 200;
-        return res.json(getRows);
+        return res.status(200).json(getRows);
       } catch (e) {
         return res.status(500).json({ message: e.message });
       }
