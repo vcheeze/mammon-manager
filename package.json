@@ -14,7 +14,7 @@
     "clsx": "^1.1.1",
     "date-fns": "^2.22.1",
     "dotenv": "^8.2.0",
-    "evergreen-ui": "^6.9.4",
+    "evergreen-ui": "^6.9.6",
     "next": "^12.1.0",
     "planetscale-node": "^0.3.0",
     "prettier": "^2.3.2",
@@ -47,6 +47,9 @@
     "postcss-preset-env": "^6.7.0",
     "tailwindcss": "^2.2.4",
     "typescript": "^4.0.5"
+  },
+  "overrides": {
+    "node-fetch": "2.6.7"
   },
   "license": "MIT",
   "lint-staged": {
