@@ -35,7 +35,7 @@ export default function NewCategoryPage() {
     e.preventDefault();
     try {
       mutate([...categories, { name, color }], true);
-      const res = await fetch('/api/categories', {
+      const res = await fetch('/api/category', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
