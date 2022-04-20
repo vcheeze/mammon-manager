@@ -5,7 +5,7 @@ function fetcher(url: string) {
 }
 
 export function useTransactions() {
-  const { data, error } = useSWR(`/api/transactions`, fetcher);
+  const { data, error } = useSWR(`/api/transaction`, fetcher);
 
   return {
     transactions: data,
@@ -59,7 +59,7 @@ export function useTransactionsByMonth(month: string) {
 }
 
 export function useCategories() {
-  const { data, error, mutate } = useSWR(`/api/categories`, fetcher);
+  const { data, error, mutate } = useSWR(`/api/category`, fetcher);
 
   return {
     categories: data,
