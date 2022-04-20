@@ -59,11 +59,12 @@ export function useTransactionsByMonth(month: string) {
 }
 
 export function useCategories() {
-  const { data, error } = useSWR(`/api/categories`, fetcher);
+  const { data, error, mutate } = useSWR(`/api/categories`, fetcher);
 
   return {
     categories: data,
     isLoading: !error && !data,
     isError: error,
+    mutate,
   };
 }

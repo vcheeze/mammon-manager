@@ -1,5 +1,6 @@
 import PuffLoader from 'react-spinners/PuffLoader';
 import { format } from 'date-fns';
+import { InlineAlert } from 'evergreen-ui';
 
 import { useTransactionsByMonth } from '@/lib/swr-hooks';
 import AllTxns from '@/components/charts/all-txns';
@@ -35,6 +36,6 @@ export default function MonthDashboard({ month }) {
       </table>
     </div>
   ) : (
-    <h1>No Transactions!</h1>
+    <InlineAlert intent="warning">No Transactions!</InlineAlert>
   );
 }
