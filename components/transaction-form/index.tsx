@@ -16,7 +16,7 @@ import {
 
 import { useCategories } from '@/lib/swr-hooks';
 
-export default function EntryForm() {
+export default function TransactionForm() {
   const { categories, isLoading } = useCategories();
 
   const [showError, setShowError] = useState(false);
