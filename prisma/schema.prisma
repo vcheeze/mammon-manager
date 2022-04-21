@@ -22,3 +22,12 @@ model Transaction {
   date     DateTime
   Category String
 }
+
+model Budget {
+  id        Int      @id @default(autoincrement())
+  Category  String
+  amount    Float
+  startDate DateTime
+  endDate   DateTime
+  name      String?
+}

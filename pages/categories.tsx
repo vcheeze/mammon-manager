@@ -19,7 +19,7 @@ import { HexColorPicker } from 'react-colorful';
 import colors from '@/constants/colors';
 import { useCategories } from '@/lib/swr-hooks';
 
-export default function NewCategoryPage() {
+export default function CategoriesPage() {
   const randomColor = colors[Math.floor(Math.random() * (colors.length - 1))];
 
   const [showError, setShowError] = useState(false);

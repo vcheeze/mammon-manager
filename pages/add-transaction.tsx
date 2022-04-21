@@ -17,7 +17,7 @@ import {
 import { useCategories } from '@/lib/swr-hooks';
 import Container from '@/components/container';
 
-export default function NewTransactionPage() {
+export default function AddTransactionPage() {
   const { categories, isLoading } = useCategories();
 
   const [showError, setShowError] = useState(false);
