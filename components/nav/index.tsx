@@ -23,6 +23,10 @@ export default function Nav() {
       name: 'Categories',
       path: '/categories',
     },
+    {
+      name: 'Budgets',
+      path: '/budgets',
+    },
   ];
 
   const router = useRouter();

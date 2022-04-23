@@ -20,5 +20,16 @@ model Transaction {
   name     String
   amount   Float
   date     DateTime
+  currency String
   Category String
+}
+
+model Budget {
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  startDate DateTime
+  endDate   DateTime
+  currency  String
+  Category  String
+  name      String?
 }
