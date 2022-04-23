@@ -6,16 +6,22 @@ const prisma = new PrismaClient();
 const handler: NextApiHandler = async (req, res) => {
   const {
     method,
-    body: { name, amount, date, category: Category },
+    body: { name, amount, date, currency, category: Category },
   } = req;
 
   switch (method) {
     case 'POST': {
-      if (!name || !amount || !date || !Category) {
+      if (!name || !amount || !date || !currency || !Category) {
         return res.status(400).json({ message: 'Missing required field(s)' });
       }
       const newEntry = await prisma.transaction.create({
-        data: { name, amount, date, Category },
+        data: {
+          name,
+          amount,
+          date: new Date(date).toISOString(),
+          currency,
+          Category,
+        },
       });
       return res.status(201).json({ data: newEntry, success: true });
     }

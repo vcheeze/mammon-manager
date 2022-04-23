@@ -14,17 +14,19 @@ import {
   majorScale,
 } from 'evergreen-ui';
 
-import { useCategories } from '@/lib/swr-hooks';
+import { useCurrencies, useCategories } from '@/lib/swr-hooks';
 import Container from '@/components/container';
 
 export default function AddTransactionPage() {
-  const { categories, isLoading } = useCategories();
+  const { currencies, isLoading: isCurLoading } = useCurrencies();
+  const { categories, isLoading: isCatLoading } = useCategories();
 
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [name, setName] = useState('');
   const [amount, setAmount] = useState(0);
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
+  const [currency, setCurrency] = useState('AED');
   const [category, setCategory] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -32,7 +34,7 @@ export default function AddTransactionPage() {
     setSubmitting(true);
     e.preventDefault();
     try {
-      const res = await fetch('/api/transactions', {
+      const res = await fetch('/api/transaction', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,6 +43,7 @@ export default function AddTransactionPage() {
           name,
           amount,
           date,
+          currency,
           category,
         }),
       });
@@ -59,7 +62,7 @@ export default function AddTransactionPage() {
     }
   }
 
-  if (isLoading) return <PuffLoader loading size={150} />;
+  if (isCurLoading || isCatLoading) return <PuffLoader loading size={150} />;
 
   return (
     <Container className="w-full lg:w-2/4">
@@ -93,7 +96,7 @@ export default function AddTransactionPage() {
               type="number"
               required
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => setAmount(+e.target.value)}
             />
           </div>
           <div className="my-4">
@@ -105,6 +108,23 @@ export default function AddTransactionPage() {
               value={date}
               onChange={(e) => setDate(e.target.value)}
             />
+          </div>
+          <div className="my-4">
+            <FormField label="Currency" isRequired>
+              <Combobox
+                width="100%"
+                initialSelectedItem={{
+                  label: 'United Arab Emirates Dirham (AED)',
+                  value: 'AED',
+                }}
+                items={currencies.map((c) => ({
+                  label: `${c.currencyName} (${c.currencyCode})`,
+                  value: c.currencyCode,
+                }))}
+                itemToString={(item) => (item ? item.label : '')}
+                onChange={(value) => setCurrency(value.value)}
+              />
+            </FormField>
           </div>
           <div className="my-4">
             <FormField label="Category" isRequired>
