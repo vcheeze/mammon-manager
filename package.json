@@ -13,7 +13,6 @@
     "@nivo/bar": "^0.79.1",
     "@nivo/core": "^0.79.0",
     "@prisma/client": "^3.12.0",
-    "apexcharts": "^3.27.2",
     "clsx": "^1.1.1",
     "date-fns": "^2.22.1",
     "dotenv": "^8.2.0",
