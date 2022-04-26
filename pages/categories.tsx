@@ -17,7 +17,7 @@ import {
 import { HexColorPicker } from 'react-colorful';
 
 import colors from '@/constants/colors';
-import { useCategories } from '@/lib/swr-hooks';
+import { useCategories } from '@/lib/swr-hooks/category';
 
 export default function CategoriesPage() {
   const randomColor = colors[Math.floor(Math.random() * (colors.length - 1))];
