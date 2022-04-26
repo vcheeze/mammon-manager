@@ -17,7 +17,9 @@ import {
   TrashIcon,
 } from 'evergreen-ui';
 
-import { useCategories, useCurrencies, useBudgets } from '@/lib/swr-hooks';
+import { useCategories } from '@/lib/swr-hooks/category';
+import { useBudgets } from '@/lib/swr-hooks/budget';
+import { useCurrencies } from '@/lib/swr-hooks/miscellaneous';
 
 export default function BudgetsPage() {
   const { categories, isLoading: isCatLoading } = useCategories();

@@ -14,7 +14,8 @@ import {
   majorScale,
 } from 'evergreen-ui';
 
-import { useCurrencies, useCategories } from '@/lib/swr-hooks';
+import { useCategories } from '@/lib/swr-hooks/category';
+import { useCurrencies } from '@/lib/swr-hooks/miscellaneous';
 import Container from '@/components/container';
 
 export default function AddTransactionPage() {

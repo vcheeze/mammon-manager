@@ -4,7 +4,6 @@ function fetcher(url: string) {
   return window.fetch(url).then((res) => res.json());
 }
 
-/* ========== Transaction ========== */
 export function useTransactions() {
   const { data, error } = useSWR(`/api/transaction`, fetcher);
 
@@ -54,41 +53,6 @@ export function useTransactionsByMonth(month: string) {
 
   return {
     transactions: data,
-    isLoading: !error && !data,
-    isError: error,
-  };
-}
-
-/* ========== Category ========== */
-export function useCategories() {
-  const { data, error, mutate } = useSWR(`/api/category`, fetcher);
-
-  return {
-    categories: data,
-    isLoading: !error && !data,
-    isError: error,
-    mutate,
-  };
-}
-
-/* ========== Budget ========== */
-export function useBudgets() {
-  const { data, error, mutate } = useSWR(`/api/budget`, fetcher);
-
-  return {
-    budgets: data,
-    isLoading: !error && !data,
-    isError: error,
-    mutate,
-  };
-}
-
-/* ========== Miscellaneous ========== */
-export function useCurrencies() {
-  const { data, error } = useSWR(`/api/currencies`, fetcher);
-
-  return {
-    currencies: data,
     isLoading: !error && !data,
     isError: error,
   };
