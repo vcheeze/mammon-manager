@@ -20,8 +20,12 @@ export default function Nav() {
       path: '/add-transaction',
     },
     {
-      name: 'Add Category',
-      path: '/add-category',
+      name: 'Categories',
+      path: '/categories',
+    },
+    {
+      name: 'Budgets',
+      path: '/budgets',
     },
   ];
 

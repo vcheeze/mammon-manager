@@ -1,0 +1,35 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String
+  color String
+}
+
+model Transaction {
+  id       Int      @id @default(autoincrement())
+  name     String
+  amount   Float
+  date     DateTime
+  currency String
+  Category String
+}
+
+model Budget {
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  startDate DateTime
+  endDate   DateTime
+  currency  String
+  Category  String
+  name      String?
+}

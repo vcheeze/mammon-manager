@@ -1,123 +1,124 @@
 import { useState } from 'react';
-import { format, getYear, getWeek } from 'date-fns';
-import { Pane, SelectField, TextInputField, majorScale } from 'evergreen-ui';
+import { format } from 'date-fns';
+import { map, groupBy, sumBy } from 'lodash';
+import { Pane, TextInputField, majorScale } from 'evergreen-ui';
+import PuffLoader from 'react-spinners/PuffLoader';
+import { ResponsiveBar } from '@nivo/bar';
 
 import Container from '@/components/container';
-import { DayDashboard, MonthDashboard } from '@/components/dashboard';
-
-function formatWeekNumber(weekNumber: number) {
-  return weekNumber.toLocaleString('en-US', {
-    minimumIntegerDigits: 2,
-    useGrouping: false,
-  });
-}
-
-function generateYears(numberOfYears: number) {
-  const currentYear = getYear(new Date());
-  const years = [currentYear];
-  for (let i = 1; i < numberOfYears; i += 1) {
-    years.push(currentYear - i);
-  }
-
-  return years;
-}
+import { useBudgetsByMonth } from '@/lib/swr-hooks/budget';
+import { useTransactionsByMonth } from '@/lib/swr-hooks/transaction';
+// import { MonthDashboard } from '@/components/dashboard';
 
 export default function VizPage() {
   const today = new Date();
-  const [dashboardType, setDashboardType] = useState('day');
-  const [day, setDay] = useState(format(today, 'yyyy-MM-dd'));
-  const [week, setWeek] = useState(
-    `${getYear(today)}-W${formatWeekNumber(getWeek(today))}`
-  );
   const [month, setMonth] = useState(format(today, 'yyyy-MM'));
-  const [year, setYear] = useState('');
 
-  const options = [
-    {
-      value: 'day',
-      label: 'Day',
-    },
-    {
-      value: 'week',
-      label: 'Week',
-    },
-    {
-      value: 'month',
-      label: 'Month',
-    },
-    {
-      value: 'year',
-      label: 'Year',
-    },
-    {
-      value: 'custom',
-      label: 'Custom',
-    },
-  ];
+  const { budgets, isLoading: isBudLoading } = useBudgetsByMonth(month);
+  const { transactions, isLoading: isTxnLoading } =
+    useTransactionsByMonth(month);
+
+  if (isBudLoading || isTxnLoading) return <PuffLoader loading size={150} />;
+
+  let groupedTransactions = [];
+  if (budgets && transactions) {
+    groupedTransactions = map(groupBy(transactions, 'Category'), (data) => ({
+      category: data[0].Category,
+      spent: sumBy(data, 'amount'),
+    }));
+    groupedTransactions = groupedTransactions.map((group) => {
+      const budget = budgets.find((b) => b.Category === group.category);
+      return {
+        ...group,
+        remaining: budget.amount - group.spent,
+      };
+    });
+  }
 
   return (
     <Container className="w-full lg:w-3/4">
       <Pane background="tint1" marginBottom={majorScale(2)}>
         <div className="grid grid-cols-2 my-2">
-          <div className="m-2">
-            <SelectField
-              label="Dashboard Type"
-              value={dashboardType}
-              onChange={(e) => setDashboardType(e.target.value)}
-            >
-              {options.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-            </SelectField>
-          </div>
-          <div className="m-2">
-            {dashboardType === 'day' && (
-              <TextInputField
-                name="day"
-                label="Select Day"
-                type="date"
-                value={day}
-                onChange={(e) => setDay(e.target.value)}
-              />
-            )}
-            {dashboardType === 'week' && (
-              <TextInputField
-                name="week"
-                label="Select Week"
-                type="week"
-                value={week}
-                onChange={(e) => setWeek(e.target.value)}
-              />
-            )}
-            {dashboardType === 'month' && (
-              <TextInputField
-                name="month"
-                label="Select Month"
-                type="month"
-                value={month}
-                onChange={(e) => setMonth(e.target.value)}
-              />
-            )}
-            {dashboardType === 'year' && (
-              <SelectField
-                label="Select Year"
-                value={year}
-                onChange={(e) => setYear(e.target.value)}
-              >
-                {generateYears(11).map((y) => (
-                  <option key={y} value={y}>
-                    {y}
-                  </option>
-                ))}
-              </SelectField>
-            )}
-          </div>
+          <TextInputField
+            name="month"
+            label="Select Month"
+            type="month"
+            value={month}
+            onChange={(e) => setMonth(e.target.value)}
+          />
         </div>
       </Pane>
-      {dashboardType === 'day' && <DayDashboard date={day} />}
-      {dashboardType === 'month' && <MonthDashboard month={month} />}
+      <div style={{ height: '500px' }}>
+        <ResponsiveBar
+          data={groupedTransactions}
+          keys={['spent', 'remaining']}
+          indexBy="category"
+          margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+          padding={0.3}
+          valueScale={{ type: 'linear' }}
+          indexScale={{ type: 'band', round: true }}
+          colors={{ scheme: 'nivo' }}
+          borderColor={{
+            from: 'color',
+            modifiers: [['darker', 1.6]],
+          }}
+          axisTop={null}
+          axisRight={null}
+          axisBottom={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: 'Category',
+            legendPosition: 'middle',
+            legendOffset: 32,
+          }}
+          axisLeft={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: 'Amount',
+            legendPosition: 'middle',
+            legendOffset: -40,
+          }}
+          label={(d) => `${d.value} AED`}
+          labelSkipWidth={12}
+          labelSkipHeight={12}
+          labelTextColor={{
+            from: 'color',
+            modifiers: [['darker', 1.6]],
+          }}
+          legends={[
+            {
+              dataFrom: 'keys',
+              anchor: 'bottom-right',
+              direction: 'column',
+              justify: false,
+              translateX: 120,
+              translateY: 0,
+              itemsSpacing: 2,
+              itemWidth: 100,
+              itemHeight: 20,
+              itemDirection: 'left-to-right',
+              itemOpacity: 0.85,
+              symbolSize: 20,
+              effects: [
+                {
+                  on: 'hover',
+                  style: {
+                    itemOpacity: 1,
+                  },
+                },
+              ],
+            },
+          ]}
+          role="application"
+          ariaLabel="Sum by Category"
+          barAriaLabel={(e) =>
+            `${e.id}: ${e.formattedValue} in country: ${e.indexValue}`
+          }
+        />
+      </div>
+      {/* <MonthDashboard month={month} /> */}
     </Container>
   );
 }
