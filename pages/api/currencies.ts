@@ -1,8 +1,7 @@
 import { NextApiHandler } from 'next';
-
-import currencies from '@/lib/currencies';
+import * as currencies from '@dinero.js/currencies';
 
 const handler: NextApiHandler = async (req, res) =>
-  res.status(200).json(currencies);
+  res.status(200).json(Object.values(currencies).map((c) => c.code));
 
 export default handler;

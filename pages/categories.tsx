@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import PuffLoader from 'react-spinners/PuffLoader';
 import {
   Alert,
   Button,
@@ -18,6 +17,7 @@ import { HexColorPicker } from 'react-colorful';
 
 import colors from '@/constants/colors';
 import { useCategories } from '@/lib/swr-hooks/category';
+import Loader from '@/components/loader';
 
 export default function CategoriesPage() {
   const randomColor = colors[Math.floor(Math.random() * (colors.length - 1))];
@@ -82,7 +82,7 @@ export default function CategoriesPage() {
     }
   };
 
-  if (isLoading) return <PuffLoader loading size={150} />;
+  if (isLoading) return <Loader loading />;
 
   return (
     <>

@@ -6,12 +6,12 @@ const prisma = new PrismaClient();
 const handler: NextApiHandler = async (req, res) => {
   const {
     method,
-    body: { amount, startDate, endDate, currency, category: Category, name },
+    body: { amount, startDate, endDate, currency, category, name },
   } = req;
 
   switch (method) {
     case 'POST': {
-      if (!amount || !startDate || !endDate || !currency || !Category) {
+      if (!amount || !startDate || !endDate || !currency || !category) {
         return res
           .status(400)
           .json({ message: 'Missing required field(s)', success: false });
@@ -22,7 +22,7 @@ const handler: NextApiHandler = async (req, res) => {
           startDate,
           endDate,
           currency,
-          Category,
+          category,
           name,
         },
       });

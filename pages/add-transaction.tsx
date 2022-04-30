@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { format } from 'date-fns';
-import PuffLoader from 'react-spinners/PuffLoader';
 import {
   Pane,
   Alert,
@@ -8,6 +7,7 @@ import {
   TextInputField,
   FormField,
   Combobox,
+  Checkbox,
   Button,
   ConfirmIcon,
   toaster,
@@ -16,6 +16,7 @@ import {
 
 import { useCategories } from '@/lib/swr-hooks/category';
 import { useCurrencies } from '@/lib/swr-hooks/miscellaneous';
+import Loader from '@/components/loader';
 import Container from '@/components/container';
 
 export default function AddTransactionPage() {
@@ -27,6 +28,7 @@ export default function AddTransactionPage() {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState(0);
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
+  const [isIncome, setIsIncome] = useState(false);
   const [currency, setCurrency] = useState('AED');
   const [category, setCategory] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -44,6 +46,7 @@ export default function AddTransactionPage() {
           name,
           amount,
           date,
+          type: isIncome ? 'income' : 'expense',
           currency,
           category,
         }),
@@ -63,7 +66,7 @@ export default function AddTransactionPage() {
     }
   }
 
-  if (isCurLoading || isCatLoading) return <PuffLoader loading size={150} />;
+  if (isCurLoading || isCatLoading) return <Loader loading />;
 
   return (
     <Container className="w-full lg:w-2/4">
@@ -114,15 +117,8 @@ export default function AddTransactionPage() {
             <FormField label="Currency" isRequired>
               <Combobox
                 width="100%"
-                initialSelectedItem={{
-                  label: 'United Arab Emirates Dirham (AED)',
-                  value: 'AED',
-                }}
-                items={currencies.map((c) => ({
-                  label: `${c.currencyName} (${c.currencyCode})`,
-                  value: c.currencyCode,
-                }))}
-                itemToString={(item) => (item ? item.label : '')}
+                initialSelectedItem="AED"
+                items={currencies}
                 onChange={(value) => setCurrency(value.value)}
               />
             </FormField>
@@ -131,10 +127,17 @@ export default function AddTransactionPage() {
             <FormField label="Category" isRequired>
               <Combobox
                 width="100%"
-                items={categories.map((c) => c.name)}
+                items={categories.map((c) => c.name).sort()}
                 onChange={(value) => setCategory(value)}
               />
             </FormField>
+          </div>
+          <div className="my-4">
+            <Checkbox
+              label="Is Income"
+              checked={isIncome}
+              onChange={(e) => setIsIncome(e.target.checked)}
+            />
           </div>
           <Button
             type="submit"
