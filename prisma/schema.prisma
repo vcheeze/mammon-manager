@@ -20,8 +20,9 @@ model Transaction {
   name     String
   amount   Float
   date     DateTime
+  type     String   @default("expense")
   currency String
-  Category String
+  category String
 }
 
 model Budget {
@@ -30,6 +31,6 @@ model Budget {
   startDate DateTime
   endDate   DateTime
   currency  String
-  Category  String
+  category  String
   name      String?
 }

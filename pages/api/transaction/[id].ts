@@ -6,20 +6,20 @@ const prisma = new PrismaClient();
 const handler: NextApiHandler = async (req, res) => {
   const {
     method,
-    body: { name, amount, date, category: Category },
+    body: { name, amount, date, category },
     query: { id },
   } = req;
 
   switch (method) {
     case 'PUT': {
-      if (!name && !amount && !date && !Category) {
+      if (!name && !amount && !date && !category) {
         return res
           .status(400)
           .json({ message: 'No fields to update', success: false });
       }
       const updatedTransaction = await prisma.transaction.update({
         where: { id: +id },
-        data: { name, amount, date, Category },
+        data: { name, amount, date, category },
       });
       return res.status(200).json({ data: updatedTransaction, success: true });
     }

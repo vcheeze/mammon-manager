@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
-import PuffLoader from 'react-spinners/PuffLoader';
 import {
   Alert,
   Button,
@@ -20,6 +19,7 @@ import {
 import { useCategories } from '@/lib/swr-hooks/category';
 import { useBudgets } from '@/lib/swr-hooks/budget';
 import { useCurrencies } from '@/lib/swr-hooks/miscellaneous';
+import Loader from '@/components/loader';
 
 export default function BudgetsPage() {
   const { categories, isLoading: isCatLoading } = useCategories();
@@ -94,8 +94,7 @@ export default function BudgetsPage() {
     }
   };
 
-  if (isCatLoading || isCurLoading || isBudLoading)
-    return <PuffLoader loading size={150} />;
+  if (isCatLoading || isCurLoading || isBudLoading) return <Loader loading />;
 
   return (
     <>
@@ -118,7 +117,7 @@ export default function BudgetsPage() {
             <FormField label="Category" isRequired>
               <Combobox
                 width="100%"
-                items={categories.map((c) => c.name)}
+                items={categories.map((c) => c.name).sort()}
                 onChange={(value) => setCategory(value)}
               />
             </FormField>
@@ -141,15 +140,8 @@ export default function BudgetsPage() {
             <FormField label="Currency" isRequired>
               <Combobox
                 width="100%"
-                initialSelectedItem={{
-                  label: 'United Arab Emirates Dirham (AED)',
-                  value: 'AED',
-                }}
-                items={currencies.map((c) => ({
-                  label: `${c.currencyName} (${c.currencyCode})`,
-                  value: c.currencyCode,
-                }))}
-                itemToString={(item) => (item ? item.label : '')}
+                initialSelectedItem="AED"
+                items={currencies}
                 onChange={(value) => setCurrency(value.value)}
               />
             </FormField>
@@ -187,7 +179,7 @@ export default function BudgetsPage() {
               <Table.TextCell>
                 {format(new Date(budget.startDate), 'MMMM yyyy')}
               </Table.TextCell>
-              <Table.TextCell>{budget.Category}</Table.TextCell>
+              <Table.TextCell>{budget.category}</Table.TextCell>
               <Table.Cell>
                 <IconButton
                   icon={TrashIcon}
