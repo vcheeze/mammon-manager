@@ -9,6 +9,8 @@ import Loader from '@/components/loader';
 import Container from '@/components/container';
 import ExpensesByDate from '@/components/charts/month/expensesByDate';
 import ExpensesVsIncome from '@/components/charts/month/expensesVsIncome';
+import BudgetProgress from '@/components/charts/month/budgetProgress';
+import { chartColors } from '../constants/colors';
 // import { MonthDashboard } from '@/components/dashboard';
 
 export default function VizPage() {
@@ -23,11 +25,14 @@ export default function VizPage() {
 
   let expensesByDay = [];
   let exVsIn = [];
-  // TODO update this logic so that Budgets that do not have Transactions yet still show
-  // and Transactions that do not have a specific Budget go into a Others/Miscellaneous category?
-  if (budgets && transactions) {
+  let budgetsProgress = [];
+  if (budgets.length > 0 && transactions.length > 0) {
     // split transactions by type
     const [expenses, income] = partition(transactions, ['type', 'expense']);
+    const expensesByCategory = mapValues(
+      groupBy(expenses, 'category'),
+      (data) => sumBy(data, 'amount')
+    );
 
     // expense from each day of the month
     expensesByDay = map(groupBy(expenses, 'date'), (data) => ({
@@ -39,9 +44,7 @@ export default function VizPage() {
     exVsIn = [
       {
         type: 'Expenses',
-        ...mapValues(groupBy(expenses, 'category'), (data) =>
-          sumBy(data, 'amount')
-        ),
+        ...expensesByCategory,
       },
       {
         type: 'Income',
@@ -50,11 +53,19 @@ export default function VizPage() {
         ),
       },
     ];
+
+    // progress of budgets
+    budgetsProgress = budgets.map((budget) => ({
+      amount: budget.amount,
+      category: budget.category,
+      currency: budget.currency,
+      spent: expensesByCategory[budget.category],
+    }));
   }
 
   return (
     <Container className="w-full lg:w-3/4">
-      <Pane background="tint1" marginBottom={majorScale(2)}>
+      <Pane marginBottom={majorScale(2)}>
         <div className="grid grid-cols-2 my-2">
           <TextInputField
             name="month"
@@ -82,6 +93,18 @@ export default function VizPage() {
         <Pane>
           <Heading>Expenses vs. income</Heading>
           <ExpensesVsIncome data={exVsIn} />
+        </Pane>
+      )}
+      {budgetsProgress.length > 0 && (
+        <Pane>
+          <Heading>Budget Progress</Heading>
+          {budgetsProgress.map((bp, index) => (
+            <BudgetProgress
+              key={bp.category}
+              data={bp}
+              color={chartColors[index]}
+            />
+          ))}
         </Pane>
       )}
     </Container>

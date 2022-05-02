@@ -16,7 +16,7 @@ function ExpensesVsIncome({ data }) {
 
   return (
     <>
-      <Table marginTop={majorScale(4)}>
+      <Table marginTop={majorScale(2)}>
         <Table.Body>
           <Table.Row>
             <Table.TextCell>Expenses</Table.TextCell>
