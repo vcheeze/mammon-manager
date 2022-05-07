@@ -3,16 +3,12 @@ import { ResponsiveBar } from '@nivo/bar';
 import { reduce, omit, union } from 'lodash';
 
 function ExpensesVsIncome({ data }) {
-  const totalExpenses = reduce(
-    omit(data[0], 'type'),
-    (result, value) => result + value
-  );
-  const totalIncome = reduce(
-    omit(data[1], 'type'),
-    (result, value) => result + value
-  );
+  const totalExpenses =
+    reduce(omit(data[0], 'type'), (result, value) => result + value) || 0;
+  const totalIncome =
+    reduce(omit(data[1], 'type'), (result, value) => result + value) || 0;
   const delta = totalIncome - totalExpenses;
-  const savingsRate = (delta / totalIncome) * 100;
+  const savingsRate = delta ? (delta / totalIncome) * 100 : 0;
 
   return (
     <>
