@@ -17,6 +17,7 @@ import Loader from '@/components/loader';
 import ExpensesByDate from '@/components/charts/month/expensesByDate';
 import ExpensesVsIncome from '@/components/charts/month/expensesVsIncome';
 import BudgetProgress from '@/components/charts/month/budgetProgress';
+import { chartColors } from '@/constants/colors';
 
 function MonthDashboard() {
   const today = new Date();
@@ -70,7 +71,7 @@ function MonthDashboard() {
       amount: budget.amount,
       category: budget.category,
       currency: budget.currency,
-      spent: expensesByCategory[budget.category],
+      spent: expensesByCategory[budget.category] || 0,
     }));
   }
 

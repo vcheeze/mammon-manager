@@ -8,7 +8,7 @@ function ExpensesVsIncome({ data }) {
   const totalIncome =
     reduce(omit(data[1], 'type'), (result, value) => result + value) || 0;
   const delta = totalIncome - totalExpenses;
-  const savingsRate = delta ? (delta / totalIncome) * 100 : 0;
+  const savingsRate = !delta || !totalIncome ? 0 : (delta / totalIncome) * 100;
 
   return (
     <>
@@ -37,9 +37,10 @@ function ExpensesVsIncome({ data }) {
       <div style={{ height: '250px' }}>
         <ResponsiveBar
           data={data}
-          keys={union(Object.keys(data[0]), Object.keys(data[1])).filter(
-            (key) => key !== 'type'
-          )}
+          keys={union(
+            Object.keys(data[0]),
+            data[1] ? Object.keys(data[1]) : []
+          ).filter((key) => key !== 'type')}
           indexBy="type"
           margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
           padding={0.3}
