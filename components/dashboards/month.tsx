@@ -16,6 +16,8 @@ import { useTransactionsByMonth } from '@/lib/swr-hooks/transaction';
 import Loader from '@/components/loader';
 import ExpensesByDate from '@/components/charts/month/expensesByDate';
 import ExpensesVsIncome from '@/components/charts/month/expensesVsIncome';
+import BudgetProgress from '@/components/charts/month/budgetProgress';
+import { chartColors } from '@/constants/colors';
 
 function MonthDashboard() {
   const today = new Date();
@@ -27,11 +29,14 @@ function MonthDashboard() {
 
   let expensesByDay = [];
   let exVsIn = [];
+  let budgetsProgress = [];
   if (budgets && transactions) {
-    console.log('budgets :>> ', budgets);
-    console.log('transactions :>> ', transactions);
     // split transactions by type
     const [expenses, income] = partition(transactions, ['type', 'expense']);
+    const expensesByCategory = mapValues(
+      groupBy(expenses, 'category'),
+      (data) => sumBy(data, 'amount')
+    );
 
     // expense from each day of the month
     expensesByDay = map(groupBy(expenses, 'date'), (data) => ({
@@ -45,9 +50,7 @@ function MonthDashboard() {
         ? [
             {
               type: 'Expenses',
-              ...mapValues(groupBy(expenses, 'category'), (data) =>
-                sumBy(data, 'amount')
-              ),
+              ...expensesByCategory,
             },
           ]
         : []),
@@ -62,6 +65,14 @@ function MonthDashboard() {
           ]
         : []),
     ];
+
+    // progress of budgets
+    budgetsProgress = budgets.map((budget) => ({
+      amount: budget.amount,
+      category: budget.category,
+      currency: budget.currency,
+      spent: expensesByCategory[budget.category] || 0,
+    }));
   }
 
   if (isBudLoading || isTxnLoading) return <Loader loading />;
@@ -116,6 +127,18 @@ function MonthDashboard() {
         <Card>
           <Heading>Expenses vs. income</Heading>
           <ExpensesVsIncome data={exVsIn} />
+        </Card>
+      )}
+      {budgetsProgress.length > 0 && (
+        <Card>
+          <Heading>Budget Progress</Heading>
+          {budgetsProgress.map((bp, index) => (
+            <BudgetProgress
+              key={bp.category}
+              data={bp}
+              color={chartColors[index]}
+            />
+          ))}
         </Card>
       )}
     </Pane>

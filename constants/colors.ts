@@ -50,4 +50,14 @@ const colors: string[] = [
   '#FFEFD2',
 ];
 
+const chartColors = [
+  '#E8C1A0',
+  '#F47560',
+  '#F1E15B',
+  '#E8A838',
+  '#61CDBB',
+  '#97E3D5',
+];
+
 export default colors;
+export { chartColors };

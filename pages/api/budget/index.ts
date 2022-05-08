@@ -1,6 +1,8 @@
 import { NextApiHandler } from 'next';
 import { PrismaClient } from '@prisma/client';
 
+import { getUTCDate } from '@/lib/utils';
+
 const prisma = new PrismaClient();
 
 const handler: NextApiHandler = async (req, res) => {
@@ -10,17 +12,20 @@ const handler: NextApiHandler = async (req, res) => {
   } = req;
 
   switch (method) {
+    // create Budget
     case 'POST': {
       if (!amount || !startDate || !endDate || !currency || !category) {
         return res
           .status(400)
           .json({ message: 'Missing required field(s)', success: false });
       }
+      // A Budget is created using UTC Dates to ensure it is
+      // consistent across different timezones.
       const newBudget = await prisma.budget.create({
         data: {
           amount,
-          startDate,
-          endDate,
+          startDate: getUTCDate(new Date(startDate)),
+          endDate: getUTCDate(new Date(endDate)),
           currency,
           category,
           name,
@@ -28,6 +33,7 @@ const handler: NextApiHandler = async (req, res) => {
       });
       return res.status(201).json({ newBudget, success: true });
     }
+    // get all Budgets
     case 'GET': {
       try {
         const budgets = await prisma.budget.findMany();

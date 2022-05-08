@@ -10,6 +10,7 @@ const handler: NextApiHandler = async (req, res) => {
   } = req;
 
   switch (method) {
+    // create Transaction
     case 'POST': {
       if (!name || !amount || !date || !currency || !category) {
         return res.status(400).json({ message: 'Missing required field(s)' });
@@ -26,6 +27,7 @@ const handler: NextApiHandler = async (req, res) => {
       });
       return res.status(201).json({ data: newEntry, success: true });
     }
+    // get all Transaction
     case 'GET': {
       try {
         const transactions = await prisma.transaction.findMany();

@@ -10,6 +10,7 @@ const handler: NextApiHandler = async (req, res) => {
   } = req;
 
   switch (method) {
+    // create Category
     case 'POST': {
       if (!name || !color) {
         return res
@@ -24,6 +25,7 @@ const handler: NextApiHandler = async (req, res) => {
       });
       return res.status(201).json({ newCategory, success: true });
     }
+    // get all Categories
     case 'GET': {
       try {
         const categories = await prisma.category.findMany();
