@@ -21,11 +21,10 @@ Then simply run `npm run dev` to start the app. You can also run `npx prisma stu
 ## Resources
 
 ### Component Libraries
-- [Shards React](https://designrevision.com/docs/shards-react/)
-- [Gestalt](https://gestalt.netlify.app/)
-- [Grommet](https://v2.grommet.io/)
-- [Blueprint](https://blueprintjs.com/)
 - [Evergreen](https://evergreen.segment.com/)
+- [Next UI](https://nextui.org/)
+- [Chakra UI](https://chakra-ui.com/)
+- [VisX](https://airbnb.io/visx/)
 
 ### Dashboard Templates
 - https://material-ui.com/store/collections/free-react-dashboard/
