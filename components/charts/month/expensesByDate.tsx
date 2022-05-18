@@ -2,10 +2,10 @@ import { ResponsiveLine } from '@nivo/line';
 
 function ExpensesByDate({ data }) {
   return (
-    <div style={{ height: '500px' }}>
+    <div style={{ height: '480px' }}>
       <ResponsiveLine
         data={data}
-        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+        margin={{ top: 40, right: 112, bottom: 40, left: 64 }}
         xScale={{
           type: 'time',
           format: '%Y-%m-%d',
@@ -17,7 +17,7 @@ function ExpensesByDate({ data }) {
           type: 'linear',
           stacked: true,
         }}
-        yFormat=" >-.2f"
+        yFormat=" >-,.2f"
         axisTop={null}
         axisRight={null}
         axisBottom={{
@@ -28,14 +28,14 @@ function ExpensesByDate({ data }) {
           legendPosition: 'middle',
         }}
         axisLeft={{
-          tickSize: 5,
-          tickPadding: 5,
+          tickSize: 4,
+          tickPadding: 4,
           tickRotation: 0,
           legend: 'Amount',
-          legendOffset: -48,
+          legendOffset: -54,
           legendPosition: 'middle',
         }}
-        pointSize={10}
+        pointSize={8}
         pointColor={{ theme: 'background' }}
         pointBorderWidth={2}
         pointBorderColor={{ from: 'serieColor' }}
