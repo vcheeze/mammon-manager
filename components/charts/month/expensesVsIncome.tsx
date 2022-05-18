@@ -34,7 +34,7 @@ function ExpensesVsIncome({ data }) {
           </Table.Row>
         </Table.Body>
       </Table>
-      <div style={{ height: '250px' }}>
+      <div style={{ height: '240px' }}>
         <ResponsiveBar
           data={data}
           keys={union(
@@ -47,6 +47,7 @@ function ExpensesVsIncome({ data }) {
           layout="horizontal"
           valueScale={{ type: 'linear' }}
           indexScale={{ type: 'band', round: true }}
+          valueFormat=" >-,.2f"
           colors={{ scheme: 'nivo' }}
           borderColor={{
             from: 'color',
@@ -64,7 +65,7 @@ function ExpensesVsIncome({ data }) {
           }}
           enableGridX
           enableGridY={false}
-          label={(d) => `${d.value} AED`}
+          // label={(d) => `${d.value.toFixed(2)} AED`}
           labelSkipWidth={12}
           labelSkipHeight={12}
           labelTextColor={{
@@ -73,9 +74,6 @@ function ExpensesVsIncome({ data }) {
           }}
           role="application"
           ariaLabel="Sum by Category"
-          barAriaLabel={(e) =>
-            `${e.id}: ${e.formattedValue} in country: ${e.indexValue}`
-          }
         />
       </div>
     </>

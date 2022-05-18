@@ -57,3 +57,16 @@ export function useTransactionsByMonth(month: string) {
     isError: error,
   };
 }
+
+export function useTransactionsByYear(year: string) {
+  const { data, error } = useSWR(
+    `/api/transaction/get-by-year?year=${year}`,
+    fetcher
+  );
+
+  return {
+    transactions: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}

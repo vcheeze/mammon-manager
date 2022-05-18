@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { format } from 'date-fns';
-import { partition, map, groupBy, sumBy, mapValues } from 'lodash';
+import { partition, map, groupBy, sumBy, mapValues, isEmpty } from 'lodash';
 import {
   Pane,
   majorScale,
@@ -14,28 +14,34 @@ import {
 import { useBudgetsByMonth } from '@/lib/swr-hooks/budget';
 import { useTransactionsByMonth } from '@/lib/swr-hooks/transaction';
 import Loader from '@/components/loader';
-import ExpensesByDate from '@/components/charts/month/expensesByDate';
-import ExpensesVsIncome from '@/components/charts/month/expensesVsIncome';
-import BudgetProgress from '@/components/charts/month/budgetProgress';
+import {
+  ExpensesByDate,
+  ExpensesVsIncome,
+  BudgetProgress,
+  ExpensesByCategory,
+} from '@/components/charts';
 import { chartColors } from '@/constants/colors';
 
 function MonthDashboard() {
-  const today = new Date();
+  const today = new Date('2022-04-01'); // TODO remove hardcoded date
   const [month, setMonth] = useState(format(today, 'yyyy-MM'));
 
+  // fetch data
   const { budgets, isLoading: isBudLoading } = useBudgetsByMonth(month);
   const { transactions, isLoading: isTxnLoading } =
     useTransactionsByMonth(month);
 
+  // process data
   let expensesByDay = [];
   let exVsIn = [];
   let budgetsProgress = [];
+  let expensesByCategory = {};
   if (budgets && transactions) {
     // split transactions by type
     const [expenses, income] = partition(transactions, ['type', 'expense']);
-    const expensesByCategory = mapValues(
-      groupBy(expenses, 'category'),
-      (data) => sumBy(data, 'amount')
+    // group expenses by category and sum
+    expensesByCategory = mapValues(groupBy(expenses, 'category'), (data) =>
+      sumBy(data, 'amount')
     );
 
     // expense from each day of the month
@@ -123,6 +129,21 @@ function MonthDashboard() {
           />
         </Card>
       )}
+      {!isEmpty(expensesByCategory) && (
+        <Card>
+          <Heading>Expenses by Category</Heading>
+          <ExpensesByCategory
+            data={Object.entries(expensesByCategory).map(
+              ([key, value]: [string, number], index) => ({
+                id: key,
+                label: key,
+                value: value.toFixed(2),
+                color: chartColors[index % 6],
+              })
+            )}
+          />
+        </Card>
+      )}
       {exVsIn.length > 0 && (
         <Card>
           <Heading>Expenses vs. income</Heading>
@@ -136,7 +157,7 @@ function MonthDashboard() {
             <BudgetProgress
               key={bp.category}
               data={bp}
-              color={chartColors[index]}
+              color={chartColors[index % 6]}
             />
           ))}
         </Card>
