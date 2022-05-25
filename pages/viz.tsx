@@ -1,12 +1,13 @@
-import Container from '@/components/container';
+import { Pane } from 'evergreen-ui';
+
 import MonthDashboard from '@/components/dashboards/month';
 import YearDashboard from '@/components/dashboards/year';
 
 export default function VizPage() {
   return (
-    <Container className="w-full lg:w-3/4">
+    <Pane>
       <MonthDashboard />
       <YearDashboard />
-    </Container>
+    </Pane>
   );
 }

@@ -27,7 +27,7 @@ function DailyTotals({ data, year }) {
             itemsSpacing: 16,
             itemDirection: 'right-to-left',
             translateX: -80,
-            translateY: -80,
+            translateY: -64,
             symbolSize: 20,
           },
         ]}
