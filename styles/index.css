@@ -13,6 +13,12 @@
 /* Stop purging. */
 
 /* Your own custom utilities */
+#__next {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
 form .react-colorful {
   width: 100%;
 }
