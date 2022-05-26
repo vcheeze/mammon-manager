@@ -4,7 +4,7 @@ Manage your mammon, and let not your mammon manage you.
 
 ## Development
 
-This project is built with Next.js, Primsa, and PlanetScale.
+This project is built with Next.js, Prisma, and PlanetScale.
 
 To start, run `pscale auth login` to login from you console. Then run
 
