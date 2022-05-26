@@ -25,6 +25,8 @@ Then simply run `npm run dev` to start the app. You can also run `npx prisma stu
 - [Next UI](https://nextui.org/)
 - [Chakra UI](https://chakra-ui.com/)
 - [VisX](https://airbnb.io/visx/)
+- [Grommet](https://v2.grommet.io/)
+- [PrimeReact](https://www.primefaces.org/primereact/)
 
 ### Dashboard Templates
 - https://material-ui.com/store/collections/free-react-dashboard/
