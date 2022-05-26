@@ -6,7 +6,7 @@ Manage your mammon, and let not your mammon manage you.
 
 This project is built with Next.js, Prisma, and PlanetScale.
 
-To start, run `pscale auth login` to login from you console. Then run
+To start, run `pscale auth login` to login from your console. Then run
 
 ```pscale connect mammon-manager development --port 3309```
 
