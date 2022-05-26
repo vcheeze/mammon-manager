@@ -20,6 +20,10 @@ Then simply run `npm run dev` to start the app. You can also run `npx prisma stu
 
 ## Resources
 
+### Authentication
+
+- [Setting up magic.link with Next.js](https://vercel.com/blog/simple-auth-with-magic-link-and-nextjs)
+
 ### Component Libraries
 - [Evergreen](https://evergreen.segment.com/)
 - [Next UI](https://nextui.org/)
