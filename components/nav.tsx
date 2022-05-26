@@ -3,6 +3,7 @@ import {
   majorScale,
   Pane,
   Card,
+  Link as Anchor,
   Heading,
   IconButton,
   UserIcon,
@@ -21,7 +22,11 @@ function Nav() {
       paddingLeft={majorScale(2)}
     >
       <Card display="flex" alignItems="center">
-        <Heading>Mammon Manager</Heading>
+        <Link href="/" passHref>
+          <Anchor>
+            <Heading>Mammon Manager</Heading>
+          </Anchor>
+        </Link>
       </Card>
       <Card>
         <Link href="/profile" passHref>
